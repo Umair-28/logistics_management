@@ -67,7 +67,7 @@ export class Dashboard extends Component {
                 // Hide the main navbar
                 const navbar = iframeDoc.querySelector('.o_main_navbar');
                 if (navbar) {
-                    navbar.style.display = 'none';
+                    // navbar.style.display = 'none';
                 }
                 
                 // Adjust content positioning
@@ -81,7 +81,7 @@ export class Dashboard extends Component {
                 if (breadcrumb && breadcrumb.textContent.trim() === 'Home') {
                     const breadcrumbContainer = iframeDoc.querySelector('.o_control_panel .breadcrumb');
                     if (breadcrumbContainer) {
-                        breadcrumbContainer.style.display = 'none';
+                        // breadcrumbContainer.style.display = 'none';
                     }
                 }
 
