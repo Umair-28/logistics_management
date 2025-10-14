@@ -1,109 +1,100 @@
 /** @odoo-module **/
 
-import { Component, useState, onMounted, onWillUnmount } from "@odoo/owl";
+import { Component, useState, onMounted } from "@odoo/owl";
 import { registry } from "@web/core/registry";
-import { useService } from "@web/core/utils/hooks";
 
 export class Dashboard extends Component {
     setup() {
-        this.actionService = useService("action");
-        
         this.state = useState({
             tab: "overview",
+            iframeSrc: "",
             pageTitle: "Dashboard",
-            sidebarVisible: true,
         });
 
         this.setActiveSection = this.setActiveSection.bind(this);
         
-        // Hide default Odoo navbar when dashboard is active
         onMounted(() => {
-            this.hideOdooNavbar();
-        });
-        
-        onWillUnmount(() => {
-            this.showOdooNavbar();
+            // Inject CSS to hide navbar in iframes
+            this.injectIframeStyles();
         });
     }
 
-    hideOdooNavbar() {
-        const navbar = document.querySelector('.o_main_navbar');
-        if (navbar) {
-            navbar.style.display = 'none';
-        }
-        
-        // Add custom class to body for styling
-        document.body.classList.add('lms-dashboard-active');
-    }
-    
-    showOdooNavbar() {
-        const navbar = document.querySelector('.o_main_navbar');
-        if (navbar) {
-            navbar.style.display = '';
-        }
-        
-        document.body.classList.remove('lms-dashboard-active');
+    injectIframeStyles() {
+        // Add styles to hide iframe navbar
+        const style = document.createElement('style');
+        style.textContent = `
+            .lms-iframe-container iframe {
+                width: 100%;
+                height: 100%;
+                border: 0;
+            }
+        `;
+        document.head.appendChild(style);
     }
 
-    /**
-     * Called when user switches section
-     */
     setActiveSection(tab) {
         this.state.tab = tab;
-        this.state.sidebarVisible = true;
 
         if (tab === "lead") {
+            // Use the web client URL with proper hash format
+            this.state.iframeSrc = `/web#action=crm.crm_lead_all_leads&model=crm.lead&view_type=list&menu_id=crm.crm_menu_root`;
             this.state.pageTitle = "CRM Leads";
-            this.actionService.doAction(
-                {
-                    type: 'ir.actions.act_window',
-                    res_model: 'crm.lead',
-                    name: 'Leads',
-                    views: [[false, 'list'], [false, 'kanban'], [false, 'form']],
-                    view_mode: 'list,kanban,form',
-                    domain: [],
-                    context: {},
-                },
-                {
-                    clearBreadcrumbs: false,
-                    onClose: () => {
-                        // Return to dashboard when action is closed
-                        this.setActiveSection('overview');
-                    }
-                }
-            );
         } else if (tab === "warehouse") {
-            this.state.pageTitle = "Warehouse";
-            this.actionService.doAction(
-                {
-                    type: 'ir.actions.act_window',
-                    res_model: 'stock.picking',
-                    name: 'Transfers',
-                    views: [[false, 'list'], [false, 'form']],
-                    view_mode: 'list,form',
-                    domain: [],
-                    context: {},
-                },
-                {
-                    clearBreadcrumbs: false,
-                    onClose: () => {
-                        this.setActiveSection('overview');
-                    }
-                }
-            );
-        } else if (tab === "overview") {
+            this.state.iframeSrc = `/web#action=stock.action_picking_tree_all&model=stock.picking&view_type=list&menu_id=stock.menu_stock_root`;
+            this.state.pageTitle = "Warehouse Management";
+        } else {
+            this.state.iframeSrc = "";
             this.state.pageTitle = "Dashboard";
-            // Just update state, stay on dashboard
+        }
+
+        // Wait for iframe to load and hide its navbar
+        if (this.state.iframeSrc) {
+            setTimeout(() => {
+                this.hideIframeNavbar();
+            }, 500);
         }
     }
-    
-    toggleSidebar() {
-        this.state.sidebarVisible = !this.state.sidebarVisible;
+
+    hideIframeNavbar() {
+        const iframe = document.querySelector('.lms-iframe-container iframe');
+        if (!iframe) return;
+
+        // Try to access iframe content and hide navbar
+        iframe.onload = () => {
+            try {
+                const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                
+                // Hide the main navbar
+                const navbar = iframeDoc.querySelector('.o_main_navbar');
+                if (navbar) {
+                    navbar.style.display = 'none';
+                }
+                
+                // Adjust content positioning
+                const actionManager = iframeDoc.querySelector('.o_action_manager');
+                if (actionManager) {
+                    actionManager.style.paddingTop = '0';
+                }
+
+                // Hide any breadcrumbs if you want
+                const breadcrumb = iframeDoc.querySelector('.o_control_panel .breadcrumb-item');
+                if (breadcrumb && breadcrumb.textContent.trim() === 'Home') {
+                    const breadcrumbContainer = iframeDoc.querySelector('.o_control_panel .breadcrumb');
+                    if (breadcrumbContainer) {
+                        breadcrumbContainer.style.display = 'none';
+                    }
+                }
+
+            } catch (e) {
+                console.warn('Cannot access iframe content (same-origin policy):', e);
+                // If same-origin fails, the URLs might be cross-domain
+                // In that case, you need to ensure iframe src is from same domain
+            }
+        };
     }
 }
 
 Dashboard.template = "lms.Dashboard";
-
 registry.category("actions").add("lms_dashboard_client_action", Dashboard);
 // /** @odoo-module **/
 

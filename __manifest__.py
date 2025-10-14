@@ -19,8 +19,8 @@
     ],
     'assets': {
         'web.assets_backend': [
-            'lms/static/src/xml/dashboard.xml',
             'lms/static/src/js/dashboard.js',
+            'lms/static/src/xml/dashboard.xml',
             'lms/static/src/css/dashboard.css',
         ],
     },

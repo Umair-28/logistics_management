@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
     <t t-name="lms.Dashboard" owl="1">
-        <div class="lms-dashboard-wrapper">
-            <!-- Sidebar Toggle Button (Mobile) -->
-            <button class="lms-sidebar-toggle" t-on-click="toggleSidebar" style="display:none;">
-                ☰
-            </button>
-            
+        <div class="lms-dashboard-container">
             <!-- Sidebar -->
-            <aside class="lms-sidebar" t-att-class="{'hidden': !state.sidebarVisible}">
+            <aside class="lms-sidebar">
                 <div class="lms-logo">
                     <span class="logo-icon">🚚</span>
                     <span class="logo-text">Logistics Management</span>
@@ -19,47 +14,63 @@
                             t-on-click="() => setActiveSection('overview')" 
                             t-att-class="{'active': state.tab === 'overview'}">
                         <span class="menu-icon">📊</span>
-                        <span class="menu-text">Dashboard</span>
+                        <span class="menu-text">Dashboard Overview</span>
                     </button>
                     
                     <button class="lms-menu-item" 
                             t-on-click="() => setActiveSection('lead')" 
                             t-att-class="{'active': state.tab === 'lead'}">
                         <span class="menu-icon">👥</span>
-                        <span class="menu-text">CRM Leads</span>
+                        <span class="menu-text">Lead Management</span>
                     </button>
                     
                     <button class="lms-menu-item" 
                             t-on-click="() => setActiveSection('warehouse')" 
                             t-att-class="{'active': state.tab === 'warehouse'}">
                         <span class="menu-icon">📦</span>
-                        <span class="menu-text">Warehouse</span>
+                        <span class="menu-text">Warehouse Management</span>
                     </button>
                 </nav>
             </aside>
 
-            <!-- Main Content -->
-            <main class="lms-main-content">
-                <t t-if="state.tab === 'overview'">
-                    <div class="lms-overview">
-                        <h2>Welcome to Logistics Management System</h2>
-                        <p>Select a module from the sidebar to get started.</p>
-                        
-                        <div class="lms-cards">
-                            <div class="lms-card" t-on-click="() => setActiveSection('lead')">
-                                <div class="card-icon">👥</div>
-                                <h3>CRM Leads</h3>
-                                <p>Manage customer relationships</p>
-                            </div>
+            <!-- Main Content Area -->
+            <main class="lms-main">
+                <!-- Header -->
+                <div class="lms-header">
+                    <h2 class="lms-page-title" t-esc="state.pageTitle"/>
+                </div>
+
+                <!-- Content -->
+                <div class="lms-content">
+                    <!-- Overview/Dashboard Home -->
+                    <t t-if="!state.iframeSrc">
+                        <div class="lms-welcome">
+                            <h3>Welcome to Logistics Management System</h3>
+                            <p>Select a module from the sidebar to get started.</p>
                             
-                            <div class="lms-card" t-on-click="() => setActiveSection('warehouse')">
-                                <div class="card-icon">📦</div>
-                                <h3>Warehouse</h3>
-                                <p>Track inventory and transfers</p>
+                            <div class="lms-cards">
+                                <div class="lms-card" t-on-click="() => setActiveSection('lead')">
+                                    <div class="card-icon">👥</div>
+                                    <h4>CRM Leads</h4>
+                                    <p>Manage your customer relationships and track leads through the sales pipeline.</p>
+                                </div>
+                                
+                                <div class="lms-card" t-on-click="() => setActiveSection('warehouse')">
+                                    <div class="card-icon">📦</div>
+                                    <h4>Warehouse Management</h4>
+                                    <p>Track inventory, manage stock transfers and monitor warehouse operations.</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </t>
+                    </t>
+
+                    <!-- Iframe Container for Modules -->
+                    <t t-if="state.iframeSrc">
+                        <div class="lms-iframe-container">
+                            <iframe t-att-src="state.iframeSrc" sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-modals"/>
+                        </div>
+                    </t>
+                </div>
             </main>
         </div>
     </t>
