@@ -1,75 +1,169 @@
-.lms-dashboard-container {
-  display: flex;
-  height: calc(100vh - 60px);
-  background-color: #f8f9fa;
-  font-family: "Inter", sans-serif;
+.lms-dashboard-active {
+    .o_action_manager {
+        padding-left: 260px !important;
+    }
+}
+
+.lms-dashboard-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    background: #f8fafc;
+    z-index: 1000;
 }
 
 .lms-sidebar {
-  width: 240px;
-  background-color: #1e293b;
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 250px;
+    background: #1e293b;
+    color: white;
+    padding: 1.5rem;
+    overflow-y: auto;
+    z-index: 1001;
+    transition: transform 0.3s ease;
+    
+    &.hidden {
+        transform: translateX(-100%);
+    }
 }
 
 .lms-logo {
-  font-size: 18px;
-  font-weight: 600;
-  text-align: center;
-  margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    
+    .logo-icon {
+        font-size: 1.5rem;
+    }
 }
 
 .lms-menu {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
-.lms-menu li {
-  padding: 10px 15px;
-  margin-bottom: 4px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.lms-menu li:hover {
-  background: #334155;
-}
-
-.lms-menu li.active {
-  background: #3b82f6;
-  color: white;
-}
-
-.lms-main {
-  flex: 1;
-  padding: 30px;
-  overflow-y: auto;
-}
-
-.lms-main h2 {
-  color: #111827;
-  margin-bottom: 10px;
-}
-
-.lms-main p {
-  color: #4b5563;
-}
-
-iframe {
+.lms-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.875rem 1rem;
+    background: transparent;
+    border: none;
+    color: #cbd5e1;
+    cursor: pointer;
+    border-radius: 0.5rem;
+    transition: all 0.2s;
+    font-size: 0.95rem;
+    text-align: left;
     width: 100%;
-    height: 100%;
-    border: 0;
+    
+    .menu-icon {
+        font-size: 1.25rem;
+    }
+    
+    &:hover {
+        background: #334155;
+        color: white;
+    }
+    
+    &.active {
+        background: #3b82f6;
+        color: white;
+    }
 }
 
-/* Ensure embedded Odoo web client hides navbar */
-iframe body .o_main_navbar,
-iframe body .o_menu_systray,
-iframe body .o_menu_toggle {
-    display: none !important;
+.lms-main-content {
+    margin-left: 250px;
+    flex: 1;
+    overflow: auto;
+    padding: 2rem;
 }
 
+.lms-overview {
+    max-width: 1200px;
+    
+    h2 {
+        font-size: 1.875rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: #1e293b;
+    }
+    
+    p {
+        color: #64748b;
+        margin-bottom: 2rem;
+    }
+}
+
+.lms-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.lms-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.2s;
+    
+    &:hover {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+    }
+    
+    .card-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    h3 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: #1e293b;
+    }
+    
+    p {
+        color: #64748b;
+        font-size: 0.95rem;
+        margin: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .lms-sidebar-toggle {
+        display: block !important;
+        position: fixed;
+        top: 1rem;
+        left: 1rem;
+        z-index: 1002;
+        background: #1e293b;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        cursor: pointer;
+    }
+    
+    .lms-main-content {
+        margin-left: 0;
+    }
+    
+    .lms-dashboard-active .o_action_manager {
+        padding-left: 0 !important;
+    }
+}
