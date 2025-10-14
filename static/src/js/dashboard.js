@@ -43,13 +43,16 @@ export class Dashboard extends Component {
             },
             ewaybill: {
                 title: "E-Way Bill",
+                src:""
                 // If you have l10n_in_edi module installed
-                src: "/web#action=l10n_in_edi.action_ewaybill&model=l10n_in_edi.ewaybill&menu_id=l10n_in_edi.menu_l10n_in_edi_root",
+                // src: "/web#action=l10n_in_ewaybill_stock.l10n_in_ewaybill_form_action&model=l10n_in_edi.ewaybill&menu_id=l10n_in_edi.menu_l10n_in_edi_root",
             },
             pod: {
                 title: "Proof of Delivery (POD)",
                 // Replace with your own model + action when you create it
-                src: "/web#action=lms.action_pod_tracking&model=lms.pod&menu_id=menu_lms_root",
+                src: "",
+
+                // src: "/web#action=lms.action_pod_tracking&model=lms.pod&menu_id=menu_lms_root",
             },
         };
 
