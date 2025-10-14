@@ -9,6 +9,8 @@
                 <ul class="lms-menu" style="list-style:none; padding:0;">
                     <li t-on-click="() => setActiveSection('lead')" t-att-class="{'active': state.tab === 'lead'}">Lead Management</li>
                     <li t-on-click="() => setActiveSection('warehouse')" t-att-class="{'active': state.tab === 'warehouse'}">Warehouse Management</li>
+                    <li t-on-click="() => setActiveSection('dispatch')" t-att-class="{'active': state.tab === 'dispatch'}">Dispatch Management</li>
+
 
                 </ul>
             </aside>
