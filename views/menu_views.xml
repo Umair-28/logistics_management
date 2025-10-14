@@ -4,6 +4,6 @@
 
 
     <!-- Sub menus -->
-    <menuitem id="menu_lms_dashboard" name="Dashboard" parent="menu_lms_root" sequence="1" action="action_lms_dashboard_main"/>
+    <!-- <menuitem id="menu_lms_dashboard" name="Dashboard" parent="menu_lms_root" sequence="1" action="action_lms_dashboard_main"/> -->
 
 </odoo>

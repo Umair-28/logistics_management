@@ -1,5 +1,5 @@
 {
-    "name": "LMS Logistics",
+    "name": "Logistics Management System",
     "version": "1.0.0",
     "summary": "Logistics Management System (minimal scaffold)",
     "description": "Minimal Logistics Management System module: Lead, Warehouse, Inventory, Dispatch, Fleet, Tracking, Finance overview.",
