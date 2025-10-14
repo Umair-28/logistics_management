@@ -4,21 +4,85 @@
         <div class="lms-dashboard-container" style="display:flex; height:100vh;">
 
             <!-- Sidebar -->
+            <aside class="lms-sidebar" style="width:270px; background:#1e293b; color:white; padding:1rem; overflow:auto;">
+                <div class="lms-logo" style="font-weight:bold; margin-bottom:1rem;">🚚 Logistics Management</div>
+                <ul class="lms-menu" style="list-style:none; padding:0;">
+
+                    <!-- Lead -->
+                    <li t-on-click="() => openIframe('/web#action=crm.crm_lead_action_pipeline')" class="menu-item">Lead Management</li>
+
+                    <!-- Warehouse -->
+                    <li t-on-click="() => openIframe('/web#action=stock.action_picking_tree')" class="menu-item">Warehouse Management</li>
+
+                    <!-- Logistics Operations Management -->
+                    <li>
+                        <div class="submenu-header" t-on-click="toggleSubmenu('operations')">Logistics Operations Management ▸</div>
+                        <ul t-if="state.submenu === 'operations'" class="submenu" style="margin-left:1rem;">
+
+                            <!-- Fleet Management -->
+                            <li>
+                                <div class="submenu-header" t-on-click="toggleSubmenu('fleet')">Fleet Management ▸</div>
+                                <ul t-if="state.submenu2 === 'fleet'" class="submenu" style="margin-left:1rem;">
+                                    <li t-on-click="() => openIframe('/web#action=fleet.action_fleet_vehicle')">Vehicles</li>
+                                    <li t-on-click="() => openIframe('/web#action=fleet.action_fleet_vehicle_log_contract')">Drivers</li>
+                                    <li t-on-click="() => openIframe('/web#action=fleet.action_fleet_vehicle_costs')">Vehicle Costs</li>
+                                    <li t-on-click="() => openIframe('/web#action=fleet.action_fleet_vehicle_log_fuel')">Fuel Logs</li>
+                                    <li t-on-click="() => openIframe('/web#action=fleet.action_fleet_vehicle_log_services')">Maintenance</li>
+                                </ul>
+                            </li>
+
+                            <!-- Route Optimization -->
+                            <li t-on-click="() => openIframe('/web#action=stock.action_picking_tree')">Route Optimization</li>
+                        </ul>
+                    </li>
+
+                    <!-- Dispatch Management -->
+                    <li>
+                        <div class="submenu-header" t-on-click="toggleSubmenu('dispatch')">Dispatch Management ▸</div>
+                        <ul t-if="state.submenu === 'dispatch'" class="submenu" style="margin-left:1rem;">
+                            <li t-on-click="() => openIframe('/web#action=lms.action_trip_sheet_list')">Trip Sheet</li>
+                            <li t-on-click="() => openIframe('/web#action=lms.action_route_dispatch_list')">Route Dispatch</li>
+                            <li t-on-click="() => openIframe('/web#action=lms.action_lr_list')">Lorry Receipt (LR)</li>
+                            <li t-on-click="() => openIframe('/web#action=lms.action_pod_list')">Proof of Delivery (POD)</li>
+                            <li t-on-click="() => openIframe('/web#action=l10n_in_ewaybill.action_ewaybill_list')">E-Way Bill</li>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="lms-main" style="flex:1; padding:0;">
+                <t t-if="state.iframeSrc">
+                    <iframe t-att-src="state.iframeSrc" style="width:100%; height:100vh; border:0;" frameborder="0"/>
+                </t>
+                <t t-if="!state.iframeSrc">
+                    <div style="padding:2rem;">
+                        <h2>Welcome to Logistics Management Dashboard</h2>
+                        <p>Select a module from the sidebar to begin.</p>
+                    </div>
+                </t>
+            </main>
+        </div>
+    </t>
+</templates>
+
+<!-- <?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="lms.Dashboard" owl="1">
+        <div class="lms-dashboard-container" style="display:flex; height:100vh;">
+
             <aside class="lms-sidebar" style="width:260px; background:#1e293b; color:white; padding:1rem; overflow-y:auto;">
                 <div class="lms-logo" style="font-weight:bold; margin-bottom:1rem;">🚚 Logistics Management</div>
                 <ul class="lms-menu" style="list-style:none; padding:0; margin:0;">
 
-                    <!-- Lead -->
                     <li t-on-click="() => setActiveSection('lead')" t-att-class="{'active': state.tab === 'lead'}" style="padding:.5rem 0; cursor:pointer;">
                         Lead Management
                     </li>
 
-                    <!-- Warehouse -->
                     <li t-on-click="() => setActiveSection('warehouse')" t-att-class="{'active': state.tab === 'warehouse'}" style="padding:.5rem 0; cursor:pointer;">
                         Warehouse Management
                     </li>
 
-                    <!-- Dispatch Management -->
                     <li>
                         <div t-on-click="toggleSubMenu('dispatch')" style="padding:.5rem 0; cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
                             <span>Dispatch Management</span>
@@ -35,7 +99,6 @@
                 </ul>
             </aside>
 
-            <!-- Main Content -->
             <main class="lms-main" style="flex:1; padding:1.5rem; background:#f8fafc;">
                 <h2 t-esc="state.pageTitle" style="margin-bottom:1rem;"/>
 
@@ -50,40 +113,6 @@
                 </t>
             </main>
 
-        </div>
-    </t>
-</templates>
-
-<!-- <?xml version="1.0" encoding="UTF-8"?>
-<templates xml:space="preserve">
-    <t t-name="lms.Dashboard" owl="1">
-        <div class="lms-dashboard-container" style="display:flex; height:100vh;">
-
-            <aside class="lms-sidebar" style="width:250px; background:#1e293b; color:white; padding:1rem;">
-                <div class="lms-logo" style="font-weight:bold; margin-bottom:1rem;">🚚 Logistics Management</div>
-                <ul class="lms-menu" style="list-style:none; padding:0;">
-                    <li t-on-click="() => setActiveSection('lead')" t-att-class="{'active': state.tab === 'lead'}">Lead Management</li>
-                    <li t-on-click="() => setActiveSection('warehouse')" t-att-class="{'active': state.tab === 'warehouse'}">Warehouse Management</li>
-                    <li t-on-click="() => setActiveSection('dispatch')" t-att-class="{'active': state.tab === 'dispatch'}">Dispatch Management</li>
-
-
-                </ul>
-            </aside>
-
-            <main class="lms-main" style="flex:1; padding:2rem;">
-                <h2 t-esc="state.pageTitle"/>
-
-                <t t-if="state.iframeSrc">
-                    <div class="iframe-container" style="height:calc(100vh - 50px);">
-                        <iframe t-att-src="state.iframeSrc" style="width:100%; height:100%; border:0;" frameborder="0">
-                        </iframe>
-                    </div>
-                </t>
-
-                <t t-if="!state.iframeSrc">
-                    <p>Welcome! Please select a module from the sidebar.</p>
-                </t>
-            </main>
         </div>
     </t>
 </templates> -->
