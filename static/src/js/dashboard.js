@@ -7,48 +7,57 @@ export class LMSDashboard extends Component {
     setup() {
         this.state = useState({
             iframeSrc: null,
-            openMenu: null,     // main-level (Operations, Dispatch)
-            openSubMenu: null,  // secondary-level (Fleet, Inventory)
+            openMenu: null,     // main-level menu (Operations, Dispatch)
+            openSubMenu: null,  // secondary-level (Fleet)
         });
+
+        // Define all iframe mappings here for clean maintenance
+        this.urlMap = {
+            lead: "/web#action=crm.crm_lead_action_pipeline",
+            warehouse: "/web#action=stock.action_picking_tree",
+            fleet_vehicles: "/web#action=fleet.action_fleet_vehicle",
+            fleet_drivers: "/web#action=fleet.action_fleet_vehicle_log_contract",
+            fleet_costs: "/web#action=fleet.action_fleet_vehicle_costs",
+            fleet_fuel: "/web#action=fleet.action_fleet_vehicle_log_fuel",
+            fleet_maintenance: "/web#action=fleet.action_fleet_vehicle_log_services",
+            route_optimization: "/web#action=stock.action_picking_tree",
+            trip_sheet: "/web#action=lms.action_trip_sheet_list",
+            route_dispatch: "/web#action=lms.action_route_dispatch_list",
+            lr: "/web#action=lms.action_lr_list",
+            pod: "/web#action=lms.action_pod_list",
+            ewaybill: "/web#action=l10n_in_ewaybill.action_ewaybill_list",
+        };
     }
 
-    /**
-     * Toggle a main-level submenu (e.g., Operations, Dispatch)
-     */
     toggleSubmenu(menuName) {
         this.state.openMenu = this.state.openMenu === menuName ? null : menuName;
-        // Close submenus when switching main menu
         if (this.state.openMenu !== menuName) {
             this.state.openSubMenu = null;
         }
     }
 
-    /**
-     * Toggle a secondary submenu (e.g., Fleet Management)
-     */
     toggleSubmenu2(submenuName) {
         this.state.openSubMenu = this.state.openSubMenu === submenuName ? null : submenuName;
     }
 
     /**
-     * Load a view or dashboard inside iframe
+     * Loads iframe URL by `type`
      */
-    openIframe(url) {
-        this.state.iframeSrc = url;
+    openIframeByType(type) {
+        const url = this.urlMap[type];
+        if (url) this.state.iframeSrc = url;
+        else console.warn("No URL mapped for:", type);
     }
 
-    /**
-     * Return arrow icon (▸ / ▾)
-     */
     getArrow(menuName, level = 1) {
         const open = level === 1 ? this.state.openMenu === menuName : this.state.openSubMenu === menuName;
         return open ? "▾" : "▸";
     }
 }
 
-// ✅ Properly register the component as a client action
 LMSDashboard.template = "lms.Dashboard";
 registry.category("actions").add("lms_dashboard_client_action", LMSDashboard);
+
 
 
 // /** @odoo-module **/
