@@ -5,9 +5,9 @@
         <field name="tag">lms_dashboard_client_action</field>
     </record>
 
-    <menuitem id="menu_lms_dashboard_main"
+    <!-- <menuitem id="menu_lms_dashboard_main"
               name="Dashboard"
               parent="menu_lms_root"
               action="action_lms_dashboard_main"
-              sequence="1"/>
+              sequence="1"/> -->
 </odoo>
