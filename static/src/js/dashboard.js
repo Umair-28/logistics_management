@@ -42,7 +42,7 @@ export class Dashboard extends Component {
                 try {
                     const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
                     const nav = iframeDoc.querySelector(".o_main_navbar");
-                    if (nav) nav.style.display = "none";
+                    // if (nav) nav.style.display = "none";
                 } catch (e) {
                     console.warn("Cannot access iframe DOM:", e);
                 }
