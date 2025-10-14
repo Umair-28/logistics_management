@@ -27,7 +27,7 @@ export class Dashboard extends Component {
         }
         else {
             this.state.iframeSrc = "";
-            this.state.pageTitle = "Dashboard";
+            // this.state.pageTitle = "Dashboard";
         }
     }
 }
