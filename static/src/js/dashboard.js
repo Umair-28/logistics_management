@@ -14,14 +14,14 @@ export class Dashboard extends Component {
         // Bind methods
         this.setActiveSection = this.setActiveSection.bind(this);
 
-        // Add hooks
-        onMounted(() => {
-            this.toggleNavbarVisibility(false); // ensure visible by default
-        });
+        // // Add hooks
+        // onMounted(() => {
+        //     this.toggleNavbarVisibility(false); // ensure visible by default
+        // });
 
-        onWillUnmount(() => {
-            this.toggleNavbarVisibility(false); // restore when leaving
-        });
+        // onWillUnmount(() => {
+        //     this.toggleNavbarVisibility(false); // restore when leaving
+        // });
     }
 
 
