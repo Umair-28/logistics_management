@@ -1,21 +1,26 @@
 /** @odoo-module **/
 
 import { Component, useState } from "@odoo/owl";
+import { registry } from "@web/core/registry";
 
 export class LMSDashboard extends Component {
     setup() {
         this.state = useState({
             iframeSrc: null,
-            openMenu: null,     // main menu open state (operations, dispatch)
-            openSubMenu: null,  // secondary (fleet)
+            openMenu: null,     // main-level (Operations, Dispatch)
+            openSubMenu: null,  // secondary-level (Fleet, Inventory)
         });
     }
 
     /**
-     * Toggle a main-level submenu (e.g., operations, dispatch)
+     * Toggle a main-level submenu (e.g., Operations, Dispatch)
      */
     toggleSubmenu(menuName) {
         this.state.openMenu = this.state.openMenu === menuName ? null : menuName;
+        // Close submenus when switching main menu
+        if (this.state.openMenu !== menuName) {
+            this.state.openSubMenu = null;
+        }
     }
 
     /**
@@ -26,7 +31,7 @@ export class LMSDashboard extends Component {
     }
 
     /**
-     * Load a view inside iframe
+     * Load a view or dashboard inside iframe
      */
     openIframe(url) {
         this.state.iframeSrc = url;
@@ -41,8 +46,10 @@ export class LMSDashboard extends Component {
     }
 }
 
-Dashboard.template = "lms.Dashboard";
-registry.category("actions").add("lms_dashboard_client_action", Dashboard);
+// ✅ Properly register the component as a client action
+LMSDashboard.template = "lms.Dashboard";
+registry.category("actions").add("lms_dashboard_client_action", LMSDashboard);
+
 
 // /** @odoo-module **/
 
