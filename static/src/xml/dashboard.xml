@@ -3,80 +3,6 @@
     <t t-name="lms.Dashboard" owl="1">
         <div class="lms-dashboard-container" style="display:flex; height:100vh;">
 
-            <!-- Sidebar -->
-            <aside class="lms-sidebar" style="width:270px; background:#1e293b; color:white; padding:1rem; overflow:auto;">
-                <div class="lms-logo" style="font-weight:bold; margin-bottom:1rem;">🚚 Logistics Management</div>
-                <ul class="lms-menu" style="list-style:none; padding:0;">
-
-                    <!-- Lead -->
-                    <li t-on-click="() => openIframeByType('lead')" class="menu-item">Lead Management</li>
-
-                    <!-- Warehouse -->
-                    <li t-on-click="() => openIframeByType('warehouse')" class="menu-item">Warehouse Management</li>
-
-                    <!-- Logistics Operations Management -->
-                    <li>
-                        <div class="submenu-header" t-on-click="() => toggleSubmenu('operations')">
-                            Logistics Operations Management <t t-esc="getArrow('operations')"/>
-                        </div>
-
-                        <ul t-if="state.openMenu === 'operations'" class="submenu" style="margin-left:1rem;">
-                            <!-- Fleet Management -->
-                            <li>
-                                <div class="submenu-header" t-on-click="() => toggleSubmenu2('fleet')">
-                                    Fleet Management <t t-esc="getArrow('fleet', 2)"/>
-                                </div>
-                                <ul t-if="state.openSubMenu === 'fleet'" class="submenu" style="margin-left:1rem;">
-                                    <li t-on-click="() => openIframeByType('fleet_vehicles')">Vehicles</li>
-                                    <li t-on-click="() => openIframeByType('fleet_drivers')">Drivers</li>
-                                    <li t-on-click="() => openIframeByType('fleet_costs')">Vehicle Costs</li>
-                                    <li t-on-click="() => openIframeByType('fleet_fuel')">Fuel Logs</li>
-                                    <li t-on-click="() => openIframeByType('fleet_maintenance')">Maintenance</li>
-                                </ul>
-                            </li>
-
-                            <li t-on-click="() => openIframeByType('route_optimization')">Route Optimization</li>
-                        </ul>
-                    </li>
-
-                    <!-- Dispatch Management -->
-                    <li>
-                        <div class="submenu-header" t-on-click="() => toggleSubmenu('dispatch')">
-                            Dispatch Management <t t-esc="getArrow('dispatch')"/>
-                        </div>
-                        <ul t-if="state.openMenu === 'dispatch'" class="submenu" style="margin-left:1rem;">
-                            <li t-on-click="() => openIframeByType('trip_sheet')">Trip Sheet</li>
-                            <li t-on-click="() => openIframeByType('route_dispatch')">Route Dispatch</li>
-                            <li t-on-click="() => openIframeByType('lr')">Lorry Receipt (LR)</li>
-                            <li t-on-click="() => openIframeByType('pod')">Proof of Delivery (POD)</li>
-                            <li t-on-click="() => openIframeByType('ewaybill')">E-Way Bill</li>
-                        </ul>
-                    </li>
-                </ul>
-            </aside>
-
-            <!-- Main Content -->
-            <main class="lms-main" style="flex:1; padding:0;">
-                <t t-if="state.iframeSrc">
-                    <iframe t-att-src="state.iframeSrc" style="width:100%; height:100vh; border:0;" frameborder="0"/>
-                </t>
-                <t t-if="!state.iframeSrc">
-                    <div style="padding:2rem;">
-                        <h2>Welcome to Logistics Management Dashboard</h2>
-                        <p>Select a module from the sidebar to begin.</p>
-                    </div>
-                </t>
-            </main>
-        </div>
-    </t>
-</templates>
-
-
-<!-- <?xml version="1.0" encoding="UTF-8"?>
-<templates xml:space="preserve">
-    <t t-name="lms.Dashboard" owl="1">
-        <div class="lms-dashboard-container" style="display:flex; height:100vh;">
-
             <aside class="lms-sidebar" style="width:260px; background:#1e293b; color:white; padding:1rem; overflow-y:auto;">
                 <div class="lms-logo" style="font-weight:bold; margin-bottom:1rem;">🚚 Logistics Management</div>
                 <ul class="lms-menu" style="list-style:none; padding:0; margin:0;">
@@ -121,4 +47,4 @@
 
         </div>
     </t>
-</templates> -->
+</templates>
