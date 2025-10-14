@@ -24,37 +24,40 @@ export class Dashboard extends Component {
         });
     }
 
-    /**
-     * Toggle nav items visibility (hide = true means hide them)
-     */
-    toggleNavbarVisibility(hide = true) {
-        const navbar = document.querySelector(".o_main_navbar.d-print-none");
-        if (!navbar) return;
-
-        const systray = navbar.querySelector(".o_menu_systray.d-flex.flex-shrink-0.ms-auto");
-        const toggleBtn = navbar.querySelector(".o_menu_toggle.border-0.hasImage");
-
-        if (systray) systray.style.display = hide ? "none" : "";
-        if (toggleBtn) toggleBtn.style.display = hide ? "none" : "";
-    }
 
     /**
      * Called when user switches section
      */
     setActiveSection(tab) {
-        this.state.tab = tab;
+    this.state.tab = tab;
 
-        if (tab === "lead") {
-            this.state.iframeSrc = `/web#menu_id=crm.menu_crm_root&action=crm.crm_lead_all_leads`;
-            this.toggleNavbarVisibility(true); // hide when CRM loads
-        } else if (tab === "warehouse") {
-            this.state.iframeSrc = `/web#menu_id=stock.menu_stock_root&action=stock.action_picking_tree_all`;
-            this.toggleNavbarVisibility(false);
-        } else {
-            this.state.iframeSrc = "";
-            this.toggleNavbarVisibility(false);
-        }
+    if (tab === "lead") {
+        this.state.iframeSrc = `/web#menu_id=crm.menu_crm_root&action=crm.crm_lead_all_leads`;
+        this.state.pageTitle = "CRM Leads";
+    } else if (tab === "warehouse") {
+        this.state.iframeSrc = `/web#menu_id=stock.menu_stock_root&action=stock.action_picking_tree_all`;
+        this.state.pageTitle = "Warehouse";
+    } else {
+        this.state.iframeSrc = "";
+        this.state.pageTitle = "Dashboard";
     }
+
+    // Wait for the iframe to load, then hide navbar inside it
+    setTimeout(() => {
+        const iframe = document.querySelector(".iframe-container iframe");
+        if (iframe) {
+            iframe.addEventListener("load", () => {
+                try {
+                    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                    const nav = iframeDoc.querySelector(".o_main_navbar");
+                    if (nav) nav.style.display = "none";
+                } catch (e) {
+                    console.warn("Cannot access iframe DOM:", e);
+                }
+            });
+        }
+    }, 300);
+}
 }
 
 Dashboard.template = "lms.Dashboard";

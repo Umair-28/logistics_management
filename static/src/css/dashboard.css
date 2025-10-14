@@ -59,3 +59,17 @@
 .lms-main p {
   color: #4b5563;
 }
+
+iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+/* Ensure embedded Odoo web client hides navbar */
+iframe body .o_main_navbar,
+iframe body .o_menu_systray,
+iframe body .o_menu_toggle {
+    display: none !important;
+}
+
