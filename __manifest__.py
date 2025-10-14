@@ -14,10 +14,10 @@
 "account",
 ],
 "data": [
+"views/menu_views.xml",
 'views/lms_dashboard_action.xml',
 "security/ir.model.access.csv",
 # "views/lms_views.xml",
-"views/menu_views.xml",
 ],
 'assets': {
     'web.assets_backend': [
