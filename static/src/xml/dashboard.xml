@@ -1,85 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
     <t t-name="lms.Dashboard" owl="1">
-        <div class="lms-dashboard-container">
-            <!-- Sidebar -->
-            <aside class="lms-sidebar">
-                <div class="lms-logo">
-                    <span class="logo-icon">🚚</span>
-                    <span class="logo-text">Logistics Management</span>
-                </div>
-                
-                <nav class="lms-menu">
-                    <button class="lms-menu-item" 
-                            t-on-click="() => setActiveSection('overview')" 
-                            t-att-class="{'active': state.tab === 'overview'}">
-                        <span class="menu-icon">📊</span>
-                        <span class="menu-text">Dashboard Overview</span>
-                    </button>
-                    
-                    <button class="lms-menu-item" 
-                            t-on-click="() => setActiveSection('lead')" 
-                            t-att-class="{'active': state.tab === 'lead'}">
-                        <span class="menu-icon">👥</span>
-                        <span class="menu-text">Lead Management</span>
-                    </button>
-                    
-                    <button class="lms-menu-item" 
-                            t-on-click="() => setActiveSection('warehouse')" 
-                            t-att-class="{'active': state.tab === 'warehouse'}">
-                        <span class="menu-icon">📦</span>
-                        <span class="menu-text">Warehouse Management</span>
-                    </button>
-                </nav>
-            </aside>
-
-            <!-- Main Content Area -->
-            <main class="lms-main">
-                <!-- Header -->
-                <div class="lms-header">
-                    <h2 class="lms-page-title" t-esc="state.pageTitle"/>
-                </div>
-
-                <!-- Content -->
-                <div class="lms-content">
-                    <!-- Overview/Dashboard Home -->
-                    <t t-if="!state.iframeSrc">
-                        <div class="lms-welcome">
-                            <h3>Welcome to Logistics Management System</h3>
-                            <p>Select a module from the sidebar to get started.</p>
-                            
-                            <div class="lms-cards">
-                                <div class="lms-card" t-on-click="() => setActiveSection('lead')">
-                                    <div class="card-icon">👥</div>
-                                    <h4>CRM Leads</h4>
-                                    <p>Manage your customer relationships and track leads through the sales pipeline.</p>
-                                </div>
-                                
-                                <div class="lms-card" t-on-click="() => setActiveSection('warehouse')">
-                                    <div class="card-icon">📦</div>
-                                    <h4>Warehouse Management</h4>
-                                    <p>Track inventory, manage stock transfers and monitor warehouse operations.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </t>
-
-                    <!-- Iframe Container for Modules -->
-                    <t t-if="state.iframeSrc">
-                        <div class="lms-iframe-container">
-                            <iframe t-att-src="state.iframeSrc" sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-modals"/>
-                        </div>
-                    </t>
-                </div>
-            </main>
-        </div>
-    </t>
-</templates>
-<!-- <?xml version="1.0" encoding="UTF-8"?>
-<templates xml:space="preserve">
-    <t t-name="lms.Dashboard" owl="1">
         <div class="lms-dashboard-container" style="display:flex; height:100vh;">
 
+            <!-- Sidebar -->
             <aside class="lms-sidebar" style="width:250px; background:#1e293b; color:white; padding:1rem;">
                 <div class="lms-logo" style="font-weight:bold; margin-bottom:1rem;">🚚 Logistics Management</div>
                 <ul class="lms-menu" style="list-style:none; padding:0;">
@@ -89,6 +13,7 @@
                 </ul>
             </aside>
 
+            <!-- Main Content -->
             <main class="lms-main" style="flex:1; padding:2rem;">
                 <h2 t-esc="state.pageTitle"/>
 
@@ -105,4 +30,4 @@
             </main>
         </div>
     </t>
-</templates> -->
+</templates>
