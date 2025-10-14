@@ -1,252 +1,61 @@
-/* Dashboard Container */
 .lms-dashboard-container {
-    display: flex;
-    height: 100vh;
-    width: 100vw;
-    overflow: hidden;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: #f8fafc;
+  display: flex;
+  height: calc(100vh - 60px);
+  background-color: #f8f9fa;
+  font-family: "Inter", sans-serif;
 }
 
-/* Sidebar Styles */
 .lms-sidebar {
-    width: 260px;
-    background: #1e293b;
-    color: white;
-    padding: 1.5rem;
-    overflow-y: auto;
-    flex-shrink: 0;
-    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  width: 240px;
+  background-color: #1e293b;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
 }
 
 .lms-logo {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 2rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid #334155;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
-.lms-logo .logo-icon {
-    font-size: 1.75rem;
-}
-
-.lms-logo .logo-text {
-    font-size: 1.1rem;
-    font-weight: 600;
-    line-height: 1.3;
-}
-
-/* Menu Styles */
 .lms-menu {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1;
 }
 
-.lms-menu-item {
-    display: flex;
-    align-items: center;
-    gap: 0.875rem;
-    padding: 0.875rem 1rem;
-    background: transparent;
-    border: none;
-    color: #cbd5e1;
-    cursor: pointer;
-    border-radius: 0.5rem;
-    transition: all 0.2s ease;
-    font-size: 0.95rem;
-    text-align: left;
-    width: 100%;
-    font-family: inherit;
+.lms-menu li {
+  padding: 10px 15px;
+  margin-bottom: 4px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
 }
 
-.lms-menu-item .menu-icon {
-    font-size: 1.25rem;
-    flex-shrink: 0;
+.lms-menu li:hover {
+  background: #334155;
 }
 
-.lms-menu-item .menu-text {
-    flex: 1;
+.lms-menu li.active {
+  background: #3b82f6;
+  color: white;
 }
 
-.lms-menu-item:hover {
-    background: #334155;
-    color: white;
-    transform: translateX(4px);
-}
-
-.lms-menu-item.active {
-    background: #3b82f6;
-    color: white;
-    font-weight: 500;
-}
-
-/* Main Content Area */
 .lms-main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
+  flex: 1;
+  padding: 30px;
+  overflow-y: auto;
 }
 
-.lms-header {
-    background: white;
-    padding: 1.5rem 2rem;
-    border-bottom: 1px solid #e2e8f0;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+.lms-main h2 {
+  color: #111827;
+  margin-bottom: 10px;
 }
 
-.lms-page-title {
-    margin: 0;
-    font-size: 1.75rem;
-    font-weight: 600;
-    color: #1e293b;
-}
-
-.lms-content {
-    flex: 1;
-    overflow: auto;
-    position: relative;
-}
-
-/* Welcome/Overview Section */
-.lms-welcome {
-    padding: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.lms-welcome h3 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: #1e293b;
-}
-
-.lms-welcome > p {
-    color: #64748b;
-    margin-bottom: 2rem;
-    font-size: 1rem;
-}
-
-.lms-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
-    margin-top: 2rem;
-}
-
-.lms-card {
-    background: white;
-    padding: 2rem;
-    border-radius: 0.75rem;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border: 1px solid #e2e8f0;
-}
-
-.lms-card:hover {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-    transform: translateY(-4px);
-    border-color: #3b82f6;
-}
-
-.lms-card .card-icon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-}
-
-.lms-card h4 {
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin: 0 0 0.5rem 0;
-    color: #1e293b;
-}
-
-.lms-card p {
-    color: #64748b;
-    font-size: 0.95rem;
-    margin: 0;
-    line-height: 1.5;
-}
-
-/* Iframe Container */
-.lms-iframe-container {
-    height: 100%;
-    width: 100%;
-    background: white;
-    position: relative;
-}
-
-.lms-iframe-container iframe {
-    width: 100%;
-    height: 100%;
-    border: 0;
-    display: block;
-}
-
-/* Ensure iframe content is properly displayed */
-.lms-iframe-container iframe body {
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-}
-
-/* Scrollbar Styling for Sidebar */
-.lms-sidebar::-webkit-scrollbar {
-    width: 6px;
-}
-
-.lms-sidebar::-webkit-scrollbar-track {
-    background: #1e293b;
-}
-
-.lms-sidebar::-webkit-scrollbar-thumb {
-    background: #475569;
-    border-radius: 3px;
-}
-
-.lms-sidebar::-webkit-scrollbar-thumb:hover {
-    background: #64748b;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .lms-sidebar {
-        position: fixed;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        z-index: 1000;
-        transform: translateX(-100%);
-        transition: transform 0.3s ease;
-    }
-    
-    .lms-sidebar.open {
-        transform: translateX(0);
-    }
-    
-    .lms-main {
-        width: 100%;
-    }
-    
-    .lms-cards {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* Hide Odoo's main navbar when dashboard is active */
-body:has(.lms-dashboard-container) .o_main_navbar {
-    display: none !important;
-}
-
-body:has(.lms-dashboard-container) .o_action_manager {
-    padding-top: 0 !important;
+.lms-main p {
+  color: #4b5563;
 }

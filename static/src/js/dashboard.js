@@ -1,6 +1,6 @@
 /** @odoo-module **/
 
-import { Component, useState, onMounted } from "@odoo/owl";
+import { Component, useState, onMounted, onWillUnmount } from "@odoo/owl";
 import { registry } from "@web/core/registry";
 
 export class Dashboard extends Component {
@@ -11,87 +11,45 @@ export class Dashboard extends Component {
             pageTitle: "Dashboard",
         });
 
+        // Bind methods
         this.setActiveSection = this.setActiveSection.bind(this);
-        
-        onMounted(() => {
-            // Inject CSS to hide navbar in iframes
-            this.injectIframeStyles();
-        });
+
     }
 
-    injectIframeStyles() {
-        // Add styles to hide iframe navbar
-        const style = document.createElement('style');
-        style.textContent = `
-            .lms-iframe-container iframe {
-                width: 100%;
-                height: 100%;
-                border: 0;
-            }
-        `;
-        document.head.appendChild(style);
-    }
 
+    /**
+     * Called when user switches section
+     */
     setActiveSection(tab) {
-        this.state.tab = tab;
+    this.state.tab = tab;
 
-        if (tab === "lead") {
-            // Use the web client URL with proper hash format
-            this.state.iframeSrc = `/web?debug=1#action=crm.crm_lead_action_pipeline&model=crm.lead&menu_id=crm.crm_menu_root`;
-            // this.state.pageTitle = "CRM Leads";
-        } else if (tab === "warehouse") {
-            this.state.iframeSrc = `/web#action=stock.action_picking_tree_all&model=stock.picking&view_type=list&menu_id=stock.menu_stock_root`;
-            this.state.pageTitle = "Warehouse Management";
-        } else {
-            this.state.iframeSrc = "";
-            this.state.pageTitle = "Dashboard";
-        }
-
-        // Wait for iframe to load and hide its navbar
-        if (this.state.iframeSrc) {
-            setTimeout(() => {
-                this.hideIframeNavbar();
-            }, 500);
-        }
+    if (tab === "lead") {
+        this.state.iframeSrc = `/web#menu_id=crm.menu_crm_root&action=crm.crm_lead_action_pipeline`;
+        this.state.pageTitle = "CRM Leads";
+    } else if (tab === "warehouse") {
+        this.state.iframeSrc = `/web#menu_id=stock.menu_stock_root&action=stock.action_picking_tree_all`;
+        this.state.pageTitle = "Warehouse";
+    } else {
+        this.state.iframeSrc = "";
+        this.state.pageTitle = "Dashboard";
     }
 
-    hideIframeNavbar() {
-        const iframe = document.querySelector('.lms-iframe-container iframe');
-        if (!iframe) return;
-
-        // Try to access iframe content and hide navbar
-        iframe.onload = () => {
-            try {
-                const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-                
-                // Hide the main navbar
-                const navbar = iframeDoc.querySelector('.o_main_navbar');
-                if (navbar) {
-                    // navbar.style.display = 'none';
+    // Wait for the iframe to load, then hide navbar inside it
+    setTimeout(() => {
+        const iframe = document.querySelector(".iframe-container iframe");
+        if (iframe) {
+            iframe.addEventListener("load", () => {
+                try {
+                    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                    const nav = iframeDoc.querySelector(".o_main_navbar");
+                    if (nav) nav.style.display = "none";
+                } catch (e) {
+                    console.warn("Cannot access iframe DOM:", e);
                 }
-                
-                // Adjust content positioning
-                const actionManager = iframeDoc.querySelector('.o_action_manager');
-                if (actionManager) {
-                    actionManager.style.paddingTop = '0';
-                }
-
-                // Hide any breadcrumbs if you want
-                const breadcrumb = iframeDoc.querySelector('.o_control_panel .breadcrumb-item');
-                if (breadcrumb && breadcrumb.textContent.trim() === 'Home') {
-                    const breadcrumbContainer = iframeDoc.querySelector('.o_control_panel .breadcrumb');
-                    if (breadcrumbContainer) {
-                        // breadcrumbContainer.style.display = 'none';
-                    }
-                }
-
-            } catch (e) {
-                console.warn('Cannot access iframe content (same-origin policy):', e);
-                // If same-origin fails, the URLs might be cross-domain
-                // In that case, you need to ensure iframe src is from same domain
-            }
-        };
-    }
+            });
+        }
+    }, 300);
+}
 }
 
 Dashboard.template = "lms.Dashboard";
