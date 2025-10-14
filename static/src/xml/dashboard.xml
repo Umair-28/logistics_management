@@ -16,7 +16,11 @@
                     </li>
 
                     <li>
-                        <div t-on-click="toggleSubMenu('dispatch')" style="padding:.5rem 0; cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
+                        <li t-on-click="() => setActiveSection('fleet')" style="padding:.3rem 0; cursor:pointer;">Fleet Management</li>
+                        <li t-on-click="() => setActiveSection('routes')" style="padding:.3rem 0; cursor:pointer;">Route Optimization</li>
+                        <li t-on-click="() => setActiveSection('ewaybill')" style="padding:.3rem 0; cursor:pointer;">E-Way Bill</li>
+                        <li t-on-click="() => setActiveSection('pod')" style="padding:.3rem 0; cursor:pointer;">POD Tracking</li>
+                        <!-- <div t-on-click="toggleSubMenu('dispatch')" style="padding:.5rem 0; cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
                             <span>Dispatch Management</span>
                             <span t-esc="state.expanded.dispatch ? '▾' : '▸'"/>
                         </div>
@@ -25,7 +29,7 @@
                             <li t-on-click="() => setActiveSection('routes')" style="padding:.3rem 0; cursor:pointer;">Route Optimization</li>
                             <li t-on-click="() => setActiveSection('ewaybill')" style="padding:.3rem 0; cursor:pointer;">E-Way Bill</li>
                             <li t-on-click="() => setActiveSection('pod')" style="padding:.3rem 0; cursor:pointer;">POD Tracking</li>
-                        </ul>
+                        </ul> -->
                     </li>
 
                 </ul>
