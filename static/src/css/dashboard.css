@@ -11,7 +11,7 @@
     bottom: 0;
     background: #f8fafc;
 }
-  
+
 /* Sidebar Styles */
 .lms-sidebar {
     width: 260px;
@@ -243,10 +243,10 @@
 }
 
 /* Hide Odoo's main navbar when dashboard is active */
-body:has(.lms-dashboard-container) .o_main_navbar {
+/* body:has(.lms-dashboard-container) .o_main_navbar {
     display: none !important;
 }
 
 body:has(.lms-dashboard-container) .o_action_manager {
     padding-top: 0 !important;
-}
+} */
