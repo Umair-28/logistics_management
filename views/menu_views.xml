@@ -1,4 +1,3 @@
-<!-- lms_logistics/views/menu_views.xml -->
 <odoo>
     <!-- Root menu -->
     <menuitem id="menu_lms_root" name="LMS" sequence="10"/>
@@ -6,13 +5,5 @@
 
     <!-- Sub menus -->
     <menuitem id="menu_lms_dashboard" name="Dashboard" parent="menu_lms_root" sequence="1" action="action_lms_dashboard_main"/>
-    <!-- <menuitem id="menu_lms_modules" name="Modules" parent="menu_lms_root" sequence="5" action="action_lms_modules"/> -->
 
-
-    <!-- Additional placeholder entries (to be expanded) -->
-    <!-- <menuitem id="menu_lms_leads" name="Lead Management" parent="menu_lms_root" sequence="10"/>
-    <menuitem id="menu_lms_warehouse" name="Warehouse Management" parent="menu_lms_root" sequence="20"/>
-    <menuitem id="menu_lms_dispatch" name="Dispatch Management" parent="menu_lms_root" sequence="30"/>
-    <menuitem id="menu_lms_fleet" name="Fleet and Operations" parent="menu_lms_root" sequence="40"/>
-    <menuitem id="menu_lms_accounting" name="Finance and Accounting" parent="menu_lms_root" sequence="50"/> -->
 </odoo>

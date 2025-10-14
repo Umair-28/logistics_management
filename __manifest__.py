@@ -1,10 +1,10 @@
-# lms_logistics/__manifest__.py
+# lms/__manifest__.py
 {
 "name": "LMS Logistics",
 "version": "1.0.0",
 "summary": "Logistics Management System (minimal scaffold)",
 "description": "Minimal Logistics Management System module: Lead, Warehouse, Inventory, Dispatch, Fleet, Tracking, Finance overview.",
-"author": "Umair",
+"author": "Dev",
 "category": "Operations/Logistics",
 "depends": [
 "crm",
