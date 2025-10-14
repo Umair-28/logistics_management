@@ -15,10 +15,10 @@ export class Dashboard extends Component {
         this.state.tab = tab;
 
         if (tab === "lead") {
-            this.state.iframeSrc = `/web#menu_id=crm.menu_crm_root&action=crm.crm_lead_all_leads`;
+            this.state.iframeSrc = `/web#action=crm.crm_lead_action_pipeline&menu_id=crm.crm_menu_sales`;
             this.state.pageTitle = "CRM Leads";
         } else if (tab === "warehouse") {
-            this.state.iframeSrc = `/web#menu_id=stock.menu_stock_root&action=stock.action_picking_tree_all`;
+            this.state.iframeSrc = `/web#menu_id=stock.menu_stock_root&action=stock.action_warehouse_form`;
             this.state.pageTitle = "Warehouse";
         } else {
             this.state.iframeSrc = "";
