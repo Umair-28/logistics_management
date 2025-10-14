@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="lms.Dashboard" owl="1">
+        <div class="lms-dashboard-container" style="display:flex; height:100vh;">
+
+            <!-- Sidebar -->
+            <aside class="lms-sidebar" style="width:250px; background:#1e293b; color:white; padding:1rem;">
+                <div class="lms-logo" style="font-weight:bold; margin-bottom:1rem;">🚚 Logistics Management</div>
+                <ul class="lms-menu" style="list-style:none; padding:0;">
+                    <li t-on-click="() => setActiveSection('lead')" t-att-class="{'active': state.tab === 'lead'}">Lead Management</li>
+                    <li t-on-click="() => setActiveSection('warehouse')" t-att-class="{'active': state.tab === 'warehouse'}">Warehouse Management</li>
+
+                </ul>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="lms-main" style="flex:1; padding:2rem;">
+                <h2 t-esc="state.pageTitle"/>
+
+                <t t-if="state.iframeSrc">
+                    <div class="iframe-container" style="height:calc(100vh - 50px);">
+                        <iframe t-att-src="state.iframeSrc" style="width:100%; height:100%; border:0;" frameborder="0">
+                        </iframe>
+                    </div>
+                </t>
+
+                <t t-if="!state.iframeSrc">
+                    <p>Welcome! Please select a module from the sidebar.</p>
+                </t>
+            </main>
+        </div>
+    </t>
+</templates>

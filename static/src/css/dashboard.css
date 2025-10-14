@@ -1,0 +1,61 @@
+.lms-dashboard-container {
+  display: flex;
+  height: calc(100vh - 60px);
+  background-color: #f8f9fa;
+  font-family: "Inter", sans-serif;
+}
+
+.lms-sidebar {
+  width: 240px;
+  background-color: #1e293b;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.lms-logo {
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.lms-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1;
+}
+
+.lms-menu li {
+  padding: 10px 15px;
+  margin-bottom: 4px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.lms-menu li:hover {
+  background: #334155;
+}
+
+.lms-menu li.active {
+  background: #3b82f6;
+  color: white;
+}
+
+.lms-main {
+  flex: 1;
+  padding: 30px;
+  overflow-y: auto;
+}
+
+.lms-main h2 {
+  color: #111827;
+  margin-bottom: 10px;
+}
+
+.lms-main p {
+  color: #4b5563;
+}
