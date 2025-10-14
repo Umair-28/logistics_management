@@ -4,40 +4,46 @@ import { Component, useState } from "@odoo/owl";
 import { registry } from "@web/core/registry";
 
 export class Dashboard extends Component {
-    state = useState({ tab: "overview", iframeSrc: "", pageTitle: "Dashboard" });
+  state = useState({
+    tab: "overview",
+    iframeSrc: "",
+    pageTitle: "",
+    expanded: {
+      dispatch: false,
+    },
+  });
 
-    constructor() {
-        super(...arguments);
-        this.setActiveSection = this.setActiveSection.bind(this);
+  constructor() {
+    super(...arguments);
+    this.setActiveSection = this.setActiveSection.bind(this);
+    this.toggleSubMenu = this.toggleSubMenu.bind(this)
+  }
+
+  toggleSubMenu(menu) {
+        this.state.expanded[menu] = !this.state.expanded[menu];
     }
 
-    setActiveSection(tab) {
-        this.state.tab = tab;
+  setActiveSection(tab) {
+    this.state.tab = tab;
 
-        if (tab === "lead") {
-            this.state.iframeSrc = `/web#action=crm.crm_lead_action_pipeline&menu_id=crm.menu_crm_root`;
-            // this.state.pageTitle = "CRM Leads";
-        } else if (tab === "warehouse") {
-            this.state.iframeSrc = `/web#menu_id=stock.menu_stock_root&action=stock.action_warehouse_form`;
-            // this.state.pageTitle = "Warehouse";
-        }
-        else if(tab === "dispatch"){
-            this.state.iframeSrc = `/web#menu_id=fleet.menu_fleet_root&action=fleet.fleet_vehicle_action`;
-
-        }
-        else {
-            this.state.iframeSrc = "";
-            // this.state.pageTitle = "Dashboard";
-        }
+    if (tab === "lead") {
+      this.state.iframeSrc = `/web#action=crm.crm_lead_action_pipeline&menu_id=crm.menu_crm_root`;
+      // this.state.pageTitle = "CRM Leads";
+    } else if (tab === "warehouse") {
+      this.state.iframeSrc = `/web#menu_id=stock.menu_stock_root&action=stock.action_warehouse_form`;
+      // this.state.pageTitle = "Warehouse";
+    } else if (tab === "dispatch") {
+      this.state.iframeSrc = `/web#menu_id=fleet.menu_fleet_root&action=fleet.fleet_vehicle_action`;
+    } else {
+      this.state.iframeSrc = "";
+      // this.state.pageTitle = "Dashboard";
     }
+  }
 }
-
-
 
 Dashboard.template = "lms.Dashboard";
 
 registry.category("actions").add("lms_dashboard_client_action", Dashboard);
-
 
 // /** @odoo-module **/
 
