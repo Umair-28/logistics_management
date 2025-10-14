@@ -41,7 +41,8 @@ export class LMSDashboard extends Component {
     }
 }
 
-LMSDashboard.template = "lms.Dashboard";
+Dashboard.template = "lms.Dashboard";
+registry.category("actions").add("lms_dashboard_client_action", Dashboard);
 
 // /** @odoo-module **/
 
