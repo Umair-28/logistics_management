@@ -37,7 +37,7 @@ export class Dashboard extends Component {
 
         if (tab === "lead") {
             // Use the web client URL with proper hash format
-            this.state.iframeSrc = `/web#action=crm.crm_lead_action_pipeline&model=crm.lead&menu_id=crm.crm_menu_root`;
+            this.state.iframeSrc = `/web?debug=1#action=crm.crm_lead_action_pipeline&model=crm.lead&menu_id=crm.crm_menu_root`;
             // this.state.pageTitle = "CRM Leads";
         } else if (tab === "warehouse") {
             this.state.iframeSrc = `/web#action=stock.action_picking_tree_all&model=stock.picking&view_type=list&menu_id=stock.menu_stock_root`;
