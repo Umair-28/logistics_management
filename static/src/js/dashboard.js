@@ -11,6 +11,7 @@ export class Dashboard extends Component {
       expanded: {
         dispatch: false,
         operations: false,
+        finance: false,
       },
     });
 
@@ -57,8 +58,26 @@ export class Dashboard extends Component {
     }
 
     // RFQs
-    else if(tab === "rfq"){
+    else if (tab === "rfq") {
       this.state.iframeSrc = `/web#menu_id=purchase.menu_purchase_root&action=purchase.purchase_rfq`;
+    }
+
+    //FINANCE AND ACCOUNTING
+    else if (tab === "finance_overview") {
+      this.state.iframeSrc = `/web#menu_id=account.menu_account_root&action=account.open_account_journal_dashboard_kanban`;
+    } else if (tab === "customer_invoices") {
+      this.state.iframeSrc = `/web#menu_id=account.menu_account_root&action=account.action_move_out_invoice_type`;
+    } else if (tab === "customer_credit_notes") {
+      this.state.iframeSrc = `/web#menu_id=account.menu_account_root&action=account.action_move_out_refund_type`;
+    } else if (tab === "customer_payments") {
+      this.state.iframeSrc = `/web#menu_id=account.menu_account_root&action=account.action_account_payments`;
+    }
+    else if(tab === "accounting_journals"){
+      this.state.iframeSrc = `/web#menu_id=account.menu_account_root&action=account.action_account_journal_form`;
+
+    }
+    else if(tab === "accounting_journals_entries"){
+      this.state.iframeSrc = `/web#menu_id=account.menu_account_root&action=account.action_move_journal_line`;
 
     }
 

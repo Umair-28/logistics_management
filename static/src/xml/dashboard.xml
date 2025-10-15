@@ -9,23 +9,18 @@
 
                 <ul class="lms-menu" style="list-style:none; padding:0; margin:0;">
                     <!-- Lead -->
-                    <li t-on-click="() => setActiveSection('lead')"
-                        t-att-class="{'active': state.tab === 'lead'}"
-                        style="padding:.6rem 0; cursor:pointer;">
+                    <li t-on-click="() => setActiveSection('lead')" t-att-class="{'active': state.tab === 'lead'}" style="padding:.6rem 0; cursor:pointer;">
                         Lead Management
                     </li>
 
                     <!-- Warehouse -->
-                    <li t-on-click="() => setActiveSection('warehouse')"
-                        t-att-class="{'active': state.tab === 'warehouse'}"
-                        style="padding:.6rem 0; cursor:pointer;">
+                    <li t-on-click="() => setActiveSection('warehouse')" t-att-class="{'active': state.tab === 'warehouse'}" style="padding:.6rem 0; cursor:pointer;">
                         Warehouse Management
                     </li>
 
                     <!-- Dispatch Management -->
                     <li>
-                        <div t-on-click="() => toggleSubMenu('dispatch')"
-                             style="padding:.6rem 0; cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
+                        <div t-on-click="() => toggleSubMenu('dispatch')" style="padding:.6rem 0; cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
                             <span>Dispatch Management</span>
                             <span t-esc="state.expanded.dispatch ? '▾' : '▸'"/>
                         </div>
@@ -41,8 +36,7 @@
 
                     <!-- Logistics Operations -->
                     <li>
-                        <div t-on-click="() => toggleSubMenu('operations')"
-                             style="padding:.6rem 0; cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
+                        <div t-on-click="() => toggleSubMenu('operations')" style="padding:.6rem 0; cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
                             <span>Logistics Operations Management</span>
                             <span t-esc="state.expanded.operations ? '▾' : '▸'"/>
                         </div>
@@ -54,9 +48,25 @@
                             <li t-on-click="() => setActiveSection('fleet_reports')" style="padding:.3rem 0; cursor:pointer;">Fleet Reports</li>
                         </ul>
                     </li>
-                    <li t-on-click="() => setActiveSection('rfq')"
-                        t-att-class="{'active': state.tab === 'rfq'}"
-                        style="padding:.6rem 0; cursor:pointer;">
+                    <li>
+                        <div t-on-click="toggleSubMenu('finance')" style="padding:.5rem 0; cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
+                            <span>Finance and Accounting</span>
+                            <span t-esc="state.expanded.finance ? '▾' : '▸'"/>
+                        </div>
+                        <ul t-if="state.expanded.finance" style="list-style:none; padding-left:1rem; margin:0;">
+                            <li t-on-click="() => setActiveSection('finance_overview')" style="padding:.3rem 0; cursor:pointer;">Overview</li>
+                            <li t-on-click="() => setActiveSection('customer_invoice')" style="padding:.3rem 0; cursor:pointer;">Customer Invoices</li>
+                            <li t-on-click="() => setActiveSection('customer_credit_notes')" style="padding:.3rem 0; cursor:pointer;">Customer Credit Notes</li>
+                            <li t-on-click="() => setActiveSection('customer_payments')" style="padding:.3rem 0; cursor:pointer;">Customer Payments</li>
+                            <li t-on-click="() => setActiveSection('accounting_journals')" style="padding:.3rem 0; cursor:pointer;">Accounting Journals</li>
+                            <li t-on-click="() => setActiveSection('accounting_journals_entries')" style="padding:.3rem 0; cursor:pointer;">Accounting Journals Entries</li>
+
+
+
+
+                        </ul>
+                    </li>
+                    <li t-on-click="() => setActiveSection('rfq')" t-att-class="{'active': state.tab === 'rfq'}" style="padding:.6rem 0; cursor:pointer;">
                         RFP/RFQ
                     </li>
                 </ul>
@@ -66,9 +76,7 @@
             <main class="lms-main" style="flex:1; background:#f8fafc; padding:1rem;">
                 <t t-if="state.iframeSrc">
                     <div class="iframe-container" style="height:calc(100vh - 100px);">
-                        <iframe t-att-src="state.iframeSrc"
-                                style="width:100%; height:100%; border:0; border-radius:6px;"
-                                frameborder="0"/>
+                        <iframe t-att-src="state.iframeSrc" style="width:100%; height:100%; border:0; border-radius:6px;" frameborder="0"/>
                     </div>
                 </t>
                 <t t-if="!state.iframeSrc">
