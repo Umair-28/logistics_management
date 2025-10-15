@@ -46,8 +46,9 @@
 }
 
 .lms-main {
+  z-index: -10;
   flex: 1;
-  padding: 4px;
+  /* padding: 4px; */
   overflow-y: auto;
 }
 

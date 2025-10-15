@@ -15,22 +15,49 @@
                         Warehouse Management
                     </li>
 
-                    <li>
-                        <li t-on-click="() => setActiveSection('fleet')" style="padding:.3rem 0; cursor:pointer;">Fleet Management</li>
-                        <li t-on-click="() => setActiveSection('routes')" style="padding:.3rem 0; cursor:pointer;">Route Optimization</li>
-                        <li t-on-click="() => setActiveSection('ewaybill')" style="padding:.3rem 0; cursor:pointer;">E-Way Bill</li>
-                        <li t-on-click="() => setActiveSection('pod')" style="padding:.3rem 0; cursor:pointer;">POD Tracking</li>
-                        <!-- <div t-on-click="toggleSubMenu('dispatch')" style="padding:.5rem 0; cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
+                    <!-- <li>
+                        <div t-on-click.stop="() => toggleSubMenu('dispatch')" style="padding:.5rem 0; cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
                             <span>Dispatch Management</span>
                             <span t-esc="state.expanded.dispatch ? '▾' : '▸'"/>
                         </div>
                         <ul t-if="state.expanded.dispatch" style="list-style:none; padding-left:1rem; margin:0;">
-                            <li t-on-click="() => setActiveSection('fleet')" style="padding:.3rem 0; cursor:pointer;">Fleet Management</li>
-                            <li t-on-click="() => setActiveSection('routes')" style="padding:.3rem 0; cursor:pointer;">Route Optimization</li>
-                            <li t-on-click="() => setActiveSection('ewaybill')" style="padding:.3rem 0; cursor:pointer;">E-Way Bill</li>
-                            <li t-on-click="() => setActiveSection('pod')" style="padding:.3rem 0; cursor:pointer;">POD Tracking</li>
-                        </ul> -->
+                            <li t-on-click.stop="() => setActiveSection('fleet')" t-att-class="{'active': state.tab === 'fleet'}" style="padding:.3rem 0; cursor:pointer;">Fleet Management</li>
+                            <li t-on-click.stop="() => setActiveSection('routes')" t-att-class="{'active': state.tab === 'routes'}" style="padding:.3rem 0; cursor:pointer;">Route Optimization</li>
+                            <li t-on-click.stop="() => setActiveSection('ewaybill')" t-att-class="{'active': state.tab === 'ewaybill'}" style="padding:.3rem 0; cursor:pointer;">E-Way Bill</li>
+                            <li t-on-click.stop="() => setActiveSection('pod')" t-att-class="{'active': state.tab === 'pod'}" style="padding:.3rem 0; cursor:pointer;">POD Tracking</li>
+                        </ul>
+                    </li> -->
+                    <li>
+                        <div t-on-click.stop="() => toggleSubMenu('dispatch')" style="padding:.5rem 0; cursor:pointer; display:flex; justify-content:space-between;">
+                            <span>Dispatch Management</span>
+                            <span t-esc="state.expanded.dispatch ? '▾' : '▸'"/>
+                        </div>
+                        <ul t-if="state.expanded.dispatch" style="list-style:none; padding-left:1rem; margin:0;">
+                            <li t-on-click.stop="() => setActiveSection('trip_sheet')">Trip Sheet</li>
+                            <li t-on-click.stop="() => setActiveSection('route_dispatch')">Route Dispatch</li>
+                            <li t-on-click.stop="() => setActiveSection('lr')">Lorry Receipt (LR)</li>
+                            <li t-on-click.stop="() => setActiveSection('pod')">Proof of Delivery (POD)</li>
+                            <li t-on-click.stop="() => setActiveSection('ewaybill')">E-Way Bill</li>
+                            <li t-on-click.stop="() => setActiveSection('dispatch_reports')">Dispatch Reports</li>
+                        </ul>
                     </li>
+
+                    <li>
+                        <div t-on-click.stop="() => toggleSubMenu('operations')" style="padding:.5rem 0; cursor:pointer; display:flex; justify-content:space-between;">
+                            <span>Logistics Operations Management</span>
+                            <span t-esc="state.expanded.operations ? '▾' : '▸'"/>
+                        </div>
+                        <ul t-if="state.expanded.operations" style="list-style:none; padding-left:1rem; margin:0;">
+                            <li t-on-click.stop="() => setActiveSection('fleet_overview')">Fleet Overview</li>
+                            <li t-on-click.stop="() => setActiveSection('drivers')">Drivers</li>
+                            <li t-on-click.stop="() => setActiveSection('fuel_logs')">Fuel Logs</li>
+                            <li t-on-click.stop="() => setActiveSection('vehicle_costs')">Vehicle Costs</li>
+                            <li t-on-click.stop="() => setActiveSection('maintenance_logs')">Maintenance</li>
+                            <li t-on-click.stop="() => setActiveSection('route_optimization')">Route Optimization</li>
+                            <li t-on-click.stop="() => setActiveSection('fleet_reports')">Fleet Reports</li>
+                        </ul>
+                    </li>
+
 
                 </ul>
             </aside>
