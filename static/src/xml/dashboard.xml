@@ -15,7 +15,7 @@
                         Warehouse Management
                     </li>
 
-                    <li>
+                    <!-- <li>
                         <div t-on-click.stop="() => toggleSubMenu('dispatch')" style="padding:.5rem 0; cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
                             <span>Dispatch Management</span>
                             <span t-esc="state.expanded.dispatch ? '▾' : '▸'"/>
@@ -26,7 +26,7 @@
                             <li t-on-click.stop="() => setActiveSection('ewaybill')" t-att-class="{'active': state.tab === 'ewaybill'}" style="padding:.3rem 0; cursor:pointer;">E-Way Bill</li>
                             <li t-on-click.stop="() => setActiveSection('pod')" t-att-class="{'active': state.tab === 'pod'}" style="padding:.3rem 0; cursor:pointer;">POD Tracking</li>
                         </ul>
-                    </li>
+                    </li> -->
                     <!-- <li>
                         <div t-on-click.stop="() => toggleSubMenu('dispatch')" style="padding:.5rem 0; cursor:pointer; display:flex; justify-content:space-between;">
                             <span>Dispatch Management</span>
