@@ -58,7 +58,7 @@ export class Dashboard extends Component {
 
     // RFQs
     else if(tab === "rfq"){
-      this.state.iframeSrc = `/web&action=purchase.act_res_partner_2_purchase_order`;
+      this.state.iframeSrc = `/web#menu_id=purchase.menu_purchase_root&action=purchase.action_rfq_form`;
 
     }
 
