@@ -25,6 +25,8 @@ export class Dashboard extends Component {
 
   setActiveSection(tab) {
     this.state.tab = tab;
+    console.log("selected tab is ", tab);
+    
 
     if (tab === "lead") {
       this.state.iframeSrc = `/web#action=crm.crm_lead_action_pipeline&menu_id=crm.menu_crm_root`;
