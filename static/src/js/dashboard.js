@@ -6,18 +6,13 @@ import { registry } from "@web/core/registry";
 export class Dashboard extends Component {
   state = useState({
     tab: "overview",
-    iframeSrc:"",
-    pageTitle: "",
+    iframeSrc: "",
+    pageTitle: "Dashboard",
     expanded: {
       dispatch: false,
+      operations: false,
     },
   });
-
-  constructor() {
-    super(...arguments);
-    this.setActiveSection = this.setActiveSection.bind(this);
-    this.toggleSubMenu = this.toggleSubMenu.bind(this);
-  }
 
   toggleSubMenu(menu) {
     this.state.expanded[menu] = !this.state.expanded[menu];
@@ -25,23 +20,36 @@ export class Dashboard extends Component {
 
   setActiveSection(tab) {
     this.state.tab = tab;
-    console.log("selected tab is ", tab);
-    
 
-    if (tab === "lead") {
-      this.state.iframeSrc = `/web#action=crm.crm_lead_action_pipeline&menu_id=crm.menu_crm_root`;
-      console.log("src is ", this.state.iframeSrc);
-      
-    } else if (tab === "warehouse") {
-      this.state.iframeSrc = `/web#menu_id=stock.menu_stock_root&action=stock.action_warehouse_form`;
-    } else if (tab === "fleet") {
-      this.state.iframeSrc = `/web#menu_id=fleet.menu_fleet_root&action=fleet.fleet_vehicle_action`;
-    } else if (tab === "routes") {
+    // Dispatch Management sections
+    if (tab === "trip_sheet") {
       this.state.iframeSrc = `/web#menu_id=fleet.menu_fleet_root`;
-    } else if (tab === "ewaybill") {
+      this.state.pageTitle = "Trip Sheet";
+    } else if (tab === "route_dispatch") {
       this.state.iframeSrc = `/web#menu_id=fleet.menu_fleet_root`;
+      this.state.pageTitle = "Route Dispatch";
+    } else if (tab === "lr") {
+      this.state.iframeSrc = `/web#menu_id=fleet.menu_fleet_root`;
+      this.state.pageTitle = "Lorry Receipt (LR)";
     } else if (tab === "pod") {
       this.state.iframeSrc = `/web#menu_id=fleet.menu_fleet_root`;
+      this.state.pageTitle = "Proof of Delivery (POD)";
+    } else if (tab === "ewaybill") {
+      this.state.iframeSrc = `/web#menu_id=fleet.menu_fleet_root`;
+      this.state.pageTitle = "E-Way Bill";
+    } else if (tab === "dispatch_reports") {
+      this.state.iframeSrc = `/web#menu_id=fleet.menu_fleet_root`;
+      this.state.pageTitle = "Dispatch Reports";
+    }
+    // Fleet Operations sections
+    else if (tab === "fleet_overview") {
+      this.state.iframeSrc = `/web#menu_id=fleet.menu_fleet_root&action=fleet.fleet_vehicle_action`;
+    } else if (tab === "vehicle_costs") {
+      this.state.iframeSrc = `/web#menu_id=fleet.menu_fleet_root&action=fleet.fleet_costs_reporting_action`;
+    } else if (tab === "odoometer") {
+      this.state.iframeSrc = `/web#menu_id=fleet.menu_fleet_root&action=fleet.fleet_vehicle_odometer_action`;
+    } else if (tab === "route_optimization") {
+      this.state.iframeSrc = `/web#menu_id=fleet.menu_fleet_root&action=stock.action_routes_form`;
     } else {
       this.state.iframeSrc = "";
     }

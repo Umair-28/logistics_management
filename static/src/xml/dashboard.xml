@@ -28,33 +28,31 @@
                         </ul>
                     </li> -->
                     <li>
-                        <div t-on-click.stop="() => toggleSubMenu('dispatch')" style="padding:.5rem 0; cursor:pointer; display:flex; justify-content:space-between;">
+                        <div t-on-click="toggleSubMenu.bind(this, 'dispatch')" style="padding:.5rem 0; cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
                             <span>Dispatch Management</span>
                             <span t-esc="state.expanded.dispatch ? '▾' : '▸'"/>
                         </div>
                         <ul t-if="state.expanded.dispatch" style="list-style:none; padding-left:1rem; margin:0;">
-                            <li t-on-click.stop="() => setActiveSection('trip_sheet')">Trip Sheet</li>
-                            <li t-on-click.stop="() => setActiveSection('route_dispatch')">Route Dispatch</li>
-                            <li t-on-click.stop="() => setActiveSection('lr')">Lorry Receipt (LR)</li>
-                            <li t-on-click.stop="() => setActiveSection('pod')">Proof of Delivery (POD)</li>
-                            <li t-on-click.stop="() => setActiveSection('ewaybill')">E-Way Bill</li>
-                            <li t-on-click.stop="() => setActiveSection('dispatch_reports')">Dispatch Reports</li>
+                            <li t-on-click="setActiveSection.bind(this, 'trip_sheet')" style="padding:.3rem 0; cursor:pointer;">Trip Sheet</li>
+                            <li t-on-click="setActiveSection.bind(this, 'route_dispatch')" style="padding:.3rem 0; cursor:pointer;">Route Dispatch</li>
+                            <li t-on-click="setActiveSection.bind(this, 'lr')" style="padding:.3rem 0; cursor:pointer;">Lorry Receipt (LR)</li>
+                            <li t-on-click="setActiveSection.bind(this, 'pod')" style="padding:.3rem 0; cursor:pointer;">Proof of Delivery (POD)</li>
+                            <li t-on-click="setActiveSection.bind(this, 'ewaybill')" style="padding:.3rem 0; cursor:pointer;">E-Way Bill</li>
+                            <li t-on-click="setActiveSection.bind(this, 'dispatch_reports')" style="padding:.3rem 0; cursor:pointer;">Dispatch Reports</li>
                         </ul>
                     </li>
 
                     <li>
-                        <div t-on-click.stop="() => toggleSubMenu('operations')" style="padding:.5rem 0; cursor:pointer; display:flex; justify-content:space-between;">
+                        <div t-on-click="toggleSubMenu.bind(this, 'operations')" style="padding:.5rem 0; cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
                             <span>Logistics Operations Management</span>
                             <span t-esc="state.expanded.operations ? '▾' : '▸'"/>
                         </div>
                         <ul t-if="state.expanded.operations" style="list-style:none; padding-left:1rem; margin:0;">
-                            <li t-on-click.stop="() => setActiveSection('fleet_overview')">Fleet Overview</li>
-                            <li t-on-click.stop="() => setActiveSection('drivers')">Drivers</li>
-                            <li t-on-click.stop="() => setActiveSection('fuel_logs')">Fuel Logs</li>
-                            <li t-on-click.stop="() => setActiveSection('vehicle_costs')">Vehicle Costs</li>
-                            <li t-on-click.stop="() => setActiveSection('maintenance_logs')">Maintenance</li>
-                            <li t-on-click.stop="() => setActiveSection('route_optimization')">Route Optimization</li>
-                            <li t-on-click.stop="() => setActiveSection('fleet_reports')">Fleet Reports</li>
+                            <li t-on-click="setActiveSection.bind(this, 'fleet_overview')" style="padding:.3rem 0; cursor:pointer;">Fleet Overview</li>
+                            <li t-on-click="setActiveSection.bind(this, 'vehicle_costs')" style="padding:.3rem 0; cursor:pointer;">Vehicle Costs</li>
+                            <li t-on-click="setActiveSection.bind(this, 'odoometer')" style="padding:.3rem 0; cursor:pointer;">Odoometer</li>
+                            <li t-on-click="setActiveSection.bind(this, 'route_optimization')" style="padding:.3rem 0; cursor:pointer;">Route Optimization</li>
+                            <li t-on-click="setActiveSection.bind(this, 'fleet_reports')" style="padding:.3rem 0; cursor:pointer;">Fleet Reports</li>
                         </ul>
                     </li>
 
