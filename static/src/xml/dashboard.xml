@@ -55,7 +55,7 @@
                         </div>
                         <ul t-if="state.expanded.finance" style="list-style:none; padding-left:1rem; margin:0;">
                             <li t-on-click="() => setActiveSection('finance_overview')" style="padding:.3rem 0; cursor:pointer;">Overview</li>
-                            <li t-on-click="() => setActiveSection('customer_invoice')" style="padding:.3rem 0; cursor:pointer;">Customer Invoices</li>
+                            <li t-on-click="() => setActiveSection('customer_invoices')" style="padding:.3rem 0; cursor:pointer;">Customer Invoices</li>
                             <li t-on-click="() => setActiveSection('customer_credit_notes')" style="padding:.3rem 0; cursor:pointer;">Customer Credit Notes</li>
                             <li t-on-click="() => setActiveSection('customer_payments')" style="padding:.3rem 0; cursor:pointer;">Customer Payments</li>
                             <li t-on-click="() => setActiveSection('accounting_journals')" style="padding:.3rem 0; cursor:pointer;">Accounting Journals</li>

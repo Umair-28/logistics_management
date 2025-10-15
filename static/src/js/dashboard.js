@@ -71,14 +71,10 @@ export class Dashboard extends Component {
       this.state.iframeSrc = `/web#menu_id=account.menu_account_root&action=account.action_move_out_refund_type`;
     } else if (tab === "customer_payments") {
       this.state.iframeSrc = `/web#menu_id=account.menu_account_root&action=account.action_account_payments`;
-    }
-    else if(tab === "accounting_journals"){
+    } else if (tab === "accounting_journals") {
       this.state.iframeSrc = `/web#menu_id=account.menu_account_root&action=account.action_account_journal_form`;
-
-    }
-    else if(tab === "accounting_journals_entries"){
+    } else if (tab === "accounting_journals_entries") {
       this.state.iframeSrc = `/web#menu_id=account.menu_account_root&action=account.action_move_journal_line`;
-
     }
 
     // Default
