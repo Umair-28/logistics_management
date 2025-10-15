@@ -30,6 +30,8 @@ export class Dashboard extends Component {
 
     if (tab === "lead") {
       this.state.iframeSrc = `/web#action=crm.crm_lead_action_pipeline&menu_id=crm.menu_crm_root`;
+      console.log("src is ", this.state.iframeSrc);
+      
       this.state.pageTitle = "Lead Management";
     } else if (tab === "warehouse") {
       this.state.iframeSrc = `/web#menu_id=stock.menu_stock_root&action=stock.action_warehouse_form`;
