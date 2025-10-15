@@ -4,7 +4,7 @@ import { Component, useState } from "@odoo/owl";
 import { registry } from "@web/core/registry";
 
 export class Dashboard extends Component {
-    setup() {
+  setup() {
     this.state = useState({
       tab: "overview",
       iframeSrc: "",
@@ -14,6 +14,9 @@ export class Dashboard extends Component {
         operations: false,
       },
     });
+
+    this.setActiveSection = this.setActiveSection.bind(this);
+    this.toggleSubMenu = this.toggleSubMenu.bind(this);
   }
 
   toggleSubMenu(menu) {
