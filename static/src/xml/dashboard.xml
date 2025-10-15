@@ -54,6 +54,11 @@
                             <li t-on-click="() => setActiveSection('fleet_reports')" style="padding:.3rem 0; cursor:pointer;">Fleet Reports</li>
                         </ul>
                     </li>
+                    <li t-on-click="() => setActiveSection('rfq')"
+                        t-att-class="{'active': state.tab === 'rfq'}"
+                        style="padding:.6rem 0; cursor:pointer;">
+                        RFP/RFQ
+                    </li>
                 </ul>
             </aside>
 

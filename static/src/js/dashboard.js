@@ -56,6 +56,12 @@ export class Dashboard extends Component {
       this.state.iframeSrc = `/web#menu_id=fleet.menu_fleet_reporting&action=fleet.action_fleet_report_all`;
     }
 
+    // RFQs
+    else if(tab === "rfq"){
+      this.state.iframeSrc = `/web&action=purchase.act_res_partner_2_purchase_order`;
+
+    }
+
     // Default
     else {
       this.state.iframeSrc = "";
