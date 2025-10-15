@@ -6,7 +6,7 @@ import { registry } from "@web/core/registry";
 export class Dashboard extends Component {
   state = useState({
     tab: "overview",
-    iframeSrc: "/web#action=crm.crm_lead_action_pipeline&menu_id=crm.menu_crm_root",
+    iframeSrc:"",
     pageTitle: "",
     expanded: {
       dispatch: false,
