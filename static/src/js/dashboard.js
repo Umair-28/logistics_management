@@ -4,15 +4,17 @@ import { Component, useState } from "@odoo/owl";
 import { registry } from "@web/core/registry";
 
 export class Dashboard extends Component {
-  state = useState({
-    tab: "overview",
-    iframeSrc: "",
-    pageTitle: "Dashboard",
-    expanded: {
-      dispatch: false,
-      operations: false,
-    },
-  });
+    setup() {
+    this.state = useState({
+      tab: "overview",
+      iframeSrc: "",
+      pageTitle: "Dashboard",
+      expanded: {
+        dispatch: false,
+        operations: false,
+      },
+    });
+  }
 
   toggleSubMenu(menu) {
     this.state.expanded[menu] = !this.state.expanded[menu];
@@ -24,22 +26,16 @@ export class Dashboard extends Component {
     // Dispatch Management sections
     if (tab === "trip_sheet") {
       this.state.iframeSrc = `/web#menu_id=fleet.menu_fleet_root`;
-      this.state.pageTitle = "Trip Sheet";
     } else if (tab === "route_dispatch") {
       this.state.iframeSrc = `/web#menu_id=fleet.menu_fleet_root`;
-      this.state.pageTitle = "Route Dispatch";
     } else if (tab === "lr") {
       this.state.iframeSrc = `/web#menu_id=fleet.menu_fleet_root`;
-      this.state.pageTitle = "Lorry Receipt (LR)";
     } else if (tab === "pod") {
       this.state.iframeSrc = `/web#menu_id=fleet.menu_fleet_root`;
-      this.state.pageTitle = "Proof of Delivery (POD)";
     } else if (tab === "ewaybill") {
       this.state.iframeSrc = `/web#menu_id=fleet.menu_fleet_root`;
-      this.state.pageTitle = "E-Way Bill";
     } else if (tab === "dispatch_reports") {
       this.state.iframeSrc = `/web#menu_id=fleet.menu_fleet_root`;
-      this.state.pageTitle = "Dispatch Reports";
     }
     // Fleet Operations sections
     else if (tab === "fleet_overview") {
