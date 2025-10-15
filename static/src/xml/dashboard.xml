@@ -3,7 +3,7 @@
     <t t-name="lms.Dashboard" owl="1">
         <div class="lms-dashboard-container" style="display:flex; height:100vh;">
 
-            <aside class="lms-sidebar" style="width:260px; background:#1e293b; color:white; padding:1rem; overflow-y:auto;">
+            <aside class="lms-sidebar">
                 <div class="lms-logo" style="font-weight:bold; margin-bottom:1rem;">🚚 Logistics Management</div>
                 <ul class="lms-menu" style="list-style:none; padding:0; margin:0;">
 
@@ -62,8 +62,7 @@
                 </ul>
             </aside>
 
-            <main class="lms-main" style="flex:1; padding:1.5rem; background:#f8fafc;">
-                <h2 t-esc="state.pageTitle" style="margin-bottom:1rem;"/>
+            <main class="lms-main" style="flex:1; background:#f8fafc;">
 
                 <t t-if="state.iframeSrc">
                     <div class="iframe-container" style="height:calc(100vh - 100px);">

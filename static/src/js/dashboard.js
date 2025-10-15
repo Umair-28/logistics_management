@@ -32,25 +32,18 @@ export class Dashboard extends Component {
       this.state.iframeSrc = `/web#action=crm.crm_lead_action_pipeline&menu_id=crm.menu_crm_root`;
       console.log("src is ", this.state.iframeSrc);
       
-      this.state.pageTitle = "Lead Management";
     } else if (tab === "warehouse") {
       this.state.iframeSrc = `/web#menu_id=stock.menu_stock_root&action=stock.action_warehouse_form`;
-      this.state.pageTitle = "Warehouse Management";
     } else if (tab === "fleet") {
       this.state.iframeSrc = `/web#menu_id=fleet.menu_fleet_root&action=fleet.fleet_vehicle_action`;
-      this.state.pageTitle = "Fleet Management";
     } else if (tab === "routes") {
       this.state.iframeSrc = `/web#menu_id=fleet.menu_fleet_root`;
-      this.state.pageTitle = "Route Optimization";
     } else if (tab === "ewaybill") {
       this.state.iframeSrc = `/web#menu_id=fleet.menu_fleet_root`;
-      this.state.pageTitle = "E-Way Bill";
     } else if (tab === "pod") {
       this.state.iframeSrc = `/web#menu_id=fleet.menu_fleet_root`;
-      this.state.pageTitle = "POD Tracking";
     } else {
       this.state.iframeSrc = "";
-      this.state.pageTitle = "Dashboard";
     }
   }
 }
