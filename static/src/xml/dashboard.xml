@@ -48,7 +48,7 @@
                             <li t-on-click="() => setActiveSection('fleet_reports')" style="padding:.3rem 0; cursor:pointer;">Fleet Reports</li>
                         </ul>
                     </li>
-                    <li>
+                    <!-- <li>
                         <div t-on-click="toggleSubMenu('finance')" style="padding:.5rem 0; cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
                             <span>Finance and Accounting</span>
                             <span t-esc="state.expanded.finance ? '▾' : '▸'"/>
@@ -65,7 +65,7 @@
 
 
                         </ul>
-                    </li>
+                    </li> -->
                     <li t-on-click="() => setActiveSection('rfq')" t-att-class="{'active': state.tab === 'rfq'}" style="padding:.6rem 0; cursor:pointer;">
                         RFP/RFQ
                     </li>
