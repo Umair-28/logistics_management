@@ -89,14 +89,21 @@ export class Dashboard extends Component {
           try {
             const iframeDoc =
               iframe.contentDocument || iframe.contentWindow.document;
-            const systray = iframeDoc.querySelector(
-              ".o_menu_systray.d-flex.flex-shrink-0.ms-auto"
-            );
-            console.log("systray is >>>>>>>>>>>> ", systray);
-            
-            if (systray) {
-              systray.style.display = "none";
-            }
+
+            // Keep checking every 500ms until systray appears
+            const interval = setInterval(() => {
+              const systray = iframeDoc.querySelector(
+                ".o_menu_systray.d-flex.flex-shrink-0.ms-auto"
+              );
+              if (systray) {
+                systray.style.display = "none";
+                clearInterval(interval);
+                console.log("✅ Systray hidden successfully");
+              }
+            }, 500);
+
+            // Optional: stop trying after 10 seconds (safety)
+            setTimeout(() => clearInterval(interval), 10000);
           } catch (err) {
             console.warn("Could not access iframe content:", err);
           }
