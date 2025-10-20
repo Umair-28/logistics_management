@@ -92,6 +92,8 @@ export class Dashboard extends Component {
             const systray = iframeDoc.querySelector(
               ".o_menu_systray.d-flex.flex-shrink-0.ms-auto"
             );
+            console.log("systray is >>>>>>>>>>>> ", systray);
+            
             if (systray) {
               systray.style.display = "none";
             }
