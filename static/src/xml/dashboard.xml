@@ -54,17 +54,13 @@
                             <span t-esc="state.expanded.finance ? '▾' : '▸'"/>
                         </div>
                         <ul t-if="state.expanded.finance" style="list-style:none; padding-left:1rem; margin:0;">
-                        <li>Hello</li>
-                        <li>Hello</li>
 
-                        <li>Hello</li>
-
-                            <!-- <li t-on-click="() => setActiveSection('finance_overview')" style="padding:.3rem 0; cursor:pointer;">Overview</li>
+                            <li t-on-click="() => setActiveSection('finance_overview')" style="padding:.3rem 0; cursor:pointer;">Overview</li>
                             <li t-on-click="() => setActiveSection('customer_invoices')" style="padding:.3rem 0; cursor:pointer;">Customer Invoices</li>
                             <li t-on-click="() => setActiveSection('customer_credit_notes')" style="padding:.3rem 0; cursor:pointer;">Customer Credit Notes</li>
                             <li t-on-click="() => setActiveSection('customer_payments')" style="padding:.3rem 0; cursor:pointer;">Customer Payments</li>
                             <li t-on-click="() => setActiveSection('accounting_journals')" style="padding:.3rem 0; cursor:pointer;">Accounting Journals</li>
-                            <li t-on-click="() => setActiveSection('accounting_journals_entries')" style="padding:.3rem 0; cursor:pointer;">Accounting Journals Entries</li> -->
+                            <li t-on-click="() => setActiveSection('accounting_journals_entries')" style="padding:.3rem 0; cursor:pointer;">Accounting Journals Entries</li>
                         </ul>
                     </li>
                     <li t-on-click="() => setActiveSection('rfq')" t-att-class="{'active': state.tab === 'rfq'}" style="padding:.6rem 0; cursor:pointer;">
