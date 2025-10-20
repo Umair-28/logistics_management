@@ -86,64 +86,64 @@ export class Dashboard extends Component {
       const iframe = document.querySelector(".iframe-container iframe");
       if (!iframe) return;
 
-      iframe.addEventListener("load", () => {
-        console.log("Iframe loaded. Starting cleanup...");
+      // Remove old listeners to prevent stacking
+      iframe.replaceWith(iframe.cloneNode(true));
+      const newIframe = document.querySelector(".iframe-container iframe");
+
+      newIframe.addEventListener("load", () => {
+        console.log("Iframe loaded, starting UI cleanup...");
 
         try {
           const iframeDoc =
-            iframe.contentDocument || iframe.contentWindow.document;
+            newIframe.contentDocument || newIframe.contentWindow.document;
 
-          // Keep checking until Odoo UI is ready
-          const interval = setInterval(() => {
-            try {
-              const systray = iframeDoc.querySelector(".o_menu_systray");
-              const navbar = iframeDoc.querySelector(".o_main_navbar");
-              const controlPanel = iframeDoc.querySelector(".o_control_panel");
-              const searchView = iframeDoc.querySelector(".o_searchview");
+          const applyCleanup = () => {
+            if (!iframeDoc.head) return;
 
-              if (systray || navbar || controlPanel) {
-                console.log("✅ Odoo elements detected — hiding them now...");
-
-                // Inject one-time CSS if not already added
-                let style = iframeDoc.getElementById("hide-odoo-ui-style");
-                if (!style) {
-                  style = iframeDoc.createElement("style");
-                  style.id = "hide-odoo-ui-style";
-                  style.textContent = `
-                .o_menu_systray,
-                .o_web_client .o_navbar_apps_menu {
-                  display: none !important;
-                  visibility: hidden !important;
-                }
-                .o_web_client, .o_action_manager {
-                  margin: 0 !important;
-                  padding: 0 !important;
-                  height: 100% !important;
-                  overflow: auto !important;
-                }
-                html, body {
-                  background: #fff !important;
-                  height: 100% !important;
-                  overflow: auto !important;
-                }
-              `;
-                  iframeDoc.head.appendChild(style);
-                }
-
-                clearInterval(interval);
-              }
-            } catch (err) {
-              console.warn("⏳ Waiting for iframe DOM...", err);
+            // Inject cleanup CSS once
+            if (!iframeDoc.getElementById("hide-odoo-ui-style")) {
+              const style = iframeDoc.createElement("style");
+              style.id = "hide-odoo-ui-style";
+              style.textContent = `
+            .o_menu_systray,
+            .o_main_navbar,
+            .o_control_panel,
+            .o_searchview,
+            .o_web_client .o_navbar_apps_menu {
+              display: none !important;
+              visibility: hidden !important;
             }
-          }, 500);
+            .o_web_client, .o_action_manager {
+              margin: 0 !important;
+              padding: 0 !important;
+              height: 100% !important;
+              overflow: auto !important;
+            }
+            html, body {
+              background: #fff !important;
+              height: 100% !important;
+              overflow: auto !important;
+            }
+          `;
+              iframeDoc.head.appendChild(style);
+              console.log("✅ Cleanup CSS injected.");
+            }
+          };
 
-          // Safety stop after 15s
-          setTimeout(() => clearInterval(interval), 15000);
+          // Run immediately if ready
+          applyCleanup();
+
+          // Observe DOM changes for late-loaded UI
+          const observer = new MutationObserver(() => applyCleanup());
+          observer.observe(iframeDoc, { childList: true, subtree: true });
+
+          // Stop observing after 10 seconds
+          setTimeout(() => observer.disconnect(), 10000);
         } catch (err) {
           console.warn("⚠️ Could not access iframe content:", err);
         }
       });
-    }, 800);
+    }, 500);
   }
 }
 
