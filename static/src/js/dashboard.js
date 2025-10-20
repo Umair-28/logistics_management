@@ -84,32 +84,69 @@ export class Dashboard extends Component {
 
     setTimeout(() => {
       const iframe = document.querySelector(".iframe-container iframe");
-      if (iframe) {
-        iframe.addEventListener("load", () => {
-          try {
-            const iframeDoc =
-              iframe.contentDocument || iframe.contentWindow.document;
+      if (!iframe) return;
 
-            // Keep checking every 500ms until systray appears
-            const interval = setInterval(() => {
-              const systray = iframeDoc.querySelector(
-                ".o_menu_systray.d-flex.flex-shrink-0.ms-auto"
-              );
-              if (systray) {
-                systray.style.display = "none";
+      iframe.addEventListener("load", () => {
+        console.log("Iframe loaded. Starting cleanup...");
+
+        try {
+          const iframeDoc =
+            iframe.contentDocument || iframe.contentWindow.document;
+
+          // Keep checking until Odoo UI is ready
+          const interval = setInterval(() => {
+            try {
+              const systray = iframeDoc.querySelector(".o_menu_systray");
+              const navbar = iframeDoc.querySelector(".o_main_navbar");
+              const controlPanel = iframeDoc.querySelector(".o_control_panel");
+              const searchView = iframeDoc.querySelector(".o_searchview");
+
+              if (systray || navbar || controlPanel) {
+                console.log("✅ Odoo elements detected — hiding them now...");
+
+                // Inject one-time CSS if not already added
+                let style = iframeDoc.getElementById("hide-odoo-ui-style");
+                if (!style) {
+                  style = iframeDoc.createElement("style");
+                  style.id = "hide-odoo-ui-style";
+                  style.textContent = `
+                .o_menu_systray,
+                .o_main_navbar,
+                .o_control_panel,
+                .o_searchview,
+                .o_web_client .o_navbar_apps_menu {
+                  display: none !important;
+                  visibility: hidden !important;
+                }
+                .o_web_client, .o_action_manager {
+                  margin: 0 !important;
+                  padding: 0 !important;
+                  height: 100% !important;
+                  overflow: auto !important;
+                }
+                html, body {
+                  background: #fff !important;
+                  height: 100% !important;
+                  overflow: auto !important;
+                }
+              `;
+                  iframeDoc.head.appendChild(style);
+                }
+
                 clearInterval(interval);
-                console.log("✅ Systray hidden successfully");
               }
-            }, 500);
+            } catch (err) {
+              console.warn("⏳ Waiting for iframe DOM...", err);
+            }
+          }, 500);
 
-            // Optional: stop trying after 10 seconds (safety)
-            setTimeout(() => clearInterval(interval), 10000);
-          } catch (err) {
-            console.warn("Could not access iframe content:", err);
-          }
-        });
-      }
-    }, 500);
+          // Safety stop after 15s
+          setTimeout(() => clearInterval(interval), 15000);
+        } catch (err) {
+          console.warn("⚠️ Could not access iframe content:", err);
+        }
+      });
+    }, 800);
   }
 }
 
