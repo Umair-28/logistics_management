@@ -81,6 +81,26 @@ export class Dashboard extends Component {
     else {
       this.state.iframeSrc = "";
     }
+
+    setTimeout(() => {
+      const iframe = document.querySelector(".iframe-container iframe");
+      if (iframe) {
+        iframe.addEventListener("load", () => {
+          try {
+            const iframeDoc =
+              iframe.contentDocument || iframe.contentWindow.document;
+            const systray = iframeDoc.querySelector(
+              ".o_menu_systray.d-flex.flex-shrink-0.ms-auto"
+            );
+            if (systray) {
+              systray.style.display = "none";
+            }
+          } catch (err) {
+            console.warn("Could not access iframe content:", err);
+          }
+        });
+      }
+    }, 500);
   }
 }
 
