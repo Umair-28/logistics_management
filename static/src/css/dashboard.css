@@ -1,62 +1,211 @@
+/* Main Container */
 .lms-dashboard-container {
   display: flex;
-  height: calc(100vh - 60px);
-  background-color: #f8f9fa;
-  font-family: "Inter", sans-serif;
+  height: 100vh;
+  background-color: #f8fafc;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
+/* Sidebar */
 .lms-sidebar {
+  width: 260px;
   background-color: #1e293b;
   color: #fff;
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  width:260px; 
-  overflow-y:auto;
+  padding: 1rem;
+  overflow-y: auto;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
 }
 
+.lms-sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.lms-sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.lms-sidebar::-webkit-scrollbar-thumb {
+  background: #475569;
+  border-radius: 3px;
+}
+
+.lms-sidebar::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+/* Logo */
 .lms-logo {
-  font-size: 18px;
+  font-size: 1.1rem;
   font-weight: 600;
-  text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 1.5rem;
+  text-align: left;
+  letter-spacing: 0.3px;
 }
 
+/* Menu */
 .lms-menu {
   list-style: none;
   padding: 0;
   margin: 0;
-  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }
 
 .lms-menu li {
-  padding: 10px 15px;
-  margin-bottom: 4px;
-  border-radius: 6px;
+  padding: 0.6rem 0.75rem;
   cursor: pointer;
-  transition: background 0.3s;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+  user-select: none;
 }
 
 .lms-menu li:hover {
-  background: #334155;
+  background-color: #334155;
 }
 
 .lms-menu li.active {
-  background: #3b82f6;
-  color: white;
+  background-color: #3b82f6;
+  color: #fff;
+  font-weight: 500;
 }
 
+.lms-menu li > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.lms-menu li > div:hover {
+  opacity: 1;
+}
+
+/* Submenu */
+.lms-menu ul {
+  list-style: none;
+  padding-left: 1rem;
+  margin: 0.25rem 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  margin-top: 0.25rem;
+}
+
+.lms-menu ul li {
+  padding: 0.4rem 0.75rem;
+  font-size: 0.9rem;
+  color: #cbd5e1;
+  transition: all 0.2s ease;
+}
+
+.lms-menu ul li:hover {
+  background-color: rgba(59, 130, 246, 0.1);
+  color: #fff;
+  padding-left: 1rem;
+}
+
+/* Main Content */
 .lms-main {
   flex: 1;
-  /* padding: 4px; */
+  display: flex;
+  flex-direction: column;
   overflow-y: auto;
+  background-color: #f8fafc;
 }
 
 .lms-main h2 {
   color: #111827;
-  margin-bottom: 10px;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  font-weight: 600;
 }
 
 .lms-main p {
-  color: #4b5563;
+  color: #64748b;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* IFrame Container */
+.iframe-container {
+  width: 100%;
+  height: calc(100vh - 100px);
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.iframe-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+/* Welcome Message Container */
+.lms-main > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  min-height: 400px;
+  color: #64748b;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+/* Scrollbar Styling */
+.lms-main::-webkit-scrollbar {
+  width: 8px;
+}
+
+.lms-main::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.lms-main::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+.lms-main::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .lms-dashboard-container {
+    flex-direction: column;
+  }
+
+  .lms-sidebar {
+    width: 100%;
+    height: auto;
+    max-height: 50vh;
+    padding: 0.75rem;
+  }
+
+  .lms-logo {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .lms-menu li {
+    padding: 0.5rem 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .lms-main {
+    flex: 1;
+  }
+
+  .iframe-container {
+    height: calc(100vh - 200px);
+  }
 }
