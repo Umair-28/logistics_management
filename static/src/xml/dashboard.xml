@@ -49,7 +49,7 @@
                         </ul>
                     </li>
                     <li>
-                        <div t-on-click="toggleSubMenu('finance')" style="padding:.5rem 0; cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
+                        <div t-on-click="() => toggleSubMenu('finance')" style="padding:.5rem 0; cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
                             <span>Finance and Accounting</span>
                             <span t-esc="state.expanded.finance ? '▾' : '▸'"/>
                         </div>
