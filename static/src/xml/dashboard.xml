@@ -318,7 +318,7 @@
                     </div>
                 </t>
             </main>
-</templates>
+        </templates>
         <!-- <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
     <t t-name="lms.Dashboard" owl="1">
