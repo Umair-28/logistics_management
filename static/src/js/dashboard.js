@@ -107,11 +107,7 @@ export class Dashboard extends Component {
               const style = iframeDoc.createElement("style");
               style.id = "hide-odoo-ui-style";
               style.textContent = `
-            .o_menu_systray,
-            .o_main_navbar,
-            .o_control_panel,
-            .o_searchview,
-            .o_web_client .o_navbar_apps_menu {
+            .o_menu_systray{
               display: none !important;
               visibility: hidden !important;
             }
