@@ -109,11 +109,216 @@
 
             <!-- Main Content -->
             <main class="lms-main">
-                <!-- Dashboard View -->
+                <!-- Dashboard View with Dynamic Content -->
                 <t t-if="state.tab === 'dashboard'">
-                </div>
-            </t>
-        </templates>
+                    <div class="dashboard-content">
+                        <div class="dashboard-header">
+                            <h1>Logistics Management Dashboard</h1>
+                            <p class="dashboard-subtitle">Real-time overview of your logistics operations</p>
+                        </div>
+
+                        <!-- Stats Grid - Dynamic Data -->
+                        <div class="stats-grid">
+                            <div class="stat-card stat-primary">
+                                <div class="stat-icon">📦</div>
+                                <div class="stat-content">
+                                    <div class="stat-value" t-esc="state.dashboardData.activeShipments || 0"/>
+                                    <div class="stat-label">Active Shipments</div>
+                                    <div t-att-class="'stat-change ' + (state.dashboardData.shipmentsChange >= 0 ? 'positive' : 'negative')">
+                                        <t t-esc="state.dashboardData.shipmentsChange >= 0 ? '↑' : '↓'"/>
+                                        <t t-esc="Math.abs(state.dashboardData.shipmentsChange || 0)"/>
+% from last month
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="stat-card stat-success">
+                                <div class="stat-icon">🚚</div>
+                                <div class="stat-content">
+                                    <div class="stat-value" t-esc="state.dashboardData.fleetVehicles || 0"/>
+                                    <div class="stat-label">Fleet Vehicles</div>
+                                    <div t-att-class="'stat-change ' + (state.dashboardData.fleetUtilization >= 0 ? 'positive' : 'negative')">
+                                        <t t-esc="state.dashboardData.fleetUtilization >= 0 ? '↑' : '↓'"/>
+                                        <t t-esc="Math.abs(state.dashboardData.fleetUtilization || 0)"/>
+% utilization
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="stat-card stat-warning">
+                                <div class="stat-icon">📊</div>
+                                <div class="stat-content">
+                                    <div class="stat-value">
+                                        $                                        <t t-esc="(state.dashboardData.monthlyRevenue || 0).toFixed(2)"/>
+                                    </div>
+                                    <div class="stat-label">Monthly Revenue</div>
+                                    <div t-att-class="'stat-change ' + (state.dashboardData.revenueChange >= 0 ? 'positive' : 'negative')">
+                                        <t t-esc="state.dashboardData.revenueChange >= 0 ? '↑' : '↓'"/>
+                                        <t t-esc="Math.abs(state.dashboardData.revenueChange || 0)"/>
+% from last month
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="stat-card stat-info">
+                                <div class="stat-icon">👥</div>
+                                <div class="stat-content">
+                                    <div class="stat-value" t-esc="state.dashboardData.activeCustomers || 0"/>
+                                    <div class="stat-label">Active Customers</div>
+                                    <div class="stat-change positive">
+                                        ↑                                        <t t-esc="state.dashboardData.newCustomersThisWeek || 0"/>
+ new this week
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Charts Row -->
+                        <div class="charts-row">
+                            <div class="chart-card">
+                                <div class="chart-header">
+                                    <h3>Shipment Trends</h3>
+                                    <select class="chart-filter" t-on-change="onShipmentPeriodChange">
+                                        <option value="7">Last 7 Days</option>
+                                        <option value="30">Last 30 Days</option>
+                                        <option value="90">Last 90 Days</option>
+                                    </select>
+                                </div>
+                                <div class="chart-placeholder">
+                                    <t t-if="state.dashboardData.shipmentTrends and state.dashboardData.shipmentTrends.length > 0">
+                                        <svg viewBox="0 0 400 200" class="trend-chart">
+                                            <!-- Dynamic polyline generation -->
+                                            <polyline t-att-points="generateTrendPoints(state.dashboardData.shipmentTrends)" stroke="#3b82f6" stroke-width="3" fill="none"/>
+                                            <polyline t-att-points="generateTrendPoints(state.dashboardData.shipmentTrends, true)" fill="url(#gradient)" opacity="0.3"/>
+                                            <defs>
+                                                <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                                    <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:0.8" />
+                                                    <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:0" />
+                                                </linearGradient>
+                                            </defs>
+                                        </svg>
+                                    </t>
+                                    <t t-else="">
+                                        <div class="no-data">No shipment data available</div>
+                                    </t>
+                                </div>
+                            </div>
+
+                            <div class="chart-card">
+                                <div class="chart-header">
+                                    <h3>Fleet Performance</h3>
+                                    <select class="chart-filter" t-on-change="onFleetPeriodChange">
+                                        <option value="month">This Month</option>
+                                        <option value="last_month">Last Month</option>
+                                        <option value="quarter">This Quarter</option>
+                                    </select>
+                                </div>
+                                <div class="chart-placeholder">
+                                    <div class="donut-chart">
+                                        <svg viewBox="0 0 200 200">
+                                            <circle cx="100" cy="100" r="80" fill="none" stroke="#e2e8f0" stroke-width="30"/>
+                                            <!-- Active vehicles -->
+                                            <circle cx="100" cy="100" r="80" fill="none" stroke="#10b981" stroke-width="30" t-att-stroke-dasharray="377" t-att-stroke-dashoffset="377 - (377 * (state.dashboardData.fleetStatus?.active || 0) / 100)" transform="rotate(-90 100 100)"/>
+                                            <!-- Maintenance vehicles -->
+                                            <circle cx="100" cy="100" r="80" fill="none" stroke="#f59e0b" stroke-width="30" t-att-stroke-dasharray="377" t-att-stroke-dashoffset="377 - (377 * (state.dashboardData.fleetStatus?.maintenance || 0) / 100)" t-att-transform="'rotate(' + (270 - 360 * (state.dashboardData.fleetStatus?.active || 0) / 100) + ' 100 100)'"/>
+                                        </svg>
+                                        <div class="donut-center">
+                                            <div class="donut-value">
+                                                <t t-esc="state.dashboardData.fleetStatus?.active || 0"/>
+%
+                                            </div>
+                                            <div class="donut-label">Active</div>
+                                        </div>
+                                    </div>
+                                    <div class="donut-legend">
+                                        <div class="legend-item">
+                                            <span class="legend-dot" style="background:#10b981;"></span> 
+                                            Active (<t t-esc="state.dashboardData.fleetStatus?.active || 0"/>
+%)
+                                        </div>
+                                        <div class="legend-item">
+                                            <span class="legend-dot" style="background:#f59e0b;"></span> 
+                                            Maintenance (<t t-esc="state.dashboardData.fleetStatus?.maintenance || 0"/>
+%)
+                                        </div>
+                                        <div class="legend-item">
+                                            <span class="legend-dot" style="background:#e2e8f0;"></span> 
+                                            Idle (<t t-esc="state.dashboardData.fleetStatus?.idle || 0"/>
+%)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Activity and Alerts -->
+                        <div class="bottom-row">
+                            <div class="activity-card">
+                                <div class="card-header">
+                                    <h3>Recent Activity</h3>
+                                    <a href="#" class="view-all" t-on-click="viewAllActivities">View All →</a>
+                                </div>
+                                <div class="activity-list">
+                                    <t t-if="state.dashboardData.recentActivities and state.dashboardData.recentActivities.length > 0">
+                                        <t t-foreach="state.dashboardData.recentActivities" t-as="activity" t-key="activity.id">
+                                            <div class="activity-item">
+                                                <div class="activity-icon" t-esc="activity.icon"/>
+                                                <div class="activity-content">
+                                                    <div class="activity-title" t-esc="activity.title"/>
+                                                    <div class="activity-time" t-esc="activity.time"/>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </t>
+                                    <t t-else="">
+                                        <div class="no-data">No recent activities</div>
+                                    </t>
+                                </div>
+                            </div>
+
+                            <div class="alerts-card">
+                                <div class="card-header">
+                                    <h3>Alerts &amp; Notifications</h3>
+                                    <span class="alert-badge" t-if="state.dashboardData.alerts and state.dashboardData.alerts.length > 0">
+                                        <t t-esc="state.dashboardData.alerts.length"/>
+                                    </span>
+                                </div>
+                                <div class="alerts-list">
+                                    <t t-if="state.dashboardData.alerts and state.dashboardData.alerts.length > 0">
+                                        <t t-foreach="state.dashboardData.alerts" t-as="alert" t-key="alert.id">
+                                            <div t-att-class="'alert-item alert-' + alert.type">
+                                                <div class="alert-icon" t-esc="alert.icon"/>
+                                                <div class="alert-content">
+                                                    <div class="alert-title" t-esc="alert.title"/>
+                                                    <div class="alert-time" t-esc="alert.time"/>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </t>
+                                    <t t-else="">
+                                        <div class="no-data">No alerts at this time</div>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+
+                <!-- Iframe View for other sections -->
+                <t t-if="state.tab !== 'dashboard' and state.iframeSrc">
+                    <div class="iframe-container">
+                        <iframe t-key="state.iframeKey" t-att-src="state.iframeSrc" frameborder="0"/>
+                    </div>
+                </t>
+
+                <!-- Welcome Message -->
+                <t t-if="state.tab !== 'dashboard' and !state.iframeSrc">
+                    <div class="welcome-container">
+                        <p>👋 Welcome — Select a module from the sidebar to begin.</p>
+                    </div>
+                </t>
+            </main>
+</templates>
         <!-- <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
     <t t-name="lms.Dashboard" owl="1">
