@@ -2,3 +2,4 @@
 
 from . import models
 from . import lms_module
+from . import lms_dashboard
