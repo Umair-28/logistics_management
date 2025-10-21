@@ -54,7 +54,6 @@
                             <span t-esc="state.expanded.finance ? '▾' : '▸'"/>
                         </div>
                         <ul t-if="state.expanded.finance" style="list-style:none; padding-left:1rem; margin:0;">
-
                             <li t-on-click="() => setActiveSection('finance_overview')" style="padding:.3rem 0; cursor:pointer;">Overview</li>
                             <li t-on-click="() => setActiveSection('customer_invoices')" style="padding:.3rem 0; cursor:pointer;">Customer Invoices</li>
                             <li t-on-click="() => setActiveSection('customer_credit_notes')" style="padding:.3rem 0; cursor:pointer;">Customer Credit Notes</li>
