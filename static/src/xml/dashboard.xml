@@ -60,10 +60,33 @@
                             <li t-on-click="() => setActiveSection('customer_payments')" style="padding:.3rem 0; cursor:pointer;">Customer Payments</li>
                             <li t-on-click="() => setActiveSection('accounting_journals')" style="padding:.3rem 0; cursor:pointer;">Accounting Journals</li>
                             <li t-on-click="() => setActiveSection('accounting_journals_entries')" style="padding:.3rem 0; cursor:pointer;">Accounting Journals Entries</li>
+                            <li t-on-click="() => setActiveSection('vendor_payments')" style="padding:.3rem 0; cursor:pointer;">Bills</li>
+
                         </ul>
                     </li>
                     <li t-on-click="() => setActiveSection('rfq')" t-att-class="{'active': state.tab === 'rfq'}" style="padding:.6rem 0; cursor:pointer;">
                         RFP/RFQ
+                    </li>
+                    <li>
+                        <div t-on-click="() => toggleSubMenu('reporting')" style="padding:.5rem 0; cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
+                            <span>Reporting</span>
+                            <span t-esc="state.expanded.reporting ? '▾' : '▸'"/>
+                        </div>
+                        <ul t-if="state.expanded.reporting" style="list-style:none; padding-left:1rem; margin:0;">
+                            <li>
+                                <div t-on-click="() => toggleSubMenu('sales_reporting')" style="padding:.5rem 0; cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
+                                    <span>Sales</span>
+                                    <span t-esc="state.expanded.sales_reporting ? '▾' : '▸'"/>
+                                </div>
+                                <ul t-if="state.expanded.sales_reporting" style="list-style:none; padding-left:1rem; margin:0;">
+                                    <li t-on-click="() => setActiveSection('sales')" style="padding:.3rem 0; cursor:pointer;">Lead Sales</li>
+                                    <li t-on-click="() => setActiveSection('sales_persons')" style="padding:.3rem 0; cursor:pointer;">SalePersons</li>
+                                    <li t-on-click="() => setActiveSection('sales_products')" style="padding:.3rem 0; cursor:pointer;">Products</li>
+                                </ul>
+                            </li>
+
+
+                        </ul>
                     </li>
                 </ul>
             </aside>

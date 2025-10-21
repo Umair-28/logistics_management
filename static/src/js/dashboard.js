@@ -13,6 +13,8 @@ export class Dashboard extends Component {
         dispatch: false,
         operations: false,
         finance: false,
+        reporting: false,
+        sales_reporting: false,
       },
     });
 
@@ -84,6 +86,14 @@ export class Dashboard extends Component {
       baseSrc = `/web#menu_id=account.menu_account_root&action=account.action_account_journal_form`;
     } else if (tab === "accounting_journals_entries") {
       baseSrc = `/web#menu_id=account.menu_account_root&action=account.action_move_journal_line`;
+    } else if (tab === "vendor_payments") {
+      baseSrc = `/web#menu_id=account.menu_account_root&action=account.action_account_payments_payable`;
+    } else if (tab === "sales") {
+      baseSrc = `/web#action=sale.report_all_channels_sales_action&menu_id=crm.menu_crm_root&view_type=graph`;
+    } else if (tab === "sales_persons") {
+      baseSrc = `/web#action=sale.action_order_report_salesperson&menu_id=crm.menu_crm_root&view_type=graph`;
+    } else if (tab === "sales_persons") {
+      baseSrc = `/web#action=sale.action_order_report_products&menu_id=crm.menu_crm_root&view_type=graph`;
     }
 
     // Default
@@ -160,10 +170,9 @@ export class Dashboard extends Component {
 }
 
 Dashboard.template = "lms.Dashboard";
-registry.category("actions").add("lms_dashboard_client_action", Dashboard);/** @odoo-module **/
-
-
-
+registry
+  .category("actions")
+  .add("lms_dashboard_client_action", Dashboard); /** @odoo-module **/
 
 // /** @odoo-module **/
 
@@ -193,7 +202,7 @@ registry.category("actions").add("lms_dashboard_client_action", Dashboard);/** @
 
 //   setActiveSection(tab) {
 //     console.log("Selected TAB is ", tab);
-    
+
 //     this.state.tab = tab;
 //     if (tab === "lead") {
 //       this.state.iframeSrc = `/web#action=crm.crm_lead_action_pipeline&menu_id=crm.menu_crm_root`;
