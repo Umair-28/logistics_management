@@ -309,12 +309,10 @@
     <t t-name="lms.Dashboard" owl="1">
         <div class="lms-dashboard-container">
 
-            <!-- Sidebar -->
             <aside class="lms-sidebar">
                 <div class="lms-logo">🚚 Logistics Management</div>
 
                 <ul class="lms-menu">
-                    <!-- Lead -->
                     <li t-on-click="() => setActiveSection('dashboard')" t-att-class="{'active': state.tab === 'lead'}">
                         Dashboard
                     </li>
@@ -322,12 +320,10 @@
                         Lead Management
                     </li>
 
-                    <!-- Warehouse -->
                     <li t-on-click="() => setActiveSection('warehouse')" t-att-class="{'active': state.tab === 'warehouse'}">
                         Warehouse Management
                     </li>
 
-                    <!-- Dispatch Management -->
                     <li>
                         <div t-on-click="() => toggleSubMenu('dispatch')" class="menu-header">
                             <span>Dispatch Management</span>
@@ -343,7 +339,6 @@
                         </ul>
                     </li>
 
-                    <!-- Logistics Operations -->
                     <li>
                         <div t-on-click="() => toggleSubMenu('operations')" class="menu-header">
                             <span>Logistics Operations</span>
@@ -358,7 +353,6 @@
                         </ul>
                     </li>
 
-                    <!-- Finance and Accounting -->
                     <li>
                         <div t-on-click="() => toggleSubMenu('finance')" class="menu-header">
                             <span>Finance &amp; Accounting</span>
@@ -375,19 +369,16 @@
                         </ul>
                     </li>
 
-                    <!-- RFQ -->
                     <li t-on-click="() => setActiveSection('rfq')" t-att-class="{'active': state.tab === 'rfq'}">
                         RFP/RFQ
                     </li>
 
-                    <!-- Reporting -->
                     <li>
                         <div t-on-click="() => toggleSubMenu('reporting')" class="menu-header">
                             <span>Reporting</span>
                             <span class="arrow" t-esc="state.expanded.reporting ? '▾' : '▸'"/>
                         </div>
                         <ul t-if="state.expanded.reporting" class="submenu">
-                            <!-- Sales Reporting -->
                             <li>
                                 <div t-on-click="() => toggleSubMenu('sales_reporting')" class="menu-header submenu-header">
                                     <span>Sales</span>
@@ -400,7 +391,6 @@
                                 </ul>
                             </li>
 
-                            <!-- Inventory/Warehouse Reporting -->
                             <li>
                                 <div t-on-click="() => toggleSubMenu('inventory_warehouse_reporting')" class="menu-header submenu-header">
                                     <span>Inventory &amp; Warehouse</span>
@@ -416,7 +406,6 @@
                 </ul>
             </aside>
 
-            <!-- Main Content -->
             <main class="lms-main">
                 <t t-if="state.iframeSrc">
                     <div class="iframe-container">
