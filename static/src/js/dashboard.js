@@ -35,54 +35,54 @@ export class Dashboard extends Component {
 
     // CRM / Warehouse / Dispatch
     if (tab === "lead") {
-      baseSrc = `/web#action=crm.crm_lead_action_pipeline&menu_id=crm.menu_crm_root`;
+      baseSrc = `/web?debug=1#action=crm.crm_lead_action_pipeline&menu_id=crm.menu_crm_root`;
     } else if (tab === "warehouse") {
-      baseSrc = `/web#menu_id=stock.menu_stock_root&action=stock.action_warehouse_form`;
+      baseSrc = `/web?debug=1#menu_id=stock.menu_stock_root&action=stock.action_warehouse_form`;
     } else if (tab === "trip_sheet") {
-      baseSrc = `/web#menu_id=fleet.menu_fleet_root&action=fleet.fleet_vehicle_action`;
+      baseSrc = `/web?debug=1#menu_id=fleet.menu_fleet_root&action=fleet.fleet_vehicle_action`;
     } else if (tab === "route_dispatch") {
-      baseSrc = `/web#menu_id=fleet.menu_fleet_root&action=fleet.fleet_vehicle_log_services_act`;
+      baseSrc = `/web?debug=1#menu_id=fleet.menu_fleet_root&action=fleet.fleet_vehicle_log_services_act`;
     } else if (tab === "lr") {
-      baseSrc = `/web#menu_id=stock.menu_stock_warehouse_mgmt&action=stock.action_picking_tree_all`;
+      baseSrc = `/web?debug=1#menu_id=stock.menu_stock_warehouse_mgmt&action=stock.action_picking_tree_all`;
     } else if (tab === "pod") {
-      baseSrc = `/web#menu_id=fleet.menu_fleet_root&action=fleet.fleet_vehicle_log_contracts_act`;
+      baseSrc = `/web?debug=1#menu_id=fleet.menu_fleet_root&action=fleet.fleet_vehicle_log_contracts_act`;
     } else if (tab === "ewaybill") {
-      baseSrc = `/web#menu_id=account.menu_finance&action=account.action_account_moves_all`;
+      baseSrc = `/web?debug=1#menu_id=account.menu_finance&action=account.action_account_moves_all`;
     } else if (tab === "dispatch_reports") {
-      baseSrc = `/web#menu_id=fleet.menu_fleet_reporting&action=fleet.action_fleet_report_all`;
+      baseSrc = `/web?debug=1#menu_id=fleet.menu_fleet_reporting&action=fleet.action_fleet_report_all`;
     }
 
     // Logistics Operations (Fleet, Routes, etc.)
     else if (tab === "fleet_overview") {
-      baseSrc = `/web#menu_id=fleet.menu_fleet_root&action=fleet.fleet_vehicle_action`;
+      baseSrc = `/web?debug=1#menu_id=fleet.menu_fleet_root&action=fleet.fleet_vehicle_action`;
     } else if (tab === "vehicle_costs") {
-      baseSrc = `/web#menu_id=fleet.menu_fleet_reporting&action=fleet.fleet_costs_reporting_action`;
+      baseSrc = `/web?debug=1#menu_id=fleet.menu_fleet_reporting&action=fleet.fleet_costs_reporting_action`;
     } else if (tab === "odoometer") {
-      baseSrc = `/web#menu_id=fleet.menu_fleet_root&action=fleet.fleet_vehicle_odometer_action`;
+      baseSrc = `/web?debug=1#menu_id=fleet.menu_fleet_root&action=fleet.fleet_vehicle_odometer_action`;
     } else if (tab === "route_optimization") {
-      baseSrc = `/web#menu_id=stock.menu_stock_warehouse_mgmt&action=stock.action_routes_form`;
+      baseSrc = `/web?debug=1#menu_id=stock.menu_stock_warehouse_mgmt&action=stock.action_routes_form`;
     } else if (tab === "fleet_reports") {
-      baseSrc = `/web#menu_id=fleet.menu_fleet_reporting&action=fleet.action_fleet_report_all`;
+      baseSrc = `/web?debug=1#menu_id=fleet.menu_fleet_reporting&action=fleet.action_fleet_report_all`;
     }
 
     // RFQs
     else if (tab === "rfq") {
-      baseSrc = `/web#menu_id=purchase.menu_purchase_root&action=purchase.purchase_rfq`;
+      baseSrc = `/web?debug=1#menu_id=purchase.menu_purchase_root&action=purchase.purchase_rfq`;
     }
 
     // Finance & Accounting
     else if (tab === "finance_overview") {
-      baseSrc = `/web#menu_id=account.menu_account_root&action=account.open_account_journal_dashboard_kanban`;
+      baseSrc = `/web?debug=1#menu_id=account.menu_account_root&action=account.open_account_journal_dashboard_kanban`;
     } else if (tab === "customer_invoices") {
-      baseSrc = `/web#menu_id=account.menu_account_root&action=account.action_move_out_invoice_type`;
+      baseSrc = `/web?debug=1#menu_id=account.menu_account_root&action=account.action_move_out_invoice_type`;
     } else if (tab === "customer_credit_notes") {
-      baseSrc = `/web#menu_id=account.menu_account_root&action=account.action_move_out_refund_type`;
+      baseSrc = `/web?debug=1#menu_id=account.menu_account_root&action=account.action_move_out_refund_type`;
     } else if (tab === "customer_payments") {
-      baseSrc = `/web#menu_id=account.menu_account_root&action=account.action_account_payments`;
+      baseSrc = `/web?debug=1#menu_id=account.menu_account_root&action=account.action_account_payments`;
     } else if (tab === "accounting_journals") {
-      baseSrc = `/web#menu_id=account.menu_account_root&action=account.action_account_journal_form`;
+      baseSrc = `/web?debug=1#menu_id=account.menu_account_root&action=account.action_account_journal_form`;
     } else if (tab === "accounting_journals_entries") {
-      baseSrc = `/web#menu_id=account.menu_account_root&action=account.action_move_journal_line`;
+      baseSrc = `/web?debug=1#menu_id=account.menu_account_root&action=account.action_move_journal_line`;
     }
 
     // Default
