@@ -179,7 +179,7 @@ export class Dashboard extends Component {
 Dashboard.template = "lms.Dashboard";
 registry
   .category("actions")
-  .add("lms_dashboard_client_action", Dashboard); /** @odoo-module **/
+  .add("lms_dashboard_client_action", Dashboard);
 
 // /** @odoo-module **/
 

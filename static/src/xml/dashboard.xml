@@ -1,101 +1,105 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
     <t t-name="lms.Dashboard" owl="1">
-        <div class="lms-dashboard-container" style="display:flex; height:100vh; font-family:Inter, sans-serif;">
+        <div class="lms-dashboard-container">
 
             <!-- Sidebar -->
-            <aside class="lms-sidebar" style="width:260px; background:#1e293b; color:#fff; padding:1rem; overflow-y:auto;">
-                <div class="lms-logo" style="font-weight:600; font-size:1.1rem; margin-bottom:1rem;">🚚 Logistics Management</div>
+            <aside class="lms-sidebar">
+                <div class="lms-logo">🚚 Logistics Management</div>
 
-                <ul class="lms-menu" style="list-style:none; padding:0; margin:0;">
+                <ul class="lms-menu">
                     <!-- Lead -->
-                    <li t-on-click="() => setActiveSection('lead')" t-att-class="{'active': state.tab === 'lead'}" style="padding:.6rem 0; cursor:pointer;">
+                    <li t-on-click="() => setActiveSection('lead')" t-att-class="{'active': state.tab === 'lead'}">
                         Lead Management
                     </li>
 
                     <!-- Warehouse -->
-                    <li t-on-click="() => setActiveSection('warehouse')" t-att-class="{'active': state.tab === 'warehouse'}" style="padding:.6rem 0; cursor:pointer;">
+                    <li t-on-click="() => setActiveSection('warehouse')" t-att-class="{'active': state.tab === 'warehouse'}">
                         Warehouse Management
                     </li>
 
                     <!-- Dispatch Management -->
                     <li>
-                        <div t-on-click="() => toggleSubMenu('dispatch')" style="padding:.6rem 0; cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
+                        <div t-on-click="() => toggleSubMenu('dispatch')" class="menu-header">
                             <span>Dispatch Management</span>
-                            <span t-esc="state.expanded.dispatch ? '▾' : '▸'"/>
+                            <span class="arrow" t-esc="state.expanded.dispatch ? '▾' : '▸'"/>
                         </div>
-                        <ul t-if="state.expanded.dispatch" style="list-style:none; padding-left:1rem; margin:0;">
-                            <li t-on-click="() => setActiveSection('trip_sheet')" style="padding:.3rem 0; cursor:pointer;">Trip Sheet</li>
-                            <li t-on-click="() => setActiveSection('route_dispatch')" style="padding:.3rem 0; cursor:pointer;">Route Dispatch</li>
-                            <li t-on-click="() => setActiveSection('lr')" style="padding:.3rem 0; cursor:pointer;">Lorry Receipt (LR)</li>
-                            <li t-on-click="() => setActiveSection('pod')" style="padding:.3rem 0; cursor:pointer;">Proof of Delivery (POD)</li>
-                            <li t-on-click="() => setActiveSection('ewaybill')" style="padding:.3rem 0; cursor:pointer;">E-Way Bill</li>
-                            <li t-on-click="() => setActiveSection('dispatch_reports')" style="padding:.3rem 0; cursor:pointer;">Dispatch Reports</li>
+                        <ul t-if="state.expanded.dispatch" class="submenu">
+                            <li t-on-click="() => setActiveSection('trip_sheet')">Trip Sheet</li>
+                            <li t-on-click="() => setActiveSection('route_dispatch')">Route Dispatch</li>
+                            <li t-on-click="() => setActiveSection('lr')">Lorry Receipt (LR)</li>
+                            <li t-on-click="() => setActiveSection('pod')">Proof of Delivery (POD)</li>
+                            <li t-on-click="() => setActiveSection('ewaybill')">E-Way Bill</li>
+                            <li t-on-click="() => setActiveSection('dispatch_reports')">Dispatch Reports</li>
                         </ul>
                     </li>
 
                     <!-- Logistics Operations -->
                     <li>
-                        <div t-on-click="() => toggleSubMenu('operations')" style="padding:.6rem 0; cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
-                            <span>Logistics Operations Management</span>
-                            <span t-esc="state.expanded.operations ? '▾' : '▸'"/>
+                        <div t-on-click="() => toggleSubMenu('operations')" class="menu-header">
+                            <span>Logistics Operations</span>
+                            <span class="arrow" t-esc="state.expanded.operations ? '▾' : '▸'"/>
                         </div>
-                        <ul t-if="state.expanded.operations" style="list-style:none; padding-left:1rem; margin:0;">
-                            <li t-on-click="() => setActiveSection('fleet_overview')" style="padding:.3rem 0; cursor:pointer;">Fleet Overview</li>
-                            <li t-on-click="() => setActiveSection('vehicle_costs')" style="padding:.3rem 0; cursor:pointer;">Vehicle Costs</li>
-                            <li t-on-click="() => setActiveSection('odoometer')" style="padding:.3rem 0; cursor:pointer;">Odometer</li>
-                            <li t-on-click="() => setActiveSection('route_optimization')" style="padding:.3rem 0; cursor:pointer;">Route Optimization</li>
-                            <li t-on-click="() => setActiveSection('fleet_reports')" style="padding:.3rem 0; cursor:pointer;">Fleet Reports</li>
+                        <ul t-if="state.expanded.operations" class="submenu">
+                            <li t-on-click="() => setActiveSection('fleet_overview')">Fleet Overview</li>
+                            <li t-on-click="() => setActiveSection('vehicle_costs')">Vehicle Costs</li>
+                            <li t-on-click="() => setActiveSection('odoometer')">Odometer</li>
+                            <li t-on-click="() => setActiveSection('route_optimization')">Route Optimization</li>
+                            <li t-on-click="() => setActiveSection('fleet_reports')">Fleet Reports</li>
                         </ul>
                     </li>
-                    <li>
-                        <div t-on-click="() => toggleSubMenu('finance')" style="padding:.5rem 0; cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
-                            <span>Finance and Accounting</span>
-                            <span t-esc="state.expanded.finance ? '▾' : '▸'"/>
-                        </div>
-                        <ul t-if="state.expanded.finance" style="list-style:none; padding-left:1rem; margin:0;">
-                            <li t-on-click="() => setActiveSection('finance_overview')" style="padding:.3rem 0; cursor:pointer;">Overview</li>
-                            <li t-on-click="() => setActiveSection('customer_invoices')" style="padding:.3rem 0; cursor:pointer;">Customer Invoices</li>
-                            <li t-on-click="() => setActiveSection('customer_credit_notes')" style="padding:.3rem 0; cursor:pointer;">Customer Credit Notes</li>
-                            <li t-on-click="() => setActiveSection('customer_payments')" style="padding:.3rem 0; cursor:pointer;">Customer Payments</li>
-                            <li t-on-click="() => setActiveSection('accounting_journals')" style="padding:.3rem 0; cursor:pointer;">Accounting Journals</li>
-                            <li t-on-click="() => setActiveSection('accounting_journals_entries')" style="padding:.3rem 0; cursor:pointer;">Accounting Journals Entries</li>
-                            <li t-on-click="() => setActiveSection('vendor_payments')" style="padding:.3rem 0; cursor:pointer;">Bills</li>
 
+                    <!-- Finance and Accounting -->
+                    <li>
+                        <div t-on-click="() => toggleSubMenu('finance')" class="menu-header">
+                            <span>Finance &amp; Accounting</span>
+                            <span class="arrow" t-esc="state.expanded.finance ? '▾' : '▸'"/>
+                        </div>
+                        <ul t-if="state.expanded.finance" class="submenu">
+                            <li t-on-click="() => setActiveSection('finance_overview')">Overview</li>
+                            <li t-on-click="() => setActiveSection('customer_invoices')">Customer Invoices</li>
+                            <li t-on-click="() => setActiveSection('customer_credit_notes')">Customer Credit Notes</li>
+                            <li t-on-click="() => setActiveSection('customer_payments')">Customer Payments</li>
+                            <li t-on-click="() => setActiveSection('accounting_journals')">Accounting Journals</li>
+                            <li t-on-click="() => setActiveSection('accounting_journals_entries')">Journal Entries</li>
+                            <li t-on-click="() => setActiveSection('vendor_payments')">Bills</li>
                         </ul>
                     </li>
-                    <li t-on-click="() => setActiveSection('rfq')" t-att-class="{'active': state.tab === 'rfq'}" style="padding:.6rem 0; cursor:pointer;">
+
+                    <!-- RFQ -->
+                    <li t-on-click="() => setActiveSection('rfq')" t-att-class="{'active': state.tab === 'rfq'}">
                         RFP/RFQ
                     </li>
+
+                    <!-- Reporting -->
                     <li>
-                        <div t-on-click="() => toggleSubMenu('reporting')" style="padding:.5rem 0; cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
+                        <div t-on-click="() => toggleSubMenu('reporting')" class="menu-header">
                             <span>Reporting</span>
-                            <span t-esc="state.expanded.reporting ? '▾' : '▸'"/>
+                            <span class="arrow" t-esc="state.expanded.reporting ? '▾' : '▸'"/>
                         </div>
-                        <ul t-if="state.expanded.sales_reporting" style="list-style:none; padding-left:1rem; margin:0;">
+                        <ul t-if="state.expanded.reporting" class="submenu">
+                            <!-- Sales Reporting -->
                             <li>
-                                <div t-on-click="() => toggleSubMenu('sales_reporting')" style="padding:.5rem 0; cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
+                                <div t-on-click="() => toggleSubMenu('sales_reporting')" class="menu-header submenu-header">
                                     <span>Sales</span>
-                                    <span t-esc="state.expanded.sales_reporting ? '▾' : '▸'"/>
+                                    <span class="arrow" t-esc="state.expanded.sales_reporting ? '▾' : '▸'"/>
                                 </div>
-                                <ul t-if="state.expanded.sales_reporting" style="list-style:none; padding-left:1rem; margin:0;">
-                                    <li t-on-click="() => setActiveSection('sales')" style="padding:.3rem 0; cursor:pointer;">Lead Sales</li>
-                                    <li t-on-click="() => setActiveSection('sales_persons')" style="padding:.3rem 0; cursor:pointer;">SalePersons</li>
-                                    <li t-on-click="() => setActiveSection('sales_products')" style="padding:.3rem 0; cursor:pointer;">Products</li>
+                                <ul t-if="state.expanded.sales_reporting" class="submenu nested">
+                                    <li t-on-click="() => setActiveSection('sales')">Lead Sales</li>
+                                    <li t-on-click="() => setActiveSection('sales_persons')">Sales Persons</li>
+                                    <li t-on-click="() => setActiveSection('sales_products')">Products</li>
                                 </ul>
                             </li>
-                        </ul>
-                        <ul t-if="state.expanded.inventory_warehouse_reporting" style="list-style:none; padding-left:1rem; margin:0;">
+
+                            <!-- Inventory/Warehouse Reporting -->
                             <li>
-                                <div t-on-click="() => toggleSubMenu('inventory_warehouse_reporting')" style="padding:.5rem 0; cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
-                                    <span>Sales</span>
-                                    <span t-esc="state.expanded.inventory_warehouse_reporting ? '▾' : '▸'"/>
+                                <div t-on-click="() => toggleSubMenu('inventory_warehouse_reporting')" class="menu-header submenu-header">
+                                    <span>Inventory &amp; Warehouse</span>
+                                    <span class="arrow" t-esc="state.expanded.inventory_warehouse_reporting ? '▾' : '▸'"/>
                                 </div>
-                                <ul t-if="state.expanded.inventory_warehouse_reporting" style="list-style:none; padding-left:1rem; margin:0;">
-                                    <li t-on-click="() => setActiveSection('overview')" style="padding:.3rem 0; cursor:pointer;">Overview</li>
-                                    <li t-on-click="() => setActiveSection('warehouse_analysis')" style="padding:.3rem 0; cursor:pointer;">Warehouse</li>
-
-
+                                <ul t-if="state.expanded.inventory_warehouse_reporting" class="submenu nested">
+                                    <li t-on-click="() => setActiveSection('overview')">Overview</li>
+                                    <li t-on-click="() => setActiveSection('warehouse_analysis')">Warehouse Analysis</li>
                                 </ul>
                             </li>
                         </ul>
@@ -104,16 +108,15 @@
             </aside>
 
             <!-- Main Content -->
-            <main class="lms-main" style="flex:1; background:#f8fafc;">
+            <main class="lms-main">
                 <t t-if="state.iframeSrc">
-                    <div class="iframe-container" style="height:calc(100vh - 100px);">
-                        <!-- Adding t-key forces OWL to recreate the iframe -->
-                        <iframe t-key="state.iframeKey" t-att-src="state.iframeSrc" style="width:100%; height:100%; border:0; border-radius:6px;" frameborder="0"/>
+                    <div class="iframe-container">
+                        <iframe t-key="state.iframeKey" t-att-src="state.iframeSrc" frameborder="0"/>
                     </div>
                 </t>
                 <t t-if="!state.iframeSrc">
-                    <div style="display:flex; align-items:center; justify-content:center; height:100%;">
-                        <p style="font-size:1.1rem; color:#64748b;">Welcome 👋 — Select a module from the sidebar to begin.</p>
+                    <div class="welcome-container">
+                        <p>👋 Welcome — Select a module from the sidebar to begin.</p>
                     </div>
                 </t>
             </main>
