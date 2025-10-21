@@ -7,7 +7,7 @@ export class Dashboard extends Component {
   setup() {
     this.state = useState({
       tab: "dashboard", // Default to dashboard
-      iframeSrc: "",
+      iframeSrc: "/web#action=crm.crm_lead_action_pipeline&menu_id=crm.menu_crm_root",
       iframeKey: 0, // Add key to force iframe recreation
       expanded: {
         dispatch: false,
