@@ -15,6 +15,7 @@ export class Dashboard extends Component {
         finance: false,
         reporting: false,
         sales_reporting: false,
+        inventory_warehouse_reporting:false
       },
     });
 
@@ -92,8 +93,14 @@ export class Dashboard extends Component {
       baseSrc = `/web#action=sale.report_all_channels_sales_action&menu_id=crm.menu_crm_root&view_type=graph`;
     } else if (tab === "sales_persons") {
       baseSrc = `/web#action=sale.action_order_report_salesperson&menu_id=crm.menu_crm_root&view_type=graph`;
-    } else if (tab === "sales_persons") {
+    } else if (tab === "sales_products") {
       baseSrc = `/web#action=sale.action_order_report_products&menu_id=crm.menu_crm_root&view_type=graph`;
+    }
+     else if (tab === "overview") {
+      baseSrc =`/web#menu_id=stock.menu_stock_root&action=stock.stock_picking_type_action`;
+    }
+         else if (tab === "warehouse_analysis") {
+      baseSrc =`/web#menu_id=stock.menu_stock_root&action=stock_enterprise.stock_report_action_performance&view_type=graph`;
     }
 
     // Default

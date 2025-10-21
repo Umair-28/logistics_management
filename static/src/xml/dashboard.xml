@@ -72,7 +72,7 @@
                             <span>Reporting</span>
                             <span t-esc="state.expanded.reporting ? '▾' : '▸'"/>
                         </div>
-                        <ul t-if="state.expanded.reporting" style="list-style:none; padding-left:1rem; margin:0;">
+                        <ul t-if="state.expanded.sales_reporting" style="list-style:none; padding-left:1rem; margin:0;">
                             <li>
                                 <div t-on-click="() => toggleSubMenu('sales_reporting')" style="padding:.5rem 0; cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
                                     <span>Sales</span>
@@ -84,8 +84,20 @@
                                     <li t-on-click="() => setActiveSection('sales_products')" style="padding:.3rem 0; cursor:pointer;">Products</li>
                                 </ul>
                             </li>
+                        </ul>
+                        <ul t-if="state.expanded.inventory_warehouse_reporting" style="list-style:none; padding-left:1rem; margin:0;">
+                            <li>
+                                <div t-on-click="() => toggleSubMenu('inventory_warehouse_reporting')" style="padding:.5rem 0; cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
+                                    <span>Sales</span>
+                                    <span t-esc="state.expanded.inventory_warehouse_reporting ? '▾' : '▸'"/>
+                                </div>
+                                <ul t-if="state.expanded.inventory_warehouse_reporting" style="list-style:none; padding-left:1rem; margin:0;">
+                                    <li t-on-click="() => setActiveSection('overview')" style="padding:.3rem 0; cursor:pointer;">Overview</li>
+                                    <li t-on-click="() => setActiveSection('warehouse_analysis')" style="padding:.3rem 0; cursor:pointer;">Warehouse</li>
 
 
+                                </ul>
+                            </li>
                         </ul>
                     </li>
                 </ul>
