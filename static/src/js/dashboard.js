@@ -95,6 +95,8 @@ export class Dashboard extends Component {
       const uniqueParam = `_ts=${Date.now()}`;
       const separator = baseSrc.includes("?") ? "&" : "?";
       this.state.iframeSrc = `${baseSrc}${separator}${uniqueParam}`;
+      console.log("UNIQUE SRC IS ", this.state.iframeSrc);
+      
     } else {
       this.state.iframeSrc = "";
     }
