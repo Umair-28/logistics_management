@@ -6,7 +6,7 @@ class EWayBill(models.Model):
     _description = "E-Way Bill"
 
     name = fields.Char(string="Reference", required=True)
-    dispatch_id = fields.Many2one('route.dispatch', string="Dispatch", ondelete="cascade")
+    # dispatch_id = fields.Many2one('route.dispatch', string="Dispatch", ondelete="cascade")
     ewaybill_no = fields.Char(string="E-Way Bill Number")
     valid_upto = fields.Datetime(string="Valid Upto")
     status = fields.Selection([

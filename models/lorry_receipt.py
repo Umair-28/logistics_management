@@ -6,7 +6,7 @@ class LorryReceipt(models.Model):
     _description = "Lorry Receipt (LR)"
 
     name = fields.Char(string="LR No", required=True)
-    dispatch_id = fields.Many2one('route.dispatch', string="Dispatch", ondelete="cascade")
+    # dispatch_id = fields.Many2one('route.dispatch', string="Dispatch", ondelete="cascade")
     consignee = fields.Char(string="Consignee Name")
     total_weight = fields.Float(string="Total Weight (KG)")
     status = fields.Selection([
