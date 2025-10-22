@@ -106,15 +106,6 @@
                     </notebook> -->
                 </sheet>
 
-                <footer>
-                    <button name="action_start_trip" type="object" string="Start Trip" class="btn btn-primary" invisible="status != 'draft'"/>
-
-                    <button name="action_complete_trip" type="object" string="Complete Trip" class="btn btn-success" invisible="status != 'in_transit'"/>
-
-                    <button name="action_cancel_trip" type="object" string="Cancel" class="btn btn-secondary" invisible="status in ['completed', 'cancelled']"/>
-
-                    <button string="Close" class="btn btn-secondary" special="cancel"/>
-                </footer>
 
             </form>
         </field>
