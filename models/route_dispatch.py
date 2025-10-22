@@ -14,7 +14,7 @@ class RouteDispatch(models.Model):
     dispatch_date = fields.Datetime(string="Dispatch Date", default=fields.Datetime.now, tracking=True)
     vehicle_id = fields.Many2one('fleet.vehicle', string="Vehicle", tracking=True)
     driver_id = fields.Many2one('hr.employee', string="Driver", domain=[('is_driver', '=', True)], tracking=True)
-    route_id = fields.Many2one('lms.route.master', string="Route", tracking=True)
+    route_id = fields.Many2one('stock.route', string="Route", tracking=True)
 
     # Route Details
     source_location = fields.Char(string="Source Location")
