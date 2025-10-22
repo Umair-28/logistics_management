@@ -19,7 +19,7 @@
         'data/sequence_data.xml',
         'data/sequence_trip_sheet_data.xml',
         'data/sequence_lorry_receipt.xml',
-        'data/sequence_proof_delievery.xml',
+        'data/sequence_proof_delivery.xml',
         "views/trip_sheet_views.xml",
         'views/route_dispatch_views.xml',
         'views/lorry_receipt_views.xml',
