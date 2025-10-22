@@ -4,7 +4,7 @@ class TripSheet(models.Model):
     _name = "trip.sheet"
     _description = "Trip Sheet"
 
-    name = fields.Char("Trip No", required=True, copy=False, readonly=True, default=lambda self: "New")
+    name = fields.Char("Trip No", required=True, copy=False, readonly=True,  default=lambda self: self.env['ir.sequence'].next_by_code('lms.trip.sheet'))
     vehicle_id = fields.Many2one("fleet.vehicle", string="Vehicle")
     driver_id = fields.Many2one("res.partner", string="Driver")
     date_start = fields.Datetime("Start Date")
