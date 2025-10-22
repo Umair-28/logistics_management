@@ -22,13 +22,11 @@ export class Dashboard extends Component {
     // Ensure proper context binding
     this.setActiveSection = this.setActiveSection.bind(this);
     this.toggleSubMenu = this.toggleSubMenu.bind(this);
-
   }
 
   toggleSubMenu(menu) {
     this.state.expanded[menu] = !this.state.expanded[menu];
   }
-
 
   /**
    * Set active section and reload iframe (forces reload with timestamp)
@@ -57,7 +55,6 @@ export class Dashboard extends Component {
     } else if (tab === "dispatch_reports") {
       baseSrc = `/web#menu_id=fleet.menu_fleet_reporting&action=fleet.action_fleet_report_all`;
     }
-
 
     // Logistics Operations (Fleet, Routes, etc.)
     else if (tab === "fleet_overview") {
@@ -90,6 +87,16 @@ export class Dashboard extends Component {
       baseSrc = `/web#menu_id=account.menu_account_root&action=account.action_account_journal_form`;
     } else if (tab === "accounting_journals_entries") {
       baseSrc = `/web#menu_id=account.menu_account_root&action=account.action_move_journal_line`;
+    } else if (tab === "sales") {
+      baseSrc = `/web#action=sale.report_all_channels_sales_action&menu_id=crm.menu_crm_root&view_type=graph`;
+    } else if (tab === "sales_persons") {
+      baseSrc = `/web#action=sale.action_order_report_salesperson&menu_id=crm.menu_crm_root&view_type=graph`;
+    } else if (tab === "sales_products") {
+      baseSrc = `/web#action=sale.action_order_report_products&menu_id=crm.menu_crm_root&view_type=graph`;
+    } else if (tab === "overview") {
+      baseSrc = `/web#menu_id=stock.menu_stock_root&action=stock.stock_picking_type_action`;
+    } else if (tab === "warehouse_analysis") {
+      baseSrc = `/web#menu_id=stock.menu_stock_root&action=stock_enterprise.stock_report_action_performance&view_type=graph`;
     }
 
     // Default
