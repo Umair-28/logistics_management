@@ -17,6 +17,7 @@
         "views/menu_views.xml",            # <-- then menus
         "security/ir.model.access.csv",
         "views/trip_sheet_views.xml",
+        'views/route_dispatch_views.xml',
     ],
     'assets': {
         'web.assets_backend': [
