@@ -45,7 +45,7 @@
                             <li t-on-click="() => setActiveSection('vehicle_costs')">Vehicle Costs</li>
                             <li t-on-click="() => setActiveSection('odoometer')">Odometer</li>
                             <li t-on-click="() => setActiveSection('route_optimization')">Route Optimization</li>
-                            <li t-on-click="() => setActiveSection('fleet_reports')">Fleet Reports</li>
+                            <!-- <li t-on-click="() => setActiveSection('fleet_reports')">Fleet Reports</li> -->
                         </ul>
                     </li>
 
