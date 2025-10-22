@@ -12,7 +12,7 @@ class TripSheet(models.Model):
     total_distance = fields.Float("Total Distance (km)")
     remarks = fields.Text("Remarks")
 
-    def create(self, vals):
-        if vals.get("name", "New") == "New":
-            vals["name"] = self.env["ir.sequence"].next_by_code("trip.sheet") or "New"
-        return super().create(vals)
+    # def create(self, vals):
+    #     if vals.get("name", "New") == "New":
+    #         vals["name"] = self.env["ir.sequence"].next_by_code("trip.sheet") or "New"
+    #     return super().create(vals)
