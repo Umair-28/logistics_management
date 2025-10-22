@@ -41,27 +41,27 @@ class RouteDispatch(models.Model):
     mileage = fields.Float(string="Mileage (KM/L)")
     remarks = fields.Text(string="Remarks")
 
-    # Computed fields
-    total_lr = fields.Integer(string="Total LRs", compute="_compute_total_lr", store=True)
+    # # Computed fields
+    # total_lr = fields.Integer(string="Total LRs", compute="_compute_total_lr", store=True)
 
-    @api.depends('lr_ids')
-    def _compute_total_lr(self):
-        for record in self:
-            record.total_lr = len(record.lr_ids)
+    # @api.depends('lr_ids')
+    # def _compute_total_lr(self):
+    #     for record in self:
+    #         record.total_lr = len(record.lr_ids)
 
-    # Actions
-    def action_start_trip(self):
-        for rec in self:
-            rec.status = 'in_transit'
-            rec.message_post(body=f"🚚 Trip started for Dispatch {rec.name}")
+    # # Actions
+    # def action_start_trip(self):
+    #     for rec in self:
+    #         rec.status = 'in_transit'
+    #         rec.message_post(body=f"🚚 Trip started for Dispatch {rec.name}")
 
-    def action_complete_trip(self):
-        for rec in self:
-            rec.status = 'completed'
-            rec.message_post(body=f"✅ Trip completed for Dispatch {rec.name}")
+    # def action_complete_trip(self):
+    #     for rec in self:
+    #         rec.status = 'completed'
+    #         rec.message_post(body=f"✅ Trip completed for Dispatch {rec.name}")
 
-    def action_cancel_trip(self):
-        for rec in self:
-            rec.status = 'cancelled'
-            rec.message_post(body=f"❌ Dispatch {rec.name} cancelled.")
+    # def action_cancel_trip(self):
+    #     for rec in self:
+    #         rec.status = 'cancelled'
+    #         rec.message_post(body=f"❌ Dispatch {rec.name} cancelled.")
 
