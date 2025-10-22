@@ -11,10 +11,11 @@
         "mail",
         "stock",
         "account",
+        "fleet"
     ],
     "data": [
-        "views/lms_dashboard_action.xml",  # <-- load this FIRST
-        "views/menu_views.xml",            # <-- then menus
+        "views/lms_dashboard_action.xml",  
+        "views/menu_views.xml",            
         "security/ir.model.access.csv",
         'data/sequence_data.xml',
         'data/sequence_trip_sheet_data.xml',
