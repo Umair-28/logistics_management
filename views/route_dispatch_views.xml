@@ -59,7 +59,7 @@
                         </group>
                     </group>
 
-                    <notebook>
+                    <!-- <notebook>
                         <page string="Trip Details">
                             <group>
                                 <field name="status" widget="statusbar" statusbar_visible="draft,in_transit,completed,cancelled"/>
@@ -103,7 +103,7 @@
                                 </list>
                             </field>
                         </page>
-                    </notebook>
+                    </notebook> -->
                 </sheet>
 
                 <footer>
