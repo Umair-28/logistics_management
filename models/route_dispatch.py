@@ -30,10 +30,10 @@ class RouteDispatch(models.Model):
     ], string="Status", default='draft', tracking=True)
 
     # Related documents
-    trip_sheet_id = fields.Many2one('lms.trip.sheet', string="Trip Sheet")
-    lr_ids = fields.One2many('lms.lorry.receipt', 'dispatch_id', string="Lorry Receipts")
-    pod_ids = fields.One2many('lms.proof.delivery', 'dispatch_id', string="Proof of Delivery")
-    ewaybill_ids = fields.One2many('lms.eway.bill', 'dispatch_id', string="E-Way Bills")
+    trip_sheet_id = fields.Many2one('trip.sheet', string="Trip Sheet")
+    lr_ids = fields.One2many('lorry.receipt', 'dispatch_id', string="Lorry Receipts")
+    pod_ids = fields.One2many('proof.delivery', 'dispatch_id', string="Proof of Delivery")
+    ewaybill_ids = fields.One2many('eway.bill', 'dispatch_id', string="E-Way Bills")
 
     # Performance & Fuel
     total_fuel = fields.Float(string="Fuel Consumed (L)")
