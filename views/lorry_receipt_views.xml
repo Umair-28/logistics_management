@@ -1,127 +1,127 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <data>
 
-        <!-- =============================
-             list / LIST VIEW
-        ============================== -->
-        <record id="view_lorry_receipt_list" model="ir.ui.view">
-            <field name="name">lorry.receipt.list</field>
-            <field name="model">lorry.receipt</field>
-            <field name="arch" type="xml">
-                <list string="Lorry Receipts" decoration-success="status=='delivered'" decoration-info="status=='in_transit'" decoration-warning="status=='dispatched'" decoration-muted="status=='draft'" decoration-danger="status=='cancelled'">
-                    <field name="name"/>
-                    <field name="date"/>
-                    <field name="consignor"/>
-                    <field name="consignee"/>
-                    <field name="source_location"/>
-                    <field name="destination_location"/>
-                    <field name="total_packages"/>
-                    <field name="total_weight"/>
-                    <field name="freight_amount"/>
-                    <field name="payment_mode"/>
-                    <field name="status"/>
-                </list>
-            </field>
-        </record>
-
-        <!-- =============================
-             FORM VIEW
-        ============================== -->
-        <record id="view_lorry_receipt_form" model="ir.ui.view">
-            <field name="name">lorry.receipt.form</field>
-            <field name="model">lorry.receipt</field>
-            <field name="arch" type="xml">
-                <form string="Lorry Receipt" create="true" edit="true">
-                    <header>
-                        <button name="action_dispatch" string="Dispatch" type="object" class="btn-primary" states="draft"/>
-                        <button name="action_mark_delivered" string="Mark Delivered" type="object" class="btn-success" states="in_transit,dispatched"/>
-                        <field name="status" widget="statusbar" statusbar_visible="draft,dispatched,in_transit,delivered,cancelled"/>
-                    </header>
-
-                    <sheet>
-                        <h1>
-                            <field name="name" readonly="1"/>
-                        </h1>
-
-                        <group>
-                            <group>
-                                <field name="dispatch_id"/>
-                                <field name="date"/>
-                                <field name="consignor"/>
-                                <field name="consignee"/>
-                                <field name="consignee_address"/>
-                            </group>
-                            <group>
-                                <field name="source_location"/>
-                                <field name="destination_location"/>
-                                <field name="vehicle_id"/>
-                                <field name="driver_id"/>
-                            </group>
-                        </group>
-
-                        <notebook>
-                            <page string="Goods Info">
-                                <group>
-                                    <field name="goods_description"/>
-                                    <field name="total_packages"/>
-                                    <field name="total_weight"/>
-                                    <field name="freight_amount"/>
-                                    <field name="payment_mode"/>
-                                </group>
-                            </page>
-
-                            <page string="Delivery Info">
-                                <group>
-                                    <field name="delivery_date"/>
-                                    <field name="remarks"/>
-                                </group>
-                            </page>
-                        </notebook>
-                    </sheet>
-
-                    <chatter/>
-                </form>
-            </field>
-        </record>
-
-        <!-- =============================
-             SEARCH VIEW
-        ============================== -->
-        <record id="view_lorry_receipt_search" model="ir.ui.view">
-            <field name="name">lorry.receipt.search</field>
-            <field name="model">lorry.receipt</field>
-            <field name="arch" type="xml">
-                <search string="Search Lorry Receipts">
-                    <field name="name"/>
-                    <field name="consignor"/>
-                    <field name="consignee"/>
-                    <filter string="Draft" name="draft" domain="[('status','=','draft')]"/>
-                    <filter string="In Transit" name="in_transit" domain="[('status','=','in_transit')]"/>
-                    <filter string="Delivered" name="delivered" domain="[('status','=','delivered')]"/>
-                    <group expand="0" string="Group By">
-                        <filter string="Status" name="group_status" context="{'group_by':'status'}"/>
-                        <filter string="Dispatch" name="group_dispatch" context="{'group_by':'dispatch_id'}"/>
-                    </group>
-                </search>
-            </field>
-        </record>
-
-        <!-- =============================
+    <!-- =============================
              ACTION
         ============================== -->
-        <record id="action_lorry_receipt" model="ir.actions.act_window">
-            <field name="name">Lorry Receipts</field>
-            <field name="res_model">lorry.receipt</field>
-            <field name="view_mode">list,form</field>
-            <field name="help" type="html">
-                <p class="o_view_nocontent_smiling_face">
+    <record id="action_lorry_receipt" model="ir.actions.act_window">
+        <field name="name">Lorry Receipts</field>
+        <field name="res_model">lorry.receipt</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
                     Create your first Lorry Receipt Record
-                </p>
-            </field>
-        </record>
+            </p>
+        </field>
+    </record>
+
+    <!-- =============================
+             list / LIST VIEW
+        ============================== -->
+    <record id="view_lorry_receipt_list" model="ir.ui.view">
+        <field name="name">lorry.receipt.list</field>
+        <field name="model">lorry.receipt</field>
+        <field name="arch" type="xml">
+            <list string="Lorry Receipts" decoration-success="status=='delivered'" decoration-info="status=='in_transit'" decoration-warning="status=='dispatched'" decoration-muted="status=='draft'" decoration-danger="status=='cancelled'">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="consignor"/>
+                <field name="consignee"/>
+                <field name="source_location"/>
+                <field name="destination_location"/>
+                <field name="total_packages"/>
+                <field name="total_weight"/>
+                <field name="freight_amount"/>
+                <field name="payment_mode"/>
+                <field name="status"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- =============================
+             FORM VIEW
+        ============================== -->
+    <record id="view_lorry_receipt_form" model="ir.ui.view">
+        <field name="name">lorry.receipt.form</field>
+        <field name="model">lorry.receipt</field>
+        <field name="arch" type="xml">
+            <form string="Lorry Receipt" create="true" edit="true">
+                <header>
+                    <button name="action_dispatch" string="Dispatch" type="object" class="btn-primary" states="draft"/>
+                    <button name="action_mark_delivered" string="Mark Delivered" type="object" class="btn-success" states="in_transit,dispatched"/>
+                    <field name="status" widget="statusbar" statusbar_visible="draft,dispatched,in_transit,delivered,cancelled"/>
+                </header>
+
+                <sheet>
+                    <h1>
+                        <field name="name" readonly="1"/>
+                    </h1>
+
+                    <group>
+                        <group>
+                            <field name="dispatch_id"/>
+                            <field name="date"/>
+                            <field name="consignor"/>
+                            <field name="consignee"/>
+                            <field name="consignee_address"/>
+                        </group>
+                        <group>
+                            <field name="source_location"/>
+                            <field name="destination_location"/>
+                            <field name="vehicle_id"/>
+                            <field name="driver_id"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Goods Info">
+                            <group>
+                                <field name="goods_description"/>
+                                <field name="total_packages"/>
+                                <field name="total_weight"/>
+                                <field name="freight_amount"/>
+                                <field name="payment_mode"/>
+                            </group>
+                        </page>
+
+                        <page string="Delivery Info">
+                            <group>
+                                <field name="delivery_date"/>
+                                <field name="remarks"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- =============================
+             SEARCH VIEW
+        ============================== -->
+    <record id="view_lorry_receipt_search" model="ir.ui.view">
+        <field name="name">lorry.receipt.search</field>
+        <field name="model">lorry.receipt</field>
+        <field name="arch" type="xml">
+            <search string="Search Lorry Receipts">
+                <field name="name"/>
+                <field name="consignor"/>
+                <field name="consignee"/>
+                <filter string="Draft" name="draft" domain="[('status','=','draft')]"/>
+                <filter string="In Transit" name="in_transit" domain="[('status','=','in_transit')]"/>
+                <filter string="Delivered" name="delivered" domain="[('status','=','delivered')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Status" name="group_status" context="{'group_by':'status'}"/>
+                    <filter string="Dispatch" name="group_dispatch" context="{'group_by':'dispatch_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
 
 
 
-    </data>
+
+
 </odoo>
