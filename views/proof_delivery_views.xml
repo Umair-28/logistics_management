@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 
+    <!-- Action -->
     <record id="action_proof_delivery" model="ir.actions.act_window">
         <field name="name">Proof of Delivery</field>
         <field name="res_model">proof.delivery</field>
         <field name="view_mode">list,form</field>
     </record>
+
+    <!-- Form View -->
     <record id="view_proof_delivery_form" model="ir.ui.view">
         <field name="name">proof.delivery.form</field>
         <field name="model">proof.delivery</field>
@@ -42,8 +45,19 @@
                     </notebook>
 
                     <footer>
-                        <button name="action_mark_delivered" string="Mark Delivered" type="object" class="btn-primary" attrs="{'invisible': [('status', '!=', 'draft')]}"/>
-                        <button name="action_verify" string="Verify" type="object" class="btn-success" attrs="{'invisible': [('status', '!=', 'delivered')]}"/>
+                        <!-- ✅ Correct OWL conditional rendering -->
+                        <button name="action_mark_delivered"
+                                string="Mark Delivered"
+                                type="object"
+                                class="btn-primary"
+                                invisible="status != 'draft'"/>
+
+                        <button name="action_verify"
+                                string="Verify"
+                                type="object"
+                                class="btn-success"
+                                invisible="status != 'delivered'"/>
+
                         <button string="Cancel" class="btn-secondary" special="cancel"/>
                     </footer>
                 </sheet>
@@ -51,6 +65,7 @@
         </field>
     </record>
 
+    <!-- List View -->
     <record id="view_proof_delivery_list" model="ir.ui.view">
         <field name="name">proof.delivery.list</field>
         <field name="model">proof.delivery</field>
@@ -66,8 +81,6 @@
             </list>
         </field>
     </record>
-
-    <menuitem id="menu_pod_root" name="Proof of Delivery" parent="menu_dispatch_root" action="action_proof_delivery"/>
 
 
 </odoo>
