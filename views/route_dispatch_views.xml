@@ -39,9 +39,11 @@
             <form string="Route Dispatch" create="true" edit="true">
                 <header>
                     <!-- Action Buttons -->
-                    <!-- <button name="action_start_dispatch" string="Start Dispatch" type="object" class="btn-primary" invisible="status != 'draft'"/>
+                    <button name="action_start_dispatch" string="Start Dispatch" type="object" class="btn-primary" invisible="status != 'draft'"/>
                     <button name="action_complete_dispatch" string="Mark Completed" type="object" class="btn-success" invisible="status != 'in_transit'"/>
-                    <button name="action_cancel_dispatch" string="Cancel" type="object" class="btn-danger" invisible="status == 'completed' or status == 'cancelled'"/> -->
+                    <button name="action_cancel_dispatch" string="Cancel Dispatch" type="object" class="btn-danger" invisible="status == 'completed' or status == 'cancelled'"/>
+
+
 
                     <!-- Statusbar -->
                     <field name="status" widget="statusbar" statusbar_visible="draft,in_transit,completed,cancelled"/>

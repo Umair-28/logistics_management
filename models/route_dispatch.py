@@ -49,19 +49,19 @@ class RouteDispatch(models.Model):
     #     for record in self:
     #         record.total_lr = len(record.lr_ids)
 
-    # # Actions
-    # def action_start_trip(self):
-    #     for rec in self:
-    #         rec.status = 'in_transit'
-    #         rec.message_post(body=f"🚚 Trip started for Dispatch {rec.name}")
+    def action_start_dispatch(self):
+        for rec in self:
+            rec.status = 'in_transit'
+            rec.message_post(body=f"🚚 Dispatch {rec.name} started.")
 
-    # def action_complete_trip(self):
-    #     for rec in self:
-    #         rec.status = 'completed'
-    #         rec.message_post(body=f"✅ Trip completed for Dispatch {rec.name}")
+    def action_complete_dispatch(self):
+        for rec in self:
+            rec.status = 'completed'
+            rec.message_post(body=f"✅ Dispatch {rec.name} completed.")
 
-    # def action_cancel_trip(self):
-    #     for rec in self:
-    #         rec.status = 'cancelled'
-    #         rec.message_post(body=f"❌ Dispatch {rec.name} cancelled.")
+    def action_cancel_dispatch(self):
+        for rec in self:
+            rec.status = 'cancelled'
+            rec.message_post(body=f"❌ Dispatch {rec.name} cancelled.")
+
 
