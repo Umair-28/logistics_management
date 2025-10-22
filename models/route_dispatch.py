@@ -3,12 +3,13 @@ from odoo import models, fields, api
 from datetime import datetime
 
 class RouteDispatch(models.Model):
-    _name = "route.dispatch"
+    _name = "lms.route.dispatch"
     _description = "Route Dispatch"
     _inherit = ['mail.thread', 'mail.activity.mixin']  # Adds chatter + activities
 
     # Basic Info
-    name = fields.Char(string="Dispatch No", copy=False, readonly=True,default=lambda self: self.env['ir.sequence'].next_by_code('lms.route.dispatch'))
+    name = fields.Char(string="Dispatch No", required=True, copy=False, readonly=True,
+    default=lambda self: self.env['ir.sequence'].next_by_code('lms.route.dispatch'))
 
     dispatch_date = fields.Datetime(string="Dispatch Date", default=fields.Datetime.now, tracking=True)
     vehicle_id = fields.Many2one('fleet.vehicle', string="Vehicle", tracking=True)
@@ -30,10 +31,10 @@ class RouteDispatch(models.Model):
     ], string="Status", default='draft', tracking=True)
 
     # Related documents
-    trip_sheet_id = fields.Many2one('trip.sheet', string="Trip Sheet")
-    lr_ids = fields.One2many('lorry.receipt', 'dispatch_id', string="Lorry Receipts")
-    pod_ids = fields.One2many('proof.delivery', 'dispatch_id', string="Proof of Delivery")
-    ewaybill_ids = fields.One2many('eway.bill', 'dispatch_id', string="E-Way Bills")
+    trip_sheet_id = fields.Many2one('lms.trip.sheet', string="Trip Sheet")
+    lr_ids = fields.One2many('lms.lorry.receipt', 'dispatch_id', string="Lorry Receipts")
+    pod_ids = fields.One2many('lms.proof.delivery', 'dispatch_id', string="Proof of Delivery")
+    ewaybill_ids = fields.One2many('lms.eway.bill', 'dispatch_id', string="E-Way Bills")
 
     # Performance & Fuel
     total_fuel = fields.Float(string="Fuel Consumed (L)")

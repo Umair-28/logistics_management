@@ -1,112 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
+        <!-- ========== Action ========== -->
+        <record id="action_route_dispatch" model="ir.actions.act_window">
+            <field name="name">Route Dispatch</field>
+            <field name="res_model">lms.route.dispatch</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create your first Route Dispatch record
+                </p>
+            </field>
+        </record>
 
-    <!-- ========== list/List View ========== -->
-    <record id="view_route_dispatch_list" model="ir.ui.view">
-        <field name="name">route.dispatch.list</field>
-        <field name="model">route.dispatch</field>
-        <field name="arch" type="xml">
-            <list string="Route Dispatch" default_order="dispatch_date desc">
-                <field name="name"/>
-                <field name="dispatch_date"/>
-                <field name="vehicle_id"/>
-                <field name="driver_id"/>
-                <field name="route_id"/>
-                <field name="source_location"/>
-                <field name="destination_location"/>
-                <field name="status" widget="badge" options="{'clickable': False}"/>
-            </list>
-        </field>
-    </record>
+        <!-- ========== list/List View ========== -->
+        <record id="view_route_dispatch_list" model="ir.ui.view">
+            <field name="name">lms.route.dispatch.list</field>
+            <field name="model">lms.route.dispatch</field>
+            <field name="arch" type="xml">
+                <list string="Route Dispatch" default_order="dispatch_date desc">
+                    <field name="name"/>
+                    <field name="dispatch_date"/>
+                    <field name="vehicle_id"/>
+                    <field name="driver_id"/>
+                    <field name="route_id"/>
+                    <field name="source_location"/>
+                    <field name="destination_location"/>
+                    <field name="status" widget="badge" options="{'clickable': False}"/>
+                </list>
+            </field>
+        </record>
 
-    <!-- ========== Form View ========== -->
-    <record id="view_route_dispatch_form" model="ir.ui.view">
-        <field name="name">route.dispatch.form</field>
-        <field name="model">route.dispatch</field>
-        <field name="arch" type="xml">
-            <form string="Route Dispatch" create="true" edit="true">
-                <sheet>
-                    <div class="oe_title">
-                        <h1>
-                            <field name="name" readonly="1"/>
-                        </h1>
-                    </div>
+        <!-- ========== Form View ========== -->
+        <record id="view_route_dispatch_form" model="ir.ui.view">
+            <field name="name">lms.route.dispatch.form</field>
+            <field name="model">lms.route.dispatch</field>
+            <field name="arch" type="xml">
+                <form string="Route Dispatch" create="true" edit="true">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
 
-                    <group>
                         <group>
-                            <field name="dispatch_date"/>
-                            <field name="vehicle_id"/>
-                            <field name="driver_id"/>
-                            <field name="route_id"/>
-                        </group>
-                        <group>
-                            <field name="source_location"/>
-                            <field name="destination_location"/>
-                            <field name="distance_km"/>
-                            <field name="estimated_time"/>
-                        </group>
-                    </group>
-
-                    <notebook>
-                        <page string="Trip Details">
                             <group>
-                                <field name="status" widget="statusbar" statusbar_visible="draft,in_transit,completed,cancelled"/>
-                                <field name="trip_sheet_id"/>
-                                <field name="total_lr" readonly="1"/>
-                                <field name="total_fuel"/>
-                                <field name="mileage"/>
-                                <field name="remarks"/>
+                                <field name="dispatch_date"/>
+                                <field name="vehicle_id"/>
+                                <field name="driver_id"/>
+                                <field name="route_id"/>
                             </group>
-                        </page>
+                            <group>
+                                <field name="source_location"/>
+                                <field name="destination_location"/>
+                                <field name="distance_km"/>
+                                <field name="estimated_time"/>
+                            </group>
+                        </group>
 
-                        <page string="Lorry Receipts (LR)">
-                            <field name="lr_ids">
-                                <list editable="bottom">
-                                    <field name="name"/>
-                                    <field name="consignee"/>
-                                    <field name="total_weight"/>
-                                    <field name="status"/>
-                                </list>
-                            </field>
-                        </page>
-
-                        <page string="Proof of Delivery (POD)">
-                            <field name="pod_ids">
-                                <list editable="bottom">
-                                    <field name="name"/>
-                                    <field name="received_by"/>
-                                    <field name="delivery_date"/>
+                        <notebook>
+                            <page string="Trip Details">
+                                <group>
+                                    <field name="status" widget="statusbar"
+                                           statusbar_visible="draft,in_transit,completed,cancelled"/>
+                                    <field name="trip_sheet_id"/>
+                                    <field name="total_lr" readonly="1"/>
+                                    <field name="total_fuel"/>
+                                    <field name="mileage"/>
                                     <field name="remarks"/>
-                                </list>
-                            </field>
-                        </page>
+                                </group>
+                            </page>
 
-                        <page string="E-Way Bills">
-                            <field name="ewaybill_ids">
-                                <list editable="bottom">
-                                    <field name="name"/>
-                                    <field name="ewaybill_no"/>
-                                    <field name="valid_upto"/>
-                                    <field name="status"/>
-                                </list>
-                            </field>
-                        </page>
-                    </notebook>
-                </sheet>
+                            <page string="Lorry Receipts (LR)">
+                                <field name="lr_ids">
+                                    <list editable="bottom">
+                                        <field name="name"/>
+                                        <field name="consignee"/>
+                                        <field name="total_weight"/>
+                                        <field name="status"/>
+                                    </list>
+                                </field>
+                            </page>
 
-                <footer>
-                    <button name="action_start_trip" type="object" string="Start Trip" class="btn btn-primary" invisible="status != 'draft'"/>
+                            <page string="Proof of Delivery (POD)">
+                                <field name="pod_ids">
+                                    <list editable="bottom">
+                                        <field name="name"/>
+                                        <field name="received_by"/>
+                                        <field name="delivery_date"/>
+                                        <field name="remarks"/>
+                                    </list>
+                                </field>
+                            </page>
 
-                    <button name="action_complete_trip" type="object" string="Complete Trip" class="btn btn-success" invisible="status != 'in_transit'"/>
+                            <page string="E-Way Bills">
+                                <field name="ewaybill_ids">
+                                    <list editable="bottom">
+                                        <field name="name"/>
+                                        <field name="ewaybill_no"/>
+                                        <field name="valid_upto"/>
+                                        <field name="status"/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
 
-                    <button name="action_cancel_trip" type="object" string="Cancel" class="btn btn-secondary" invisible="status in ['completed', 'cancelled']"/>
-
-                    <button string="Close" class="btn btn-secondary" special="cancel"/>
-                </footer>
-
-            </form>
-        </field>
-    </record>
+                    <footer>
+                        <button name="action_start_trip" type="object" string="Start Trip" class="btn-primary"
+                                attrs="{'invisible': [('status', '!=', 'draft')]}"/>
+                        <button name="action_complete_trip" type="object" string="Complete Trip" class="btn-success"
+                                attrs="{'invisible': [('status', '!=', 'in_transit')]}"/>
+                        <button name="action_cancel_trip" type="object" string="Cancel" class="btn-secondary"
+                                attrs="{'invisible': [('status', 'in', ['completed', 'cancelled'])]}"/>
+                        <button string="Close" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
 
 </odoo>
