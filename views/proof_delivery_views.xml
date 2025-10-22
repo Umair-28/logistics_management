@@ -17,7 +17,7 @@
                 <sheet>
                     <group>
                         <group>
-                            <field name="name" readonly="1"/>
+                            <field name="name"/>
                             <field name="dispatch_id"/>
                             <field name="lorry_receipt_id"/>
                             <field name="status" widget="statusbar" statusbar_visible="draft,delivered,verified"/>
