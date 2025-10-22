@@ -4,8 +4,8 @@
 
     <!-- ========== list/List View ========== -->
     <record id="view_route_dispatch_list" model="ir.ui.view">
-        <field name="name">lms.route.dispatch.list</field>
-        <field name="model">lms.route.dispatch</field>
+        <field name="name">route.dispatch.list</field>
+        <field name="model">route.dispatch</field>
         <field name="arch" type="xml">
             <list string="Route Dispatch" default_order="dispatch_date desc">
                 <field name="name"/>
@@ -22,8 +22,8 @@
 
     <!-- ========== Form View ========== -->
     <record id="view_route_dispatch_form" model="ir.ui.view">
-        <field name="name">lms.route.dispatch.form</field>
-        <field name="model">lms.route.dispatch</field>
+        <field name="name">route.dispatch.form</field>
+        <field name="model">route.dispatch</field>
         <field name="arch" type="xml">
             <form string="Route Dispatch" create="true" edit="true">
                 <sheet>
