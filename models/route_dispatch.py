@@ -3,7 +3,7 @@ from odoo import models, fields, api
 from datetime import datetime
 
 class RouteDispatch(models.Model):
-    _name = "lms.route.dispatch"
+    _name = "route.dispatch"
     _description = "Route Dispatch"
     _inherit = ['mail.thread', 'mail.activity.mixin']  # Adds chatter + activities
 
