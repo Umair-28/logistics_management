@@ -2,3 +2,11 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_lms_module_user,lms.module user,model_lms_module,base.group_user,1,1,1,1
 access_lms_dashboard_user,lms.dashboard user,model_lms_dashboard,base.group_user,1,1,1,1
 access_trip_sheet_user,access_trip_sheet,model_trip_sheet,base.group_user,1,1,1,1
+access_route_dispatch_user,access_route_dispatch,model_route_dispatch,base.group_user,1,1,1,1
+access_proof_delivery_user,access_proof_delivery,model_proof_delivery,base.group_user,1,1,1,1
+access_lorry_receipt_user,access_lorry_receipt,model_lorry_receipt,base.group_user,1,1,1,1
+access_eway_bill_user,access_eway_bill,model_eway_bill,base.group_user,1,1,1,1
+
+
+
+
