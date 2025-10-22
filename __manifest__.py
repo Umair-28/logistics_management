@@ -18,6 +18,8 @@
         "security/ir.model.access.csv",
         "views/trip_sheet_views.xml",
         'views/route_dispatch_views.xml',
+        'views/lorry_receipt_views.xml',
+
     ],
     'assets': {
         'web.assets_backend': [

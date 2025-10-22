@@ -59,51 +59,6 @@
                         </group>
                     </group>
 
-                    <!-- <notebook>
-                        <page string="Trip Details">
-                            <group>
-                                <field name="status" widget="statusbar" statusbar_visible="draft,in_transit,completed,cancelled"/>
-                                <field name="trip_sheet_id"/>
-                                <field name="total_lr" readonly="1"/>
-                                <field name="total_fuel"/>
-                                <field name="mileage"/>
-                                <field name="remarks"/>
-                            </group>
-                        </page>
-
-                        <page string="Lorry Receipts (LR)">
-                            <field name="lr_ids">
-                                <list editable="bottom">
-                                    <field name="name"/>
-                                    <field name="consignee"/>
-                                    <field name="total_weight"/>
-                                    <field name="status"/>
-                                </list>
-                            </field>
-                        </page>
-
-                        <page string="Proof of Delivery (POD)">
-                            <field name="pod_ids">
-                                <list editable="bottom">
-                                    <field name="name"/>
-                                    <field name="received_by"/>
-                                    <field name="delivery_date"/>
-                                    <field name="remarks"/>
-                                </list>
-                            </field>
-                        </page>
-
-                        <page string="E-Way Bills">
-                            <field name="ewaybill_ids">
-                                <list editable="bottom">
-                                    <field name="name"/>
-                                    <field name="ewaybill_no"/>
-                                    <field name="valid_upto"/>
-                                    <field name="status"/>
-                                </list>
-                            </field>
-                        </page>
-                    </notebook> -->
                 </sheet>
 
 
