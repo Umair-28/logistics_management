@@ -16,6 +16,7 @@
         "views/lms_dashboard_action.xml",  # <-- load this FIRST
         "views/menu_views.xml",            # <-- then menus
         "security/ir.model.access.csv",
+        "views/trip_sheet_views.xml",
     ],
     'assets': {
         'web.assets_backend': [
