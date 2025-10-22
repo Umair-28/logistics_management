@@ -16,7 +16,7 @@
 
                     <button name="action_verify" string="Mark Verified" type="object" class="btn-success" invisible="status != 'delivered'"/>
 
-                    <button name="action_cancel" string="Cancel" type="object" class="btn-danger" invisible="status == 'cancelled' or status == 'verified'"/>
+                    <button name="action_cancel" string="Cancel" type="object" class="btn-danger" invisible="status == 'delivered'"/>
 
                     <field name="status" widget="statusbar" statusbar_visible="draft,delivered,verified,cancelled"/>
                 </header>

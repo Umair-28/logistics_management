@@ -1,0 +1,72 @@
+<odoo>
+    <record id="view_eway_bill_form" model="ir.ui.view">
+        <field name="name">eway.bill.form</field>
+        <field name="model">eway.bill</field>
+        <field name="arch" type="xml">
+            <form string="E-Way Bill">
+                <header>
+                    <button name="action_activate" string="Activate" type="object" class="btn-primary" invisible="status != 'draft'"/>
+
+                    <button name="action_expire" string="Mark Expired" type="object" class="btn-secondary" invisible="status != 'active'"/>
+
+                    <button name="action_cancel" string="Cancel" type="object" class="btn-danger" invisible="status not in ('draft','active')"/>
+
+                    <field name="status" widget="statusbar" statusbar_visible="draft,active,expired,cancelled"/>
+                </header>
+
+
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="ewaybill_no"/>
+                            <field name="dispatch_id"/>
+                            <field name="vehicle_no"/>
+                            <field name="transporter_name"/>
+                            <field name="transporter_gstin"/>
+                        </group>
+                        <group>
+                            <field name="generated_date"/>
+                            <field name="valid_upto"/>
+                            <field name="total_distance"/>
+                            <field name="is_expired" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Remarks">
+                            <field name="remarks"/>
+                        </page>
+                        <page string="Chatter">
+                            <field name="message_follower_ids" widget="mail_followers"/>
+                            <field name="message_ids" widget="mail_thread"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_eway_bill_tree" model="ir.ui.view">
+        <field name="name">eway.bill.tree</field>
+        <field name="model">eway.bill</field>
+        <field name="arch" type="xml">
+            <tree string="E-Way Bills">
+                <field name="name"/>
+                <field name="ewaybill_no"/>
+                <field name="dispatch_id"/>
+                <field name="valid_upto"/>
+                <field name="status"/>
+                <field name="is_expired"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_eway_bill" model="ir.actions.act_window">
+        <field name="name">E-Way Bills</field>
+        <field name="res_model">eway.bill</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_eway_bill_root" name="E-Way Bills" parent="menu_lms_root" sequence="20" action="action_eway_bill"/>
+</odoo>
