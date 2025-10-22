@@ -58,6 +58,13 @@ export class Dashboard extends Component {
       baseSrc = `/web#menu_id=fleet.menu_fleet_reporting&action=fleet.action_fleet_report_all`;
     }
 
+    //Dispatch Management
+
+    else if(tab === "trip_sheet"){
+      baseSrc = `/web#menu_id=fleet.menu_fleet_root&action=lms.action_trip_sheet`;
+
+    }
+
     // Logistics Operations (Fleet, Routes, etc.)
     else if (tab === "fleet_overview") {
       baseSrc = `/web#menu_id=fleet.menu_fleet_root&action=fleet.fleet_vehicle_action`;
