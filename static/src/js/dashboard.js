@@ -53,7 +53,7 @@ export class Dashboard extends Component {
     } else if (tab === "pod") {
       baseSrc = `/web#menu_id=fleet.menu_fleet_root&action=lms.action_proof_delivery`;
     } else if (tab === "ewaybill") {
-      baseSrc = `/web#menu_id=account.menu_finance&action=account.action_account_moves_all`;
+      baseSrc = `/web#menu_id=account.menu_finance&action=lms.action_eway_bill`;
     } else if (tab === "dispatch_reports") {
       baseSrc = `/web#menu_id=fleet.menu_fleet_reporting&action=fleet.action_fleet_report_all`;
     }
