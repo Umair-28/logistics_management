@@ -19,6 +19,7 @@
         "views/trip_sheet_views.xml",
         'views/route_dispatch_views.xml',
         'views/lorry_receipt_views.xml',
+        'views/proof_delivery_views.xml'
 
     ],
     'assets': {
