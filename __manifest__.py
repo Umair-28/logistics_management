@@ -16,6 +16,7 @@
         "views/lms_dashboard_action.xml",  # <-- load this FIRST
         "views/menu_views.xml",            # <-- then menus
         "security/ir.model.access.csv",
+        'data/sequence_data.xml',
         "views/trip_sheet_views.xml",
         'views/route_dispatch_views.xml',
         'views/lorry_receipt_views.xml',
