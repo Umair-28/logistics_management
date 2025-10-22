@@ -41,13 +41,7 @@ class RouteDispatch(models.Model):
     mileage = fields.Float(string="Mileage (KM/L)")
     remarks = fields.Text(string="Remarks")
 
-    # # Computed fields
-    # total_lr = fields.Integer(string="Total LRs", compute="_compute_total_lr", store=True)
 
-    # @api.depends('lr_ids')
-    # def _compute_total_lr(self):
-    #     for record in self:
-    #         record.total_lr = len(record.lr_ids)
 
     def action_start_dispatch(self):
         for rec in self:

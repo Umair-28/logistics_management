@@ -17,6 +17,7 @@
         "views/menu_views.xml",            # <-- then menus
         "security/ir.model.access.csv",
         'data/sequence_data.xml',
+        'data/sequence_trip_sheet_data.xml',
         "views/trip_sheet_views.xml",
         'views/route_dispatch_views.xml',
         'views/lorry_receipt_views.xml',
