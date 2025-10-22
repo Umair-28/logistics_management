@@ -45,7 +45,7 @@ export class Dashboard extends Component {
     } else if (tab === "warehouse") {
       baseSrc = `/web#menu_id=stock.menu_stock_root&action=stock.action_warehouse_form`;
     } else if (tab === "trip_sheet") {
-      baseSrc = `/web#menu_id=fleet.menu_fleet_root&action=fleet.fleet_vehicle_action`;
+      baseSrc = `/web#menu_id=fleet.menu_fleet_root&action=lms.action_trip_sheet`;
     } else if (tab === "route_dispatch") {
       baseSrc = `/web#menu_id=fleet.menu_fleet_root&action=fleet.fleet_vehicle_log_services_act`;
     } else if (tab === "lr") {
@@ -58,12 +58,6 @@ export class Dashboard extends Component {
       baseSrc = `/web#menu_id=fleet.menu_fleet_reporting&action=fleet.action_fleet_report_all`;
     }
 
-    //Dispatch Management
-
-    else if(tab === "trip_sheet"){
-      baseSrc = `/web#menu_id=fleet.menu_fleet_root&action=lms.action_trip_sheet`;
-
-    }
 
     // Logistics Operations (Fleet, Routes, etc.)
     else if (tab === "fleet_overview") {
