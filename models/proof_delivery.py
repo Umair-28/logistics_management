@@ -34,11 +34,7 @@ class ProofOfDelivery(models.Model):
     verified_by = fields.Many2one('res.users', string="Verified By")
     verified_date = fields.Datetime(string="Verified Date")
 
-    @api.model
-    def create(self, vals):
-        if not vals.get('name'):
-            vals['name'] = self.env['ir.sequence'].next_by_code('proof.delivery')
-        return super(ProofOfDelivery, self).create(vals)
+
 
     def action_mark_delivered(self):
         """Mark POD as delivered"""
