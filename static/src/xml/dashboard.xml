@@ -30,7 +30,7 @@
                             <li t-on-click="() => setActiveSection('lr')">Lorry Receipt (LR)</li>
                             <li t-on-click="() => setActiveSection('pod')">Proof of Delivery (POD)</li>
                             <li t-on-click="() => setActiveSection('ewaybill')">E-Way Bill</li>
-                            <li t-on-click="() => setActiveSection('dispatch_reports')">Dispatch Reports</li>
+                            <!-- <li t-on-click="() => setActiveSection('dispatch_reports')">Dispatch Reports</li> -->
                         </ul>
                     </li>
 
