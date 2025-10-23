@@ -135,10 +135,10 @@ export class Dashboard extends Component {
       try {
         const [activeTrips, pendingLR, pendingPOD] = await Promise.all([
           this.orm.searchCount("lms.trip.sheet", [
-            ["state", "=", "in_progress"],
+            ["status", "=", "in_progress"],
           ]),
-          this.orm.searchCount("lms.lorry.receipt", [["state", "=", "draft"]]),
-          this.orm.searchCount("lms.proof.delivery", [["state", "=", "draft"]]),
+          this.orm.searchCount("lms.lorry.receipt", [["status", "=", "draft"]]),
+          this.orm.searchCount("lms.proof.delivery", [["status", "=", "draft"]]),
         ]);
 
         this.state.stats.dispatch = {
