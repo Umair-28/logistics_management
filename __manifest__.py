@@ -22,6 +22,8 @@
         'data/sequence_lorry_receipt.xml',
         'data/sequence_proof_delivery.xml',
         'data/sequence_eway_bill.xml',
+        'data/sequence_data.xml',
+        'views/contract_management_views.xml',
         'views/eway_bill_view.xml',
         "views/trip_sheet_views.xml",
         'views/route_dispatch_views.xml',

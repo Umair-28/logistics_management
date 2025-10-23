@@ -8,3 +8,4 @@ from . import route_dispatch
 from . import lorry_receipt
 from . import proof_delivery
 from . import eway_bill
+from . import contract_management
