@@ -117,7 +117,6 @@
                     <div class="dashboard-content">
                         <div class="dashboard-header">
                             <h1>Logistics Management Dashboard</h1>
-                            <p class="dashboard-subtitle">Real-time overview of your logistics operations</p>
                         </div>
 
                         <!-- Loading State -->
@@ -224,10 +223,10 @@
                                                 <span class="value" t-esc="state.stats.fleet.active_vehicles"/>
                                                 <span class="label">Active</span>
                                             </div>
-                                            <div class="stat-item danger">
+                                            <!-- <div class="stat-item danger">
                                                 <span class="value" t-esc="state.stats.fleet.maintenance_due"/>
                                                 <span class="label">Maintenance Due</span>
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </div>
                                 </div>
@@ -277,7 +276,7 @@
                             </div>
 
                             <!-- Quick Actions -->
-                            <div class="quick-actions">
+                            <!-- <div class="quick-actions">
                                 <h2>Quick Actions</h2>
                                 <div class="actions-grid">
                                     <button class="action-btn" t-on-click="() => navigateTo('lead')">
@@ -297,7 +296,7 @@
                                         <span>New RFQ</span>
                                     </button>
                                 </div>
-                            </div>
+                            </div> -->
                         </t>
                     </div>
                 </t>

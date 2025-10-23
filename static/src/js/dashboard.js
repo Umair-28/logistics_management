@@ -54,7 +54,7 @@ export class Dashboard extends Component {
 
     this.setActiveSection = this.setActiveSection.bind(this);
     this.toggleSubMenu = this.toggleSubMenu.bind(this);
-    this.navigateTo = this.navigateTo.bind(this)
+    this.navigateTo = this.navigateTo.bind(this);
 
     onWillStart(async () => {
       await this.loadDashboardStats();
@@ -65,13 +65,23 @@ export class Dashboard extends Component {
     try {
       this.state.loading = true;
 
-      // Load CRM Stats
+      // 1. Fetch stage IDs
+      const stages = await this.orm.searchRead("crm.stage", [], ["name"]);
+      const wonStage = stages.find((s) => s.name === "Won");
+      const lostStage = stages.find((s) => s.name === "Failed");
+
+      // 2. Count leads
       const [totalLeads, wonLeads, lostLeads] = await Promise.all([
         this.orm.searchCount("crm.lead", []),
-        this.orm.searchCount("crm.lead", [["stage_id.name", "=", "Won"]]),
-        this.orm.searchCount("crm.lead", [["stage_id.name", "=", "Failed"]]),
+        wonStage
+          ? this.orm.searchCount("crm.lead", [["stage_id", "=", wonStage.id]])
+          : 0,
+        lostStage
+          ? this.orm.searchCount("crm.lead", [["stage_id", "=", lostStage.id]])
+          : 0,
       ]);
 
+      // 3. Build state
       this.state.stats.leads = {
         total: totalLeads,
         won: wonLeads,
@@ -104,9 +114,11 @@ export class Dashboard extends Component {
       // Load Dispatch Stats (if lms module exists)
       try {
         const [activeTrips, pendingLR, pendingPOD] = await Promise.all([
-          this.orm.searchCount("lms.trip.sheet", [["state", "=", "in_progress"]]),
+          this.orm.searchCount("lms.trip.sheet", [
+            ["state", "=", "in_progress"],
+          ]),
           this.orm.searchCount("lms.lorry.receipt", [["state", "=", "draft"]]),
-          this.orm.searchCount("lms.proof.delivery", [["state", "=", "pending"]]),
+          this.orm.searchCount("lms.proof.delivery", [["state", "=", "draft"]]),
         ]);
 
         this.state.stats.dispatch = {
@@ -503,4 +515,3 @@ registry.category("actions").add("lms_dashboard_client_action", Dashboard);
 
 // Dashboard.template = "lms.Dashboard";
 // registry.category("actions").add("lms_dashboard_client_action", Dashboard);
-
