@@ -65,12 +65,24 @@ export class Dashboard extends Component {
     try {
       this.state.loading = true;
 
-      // 1. Fetch stage IDs
-      const stages = await this.orm.searchRead("crm.stage", [], ["name"]);
-      const wonStage = stages.find((s) => s.name === "Won");
-      const lostStage = stages.find((s) => s.name === "Failed");
+      // 1. Fetch all stages
+      const stages = await this.orm.searchRead("crm.stage", [], ["id", "name"]);
 
-      // 2. Count leads
+      // 2. Normalize translated names (handle en_US or fallback)
+      const normalizeName = (nameField) => {
+        if (typeof nameField === "string") return nameField;
+        if (nameField && typeof nameField === "object") {
+          // Get first available translation (e.g., en_US)
+          return nameField.en_US || Object.values(nameField)[0];
+        }
+        return "";
+      };
+
+      // 3. Find matching stages by name
+      const wonStage = stages.find((s) => normalizeName(s.name) === "Won");
+      const lostStage = stages.find((s) => normalizeName(s.name) === "Lost");
+
+      // 4. Count leads
       const [totalLeads, wonLeads, lostLeads] = await Promise.all([
         this.orm.searchCount("crm.lead", []),
         wonStage
@@ -80,6 +92,14 @@ export class Dashboard extends Component {
           ? this.orm.searchCount("crm.lead", [["stage_id", "=", lostStage.id]])
           : 0,
       ]);
+
+      // 5. Build stats object
+      this.state.stats.leads = {
+        total: totalLeads,
+        won: wonLeads,
+        lost: lostLeads,
+        in_progress: totalLeads - wonLeads - lostLeads,
+      };
 
       // 3. Build state
       this.state.stats.leads = {
