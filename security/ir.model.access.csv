@@ -6,6 +6,8 @@ access_route_dispatch_user,access_route_dispatch,model_route_dispatch,base.group
 access_proof_delivery_user,access_proof_delivery,model_proof_delivery,base.group_user,1,1,1,1
 access_lorry_receipt_user,access_lorry_receipt,model_lorry_receipt,base.group_user,1,1,1,1
 access_eway_bill_user,access_eway_bill,model_eway_bill,base.group_user,1,1,1,1
+access_logistics_contract_user,access_logistics_contract,model_logistics_contract,base.group_user,1,1,1,1
+
 
 
 

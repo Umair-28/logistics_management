@@ -283,6 +283,11 @@ export class Dashboard extends Component {
       baseSrc = `/web#menu_id=stock.menu_stock_root&action=stock_enterprise.stock_report_action_performance&view_type=graph`;
     }
 
+    else if(tab === "contract"){
+      baseSrc = `/web#action=lms.action_logistics_contract`;
+
+    }
+
     // Dashboard
     else if (tab === "dashboard") {
       baseSrc = "";

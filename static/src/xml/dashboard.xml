@@ -107,6 +107,12 @@
                             </li>
                         </ul>
                     </li>
+
+                    <!-- Contract Management -->
+
+                    <li t-on-click="() => setActiveSection('contract')" t-att-class="{'active': state.tab === 'contract'}">
+                        Contract Management
+                    </li>
                 </ul>
             </aside>
 
@@ -130,7 +136,7 @@
                         <!-- Stats Grid -->
                         <t t-else="">
                             <div class="stats-grid">
-                                
+
                                 <!-- CRM Stats -->
                                 <div class="stat-card crm-card" t-on-click="() => navigateTo('lead')">
                                     <div class="stat-header">
