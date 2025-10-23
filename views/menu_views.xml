@@ -12,5 +12,6 @@
         name="LMS"
         action="action_lms_dashboard_main"
         sequence="10"
+        web_icon="lms,static/description/icon.png"
     />
 </odoo>

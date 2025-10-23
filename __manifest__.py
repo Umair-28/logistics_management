@@ -36,6 +36,7 @@
             'lms/static/src/css/dashboard.css',
         ],
     },
+    'web_icon': 'lms,static/description/icon.png',
     "installable": True,
     "application": True,
 }
