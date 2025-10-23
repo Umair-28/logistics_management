@@ -8,6 +8,11 @@
                 <div class="lms-logo">🚚 Logistics Management</div>
 
                 <ul class="lms-menu">
+                    <!-- Dashboard Overview -->
+                    <li t-on-click="() => setActiveSection('dashboard')" t-att-class="{'active': state.tab === 'dashboard'}">
+                        Dashboard Overview
+                    </li>
+
                     <!-- Lead -->
                     <li t-on-click="() => setActiveSection('lead')" t-att-class="{'active': state.tab === 'lead'}">
                         Lead Management
@@ -30,7 +35,6 @@
                             <li t-on-click="() => setActiveSection('lr')">Lorry Receipt (LR)</li>
                             <li t-on-click="() => setActiveSection('pod')">Proof of Delivery (POD)</li>
                             <li t-on-click="() => setActiveSection('ewaybill')">E-Way Bill</li>
-                            <!-- <li t-on-click="() => setActiveSection('dispatch_reports')">Dispatch Reports</li> -->
                         </ul>
                     </li>
 
@@ -45,7 +49,6 @@
                             <li t-on-click="() => setActiveSection('vehicle_costs')">Vehicle Costs</li>
                             <li t-on-click="() => setActiveSection('odoometer')">Odometer</li>
                             <li t-on-click="() => setActiveSection('route_optimization')">Route Optimization</li>
-                            <!-- <li t-on-click="() => setActiveSection('fleet_reports')">Fleet Reports</li> -->
                         </ul>
                     </li>
 
@@ -109,13 +112,193 @@
 
             <!-- Main Content -->
             <main class="lms-main">
-                <!-- Dashboard View -->
+                <!-- Dashboard View with Stats -->
                 <t t-if="state.tab === 'dashboard'">
                     <div class="dashboard-content">
                         <div class="dashboard-header">
                             <h1>Logistics Management Dashboard</h1>
                             <p class="dashboard-subtitle">Real-time overview of your logistics operations</p>
                         </div>
+
+                        <!-- Loading State -->
+                        <t t-if="state.loading">
+                            <div class="loading-container">
+                                <div class="spinner"></div>
+                                <p>Loading dashboard statistics...</p>
+                            </div>
+                        </t>
+
+                        <!-- Stats Grid -->
+                        <t t-else="">
+                            <div class="stats-grid">
+                                
+                                <!-- CRM Stats -->
+                                <div class="stat-card crm-card" t-on-click="() => navigateTo('lead')">
+                                    <div class="stat-header">
+                                        <h3>Lead Management</h3>
+                                        <span class="stat-icon">📊</span>
+                                    </div>
+                                    <div class="stat-body">
+                                        <div class="stat-main">
+                                            <div class="stat-number" t-esc="state.stats.leads.total"/>
+                                            <div class="stat-label">Total Leads</div>
+                                        </div>
+                                        <div class="stat-details">
+                                            <div class="stat-item success">
+                                                <span class="value" t-esc="state.stats.leads.won"/>
+                                                <span class="label">Won</span>
+                                            </div>
+                                            <div class="stat-item warning">
+                                                <span class="value" t-esc="state.stats.leads.in_progress"/>
+                                                <span class="label">In Progress</span>
+                                            </div>
+                                            <div class="stat-item danger">
+                                                <span class="value" t-esc="state.stats.leads.lost"/>
+                                                <span class="label">Lost</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Warehouse Stats -->
+                                <div class="stat-card warehouse-card" t-on-click="() => navigateTo('warehouse')">
+                                    <div class="stat-header">
+                                        <h3>Warehouse Management</h3>
+                                        <span class="stat-icon">📦</span>
+                                    </div>
+                                    <div class="stat-body">
+                                        <div class="stat-main">
+                                            <div class="stat-number" t-esc="state.stats.warehouse.total_products"/>
+                                            <div class="stat-label">Total Products</div>
+                                        </div>
+                                        <div class="stat-details">
+                                            <div class="stat-item">
+                                                <span class="value" t-esc="formatCurrency(state.stats.warehouse.stock_value)"/>
+                                                <span class="label">Stock Value</span>
+                                            </div>
+                                            <div class="stat-item warning">
+                                                <span class="value" t-esc="state.stats.warehouse.pending_transfers"/>
+                                                <span class="label">Pending Transfers</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Dispatch Stats -->
+                                <div class="stat-card dispatch-card" t-on-click="() => navigateTo('trip_sheet')">
+                                    <div class="stat-header">
+                                        <h3>Dispatch Management</h3>
+                                        <span class="stat-icon">🚚</span>
+                                    </div>
+                                    <div class="stat-body">
+                                        <div class="stat-main">
+                                            <div class="stat-number" t-esc="state.stats.dispatch.active_trips"/>
+                                            <div class="stat-label">Active Trips</div>
+                                        </div>
+                                        <div class="stat-details">
+                                            <div class="stat-item warning">
+                                                <span class="value" t-esc="state.stats.dispatch.pending_lr"/>
+                                                <span class="label">Pending LR</span>
+                                            </div>
+                                            <div class="stat-item warning">
+                                                <span class="value" t-esc="state.stats.dispatch.pending_pod"/>
+                                                <span class="label">Pending POD</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Fleet Stats -->
+                                <div class="stat-card fleet-card" t-on-click="() => navigateTo('fleet_overview')">
+                                    <div class="stat-header">
+                                        <h3>Fleet Management</h3>
+                                        <span class="stat-icon">🚗</span>
+                                    </div>
+                                    <div class="stat-body">
+                                        <div class="stat-main">
+                                            <div class="stat-number" t-esc="state.stats.fleet.total_vehicles"/>
+                                            <div class="stat-label">Total Vehicles</div>
+                                        </div>
+                                        <div class="stat-details">
+                                            <div class="stat-item success">
+                                                <span class="value" t-esc="state.stats.fleet.active_vehicles"/>
+                                                <span class="label">Active</span>
+                                            </div>
+                                            <div class="stat-item danger">
+                                                <span class="value" t-esc="state.stats.fleet.maintenance_due"/>
+                                                <span class="label">Maintenance Due</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Finance Stats -->
+                                <div class="stat-card finance-card" t-on-click="() => navigateTo('finance_overview')">
+                                    <div class="stat-header">
+                                        <h3>Finance &amp; Accounting</h3>
+                                        <span class="stat-icon">💰</span>
+                                    </div>
+                                    <div class="stat-body">
+                                        <div class="stat-main">
+                                            <div class="stat-number" t-esc="formatCurrency(state.stats.finance.unpaid_amount)"/>
+                                            <div class="stat-label">Unpaid Amount</div>
+                                        </div>
+                                        <div class="stat-details">
+                                            <div class="stat-item warning">
+                                                <span class="value" t-esc="state.stats.finance.unpaid_invoices"/>
+                                                <span class="label">Unpaid Invoices</span>
+                                            </div>
+                                            <div class="stat-item warning">
+                                                <span class="value" t-esc="state.stats.finance.pending_bills"/>
+                                                <span class="label">Pending Bills</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- RFQ Stats -->
+                                <div class="stat-card rfq-card" t-on-click="() => navigateTo('rfq')">
+                                    <div class="stat-header">
+                                        <h3>RFP/RFQ</h3>
+                                        <span class="stat-icon">📋</span>
+                                    </div>
+                                    <div class="stat-body">
+                                        <div class="stat-main">
+                                            <div class="stat-label">Quick Access</div>
+                                        </div>
+                                        <div class="stat-details">
+                                            <div class="stat-item">
+                                                <span class="label">Manage RFQs →</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <!-- Quick Actions -->
+                            <div class="quick-actions">
+                                <h2>Quick Actions</h2>
+                                <div class="actions-grid">
+                                    <button class="action-btn" t-on-click="() => navigateTo('lead')">
+                                        <span class="btn-icon">➕</span>
+                                        <span>New Lead</span>
+                                    </button>
+                                    <button class="action-btn" t-on-click="() => navigateTo('trip_sheet')">
+                                        <span class="btn-icon">🚚</span>
+                                        <span>Create Trip Sheet</span>
+                                    </button>
+                                    <button class="action-btn" t-on-click="() => navigateTo('customer_invoices')">
+                                        <span class="btn-icon">📄</span>
+                                        <span>New Invoice</span>
+                                    </button>
+                                    <button class="action-btn" t-on-click="() => navigateTo('rfq')">
+                                        <span class="btn-icon">📋</span>
+                                        <span>New RFQ</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </t>
                     </div>
                 </t>
 
@@ -136,3 +319,127 @@
         </div>
     </t>
 </templates>
+<!-- <?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="lms.Dashboard" owl="1">
+        <div class="lms-dashboard-container">
+
+            <aside class="lms-sidebar">
+                <div class="lms-logo">🚚 Logistics Management</div>
+
+                <ul class="lms-menu">
+                    <li t-on-click="() => setActiveSection('lead')" t-att-class="{'active': state.tab === 'lead'}">
+                        Lead Management
+                    </li>
+
+                    <li t-on-click="() => setActiveSection('warehouse')" t-att-class="{'active': state.tab === 'warehouse'}">
+                        Warehouse Management
+                    </li>
+
+                    <li>
+                        <div t-on-click="() => toggleSubMenu('dispatch')" class="menu-header">
+                            <span>Dispatch Management</span>
+                            <span class="arrow" t-esc="state.expanded.dispatch ? '▾' : '▸'"/>
+                        </div>
+                        <ul t-if="state.expanded.dispatch" class="submenu">
+                            <li t-on-click="() => setActiveSection('trip_sheet')">Trip Sheet</li>
+                            <li t-on-click="() => setActiveSection('route_dispatch')">Route Dispatch</li>
+                            <li t-on-click="() => setActiveSection('lr')">Lorry Receipt (LR)</li>
+                            <li t-on-click="() => setActiveSection('pod')">Proof of Delivery (POD)</li>
+                            <li t-on-click="() => setActiveSection('ewaybill')">E-Way Bill</li>
+                            <li t-on-click="() => setActiveSection('dispatch_reports')">Dispatch Reports</li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <div t-on-click="() => toggleSubMenu('operations')" class="menu-header">
+                            <span>Logistics Operations</span>
+                            <span class="arrow" t-esc="state.expanded.operations ? '▾' : '▸'"/>
+                        </div>
+                        <ul t-if="state.expanded.operations" class="submenu">
+                            <li t-on-click="() => setActiveSection('fleet_overview')">Fleet Overview</li>
+                            <li t-on-click="() => setActiveSection('vehicle_costs')">Vehicle Costs</li>
+                            <li t-on-click="() => setActiveSection('odoometer')">Odometer</li>
+                            <li t-on-click="() => setActiveSection('route_optimization')">Route Optimization</li>
+                            <li t-on-click="() => setActiveSection('fleet_reports')">Fleet Reports</li> 
+                        </ul>
+                    </li>
+
+                    <li>
+                        <div t-on-click="() => toggleSubMenu('finance')" class="menu-header">
+                            <span>Finance &amp; Accounting</span>
+                            <span class="arrow" t-esc="state.expanded.finance ? '▾' : '▸'"/>
+                        </div>
+                        <ul t-if="state.expanded.finance" class="submenu">
+                            <li t-on-click="() => setActiveSection('finance_overview')">Overview</li>
+                            <li t-on-click="() => setActiveSection('customer_invoices')">Customer Invoices</li>
+                            <li t-on-click="() => setActiveSection('customer_credit_notes')">Customer Credit Notes</li>
+                            <li t-on-click="() => setActiveSection('customer_payments')">Customer Payments</li>
+                            <li t-on-click="() => setActiveSection('accounting_journals')">Accounting Journals</li>
+                            <li t-on-click="() => setActiveSection('accounting_journals_entries')">Journal Entries</li>
+                            <li t-on-click="() => setActiveSection('vendor_payments')">Bills</li>
+                        </ul>
+                    </li>
+
+                    <li t-on-click="() => setActiveSection('rfq')" t-att-class="{'active': state.tab === 'rfq'}">
+                        RFP/RFQ
+                    </li>
+
+                    <li>
+                        <div t-on-click="() => toggleSubMenu('reporting')" class="menu-header">
+                            <span>Reporting</span>
+                            <span class="arrow" t-esc="state.expanded.reporting ? '▾' : '▸'"/>
+                        </div>
+                        <ul t-if="state.expanded.reporting" class="submenu">
+                            <li>
+                                <div t-on-click="() => toggleSubMenu('sales_reporting')" class="menu-header submenu-header">
+                                    <span>Sales</span>
+                                    <span class="arrow" t-esc="state.expanded.sales_reporting ? '▾' : '▸'"/>
+                                </div>
+                                <ul t-if="state.expanded.sales_reporting" class="submenu nested">
+                                    <li t-on-click="() => setActiveSection('sales')">Lead Sales</li>
+                                    <li t-on-click="() => setActiveSection('sales_persons')">Sales Persons</li>
+                                    <li t-on-click="() => setActiveSection('sales_products')">Products</li>
+                                </ul>
+                            </li>
+
+                            <li>
+                                <div t-on-click="() => toggleSubMenu('inventory_warehouse_reporting')" class="menu-header submenu-header">
+                                    <span>Inventory &amp; Warehouse</span>
+                                    <span class="arrow" t-esc="state.expanded.inventory_warehouse_reporting ? '▾' : '▸'"/>
+                                </div>
+                                <ul t-if="state.expanded.inventory_warehouse_reporting" class="submenu nested">
+                                    <li t-on-click="() => setActiveSection('overview')">Overview</li>
+                                    <li t-on-click="() => setActiveSection('warehouse_analysis')">Warehouse Analysis</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
+
+            <main class="lms-main">
+                <t t-if="state.tab === 'dashboard'">
+                    <div class="dashboard-content">
+                        <div class="dashboard-header">
+                            <h1>Logistics Management Dashboard</h1>
+                            <p class="dashboard-subtitle">Real-time overview of your logistics operations</p>
+                        </div>
+                    </div>
+                </t>
+
+                <t t-if="state.tab !== 'dashboard' and state.iframeSrc">
+                    <div class="iframe-container">
+                        <iframe t-key="state.iframeKey" t-att-src="state.iframeSrc" frameborder="0"/>
+                    </div>
+                </t>
+
+                <t t-if="state.tab !== 'dashboard' and !state.iframeSrc">
+                    <div class="welcome-container">
+                        <p>👋 Welcome — Select a module from the sidebar to begin.</p>
+                    </div>
+                </t>
+            </main>
+        </div>
+    </t>
+</templates> -->

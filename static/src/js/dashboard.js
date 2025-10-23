@@ -1,14 +1,18 @@
 /** @odoo-module **/
 
-import { Component, useState } from "@odoo/owl";
+import { Component, useState, onWillStart } from "@odoo/owl";
 import { registry } from "@web/core/registry";
+import { useService } from "@web/core/utils/hooks";
 
 export class Dashboard extends Component {
   setup() {
+    this.orm = useService("orm");
+    this.action = useService("action");
+
     this.state = useState({
-      tab: "lead", // Default to dashboard
+      tab: "dashboard", // Default to dashboard
       iframeSrc: "",
-      iframeKey: 0, // Add key to force iframe recreation
+      iframeKey: 0,
       expanded: {
         dispatch: false,
         operations: false,
@@ -17,20 +21,165 @@ export class Dashboard extends Component {
         sales_reporting: false,
         inventory_warehouse_reporting: false,
       },
+      stats: {
+        leads: {
+          total: 0,
+          won: 0,
+          lost: 0,
+          in_progress: 0,
+        },
+        warehouse: {
+          total_products: 0,
+          stock_value: 0,
+          pending_transfers: 0,
+        },
+        dispatch: {
+          active_trips: 0,
+          pending_lr: 0,
+          pending_pod: 0,
+        },
+        fleet: {
+          total_vehicles: 0,
+          active_vehicles: 0,
+          maintenance_due: 0,
+        },
+        finance: {
+          unpaid_invoices: 0,
+          unpaid_amount: 0,
+          pending_bills: 0,
+        },
+      },
+      loading: true,
     });
 
-    // Ensure proper context binding
     this.setActiveSection = this.setActiveSection.bind(this);
     this.toggleSubMenu = this.toggleSubMenu.bind(this);
+
+    onWillStart(async () => {
+      await this.loadDashboardStats();
+    });
+  }
+
+  async loadDashboardStats() {
+    try {
+      this.state.loading = true;
+
+      // Load CRM Stats
+      const [totalLeads, wonLeads, lostLeads] = await Promise.all([
+        this.orm.searchCount("crm.lead", []),
+        this.orm.searchCount("crm.lead", [["stage_id.is_won", "=", true]]),
+        this.orm.searchCount("crm.lead", [["active", "=", false]]),
+      ]);
+
+      this.state.stats.leads = {
+        total: totalLeads,
+        won: wonLeads,
+        lost: lostLeads,
+        in_progress: totalLeads - wonLeads - lostLeads,
+      };
+
+      // Load Warehouse Stats
+      const [totalProducts, pendingTransfers] = await Promise.all([
+        this.orm.searchCount("product.product", []),
+        this.orm.searchCount("stock.picking", [
+          ["state", "in", ["assigned", "confirmed", "waiting"]],
+        ]),
+      ]);
+
+      // Get total stock value (sum of product quantities * cost)
+      const stockQuants = await this.orm.readGroup(
+        "stock.quant",
+        [["quantity", ">", 0]],
+        ["quantity:sum", "value:sum"],
+        []
+      );
+
+      this.state.stats.warehouse = {
+        total_products: totalProducts,
+        stock_value: stockQuants.length > 0 ? stockQuants[0].value : 0,
+        pending_transfers: pendingTransfers,
+      };
+
+      // Load Dispatch Stats (if lms module exists)
+      try {
+        const [activeTrips, pendingLR, pendingPOD] = await Promise.all([
+          this.orm.searchCount("lms.trip.sheet", [["state", "=", "in_progress"]]),
+          this.orm.searchCount("lms.lorry.receipt", [["state", "=", "draft"]]),
+          this.orm.searchCount("lms.proof.delivery", [["state", "=", "pending"]]),
+        ]);
+
+        this.state.stats.dispatch = {
+          active_trips: activeTrips,
+          pending_lr: pendingLR,
+          pending_pod: pendingPOD,
+        };
+      } catch (e) {
+        console.log("LMS module not available");
+      }
+
+      // Load Fleet Stats
+      const [totalVehicles, activeVehicles] = await Promise.all([
+        this.orm.searchCount("fleet.vehicle", []),
+        this.orm.searchCount("fleet.vehicle", [["active", "=", true]]),
+      ]);
+
+      this.state.stats.fleet = {
+        total_vehicles: totalVehicles,
+        active_vehicles: activeVehicles,
+        maintenance_due: totalVehicles - activeVehicles,
+      };
+
+      // Load Finance Stats
+      const unpaidInvoices = await this.orm.searchRead(
+        "account.move",
+        [
+          ["move_type", "=", "out_invoice"],
+          ["state", "=", "posted"],
+          ["payment_state", "in", ["not_paid", "partial"]],
+        ],
+        ["amount_residual"]
+      );
+
+      const unpaidBills = await this.orm.searchCount("account.move", [
+        ["move_type", "=", "in_invoice"],
+        ["state", "=", "posted"],
+        ["payment_state", "in", ["not_paid", "partial"]],
+      ]);
+
+      const totalUnpaid = unpaidInvoices.reduce(
+        (sum, inv) => sum + inv.amount_residual,
+        0
+      );
+
+      this.state.stats.finance = {
+        unpaid_invoices: unpaidInvoices.length,
+        unpaid_amount: totalUnpaid,
+        pending_bills: unpaidBills,
+      };
+    } catch (error) {
+      console.error("Error loading dashboard stats:", error);
+    } finally {
+      this.state.loading = false;
+    }
+  }
+
+  navigateTo(tab) {
+    this.setActiveSection(tab);
+  }
+
+  formatCurrency(amount) {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(amount);
   }
 
   toggleSubMenu(menu) {
     this.state.expanded[menu] = !this.state.expanded[menu];
   }
 
-  /**
-   * Set active section and reload iframe (forces reload with timestamp)
-   */
   setActiveSection(tab) {
     console.log("Selected TAB is", tab);
     this.state.tab = tab;
@@ -87,6 +236,8 @@ export class Dashboard extends Component {
       baseSrc = `/web#menu_id=account.menu_account_root&action=account.action_account_journal_form`;
     } else if (tab === "accounting_journals_entries") {
       baseSrc = `/web#menu_id=account.menu_account_root&action=account.action_move_journal_line`;
+    } else if (tab === "vendor_payments") {
+      baseSrc = `/web#menu_id=account.menu_account_root&action=account.action_move_in_invoice_type`;
     } else if (tab === "sales") {
       baseSrc = `/web#action=sale.report_all_channels_sales_action&menu_id=crm.menu_crm_root&view_type=graph`;
     } else if (tab === "sales_persons") {
@@ -99,15 +250,20 @@ export class Dashboard extends Component {
       baseSrc = `/web#menu_id=stock.menu_stock_root&action=stock_enterprise.stock_report_action_performance&view_type=graph`;
     }
 
+    // Dashboard
+    else if (tab === "dashboard") {
+      baseSrc = "";
+    }
+
     // Default
     else {
       baseSrc = "";
     }
 
-    // ✅ Force complete iframe recreation by incrementing key
+    // Force complete iframe recreation by incrementing key
     if (baseSrc) {
       this.state.iframeSrc = baseSrc;
-      this.state.iframeKey += 1; // This forces OWL to recreate the iframe element
+      this.state.iframeKey += 1;
       console.log("NEW IFRAME KEY:", this.state.iframeKey, "SRC:", baseSrc);
     } else {
       this.state.iframeSrc = "";
@@ -128,7 +284,6 @@ export class Dashboard extends Component {
           const applyCleanup = () => {
             if (!iframeDoc.head) return;
 
-            // Inject cleanup CSS once
             if (!iframeDoc.getElementById("hide-odoo-ui-style")) {
               const style = iframeDoc.createElement("style");
               style.id = "hide-odoo-ui-style";
@@ -155,14 +310,11 @@ export class Dashboard extends Component {
             }
           };
 
-          // Run immediately if ready
           applyCleanup();
 
-          // Observe DOM changes for dynamic re-renders
           const observer = new MutationObserver(() => applyCleanup());
           observer.observe(iframeDoc, { childList: true, subtree: true });
 
-          // Stop observing after 10 seconds
           setTimeout(() => observer.disconnect(), 10000);
         } catch (err) {
           console.warn("⚠️ Could not access iframe content:", err);
@@ -182,7 +334,7 @@ registry.category("actions").add("lms_dashboard_client_action", Dashboard);
 // export class Dashboard extends Component {
 //   setup() {
 //     this.state = useState({
-//       tab: "overview",
+//       tab: "lead", // Default to dashboard
 //       iframeSrc: "",
 //       iframeKey: 0, // Add key to force iframe recreation
 //       expanded: {
@@ -191,7 +343,7 @@ registry.category("actions").add("lms_dashboard_client_action", Dashboard);
 //         finance: false,
 //         reporting: false,
 //         sales_reporting: false,
-//         inventory_warehouse_reporting:false
+//         inventory_warehouse_reporting: false,
 //       },
 //     });
 
@@ -219,15 +371,15 @@ registry.category("actions").add("lms_dashboard_client_action", Dashboard);
 //     } else if (tab === "warehouse") {
 //       baseSrc = `/web#menu_id=stock.menu_stock_root&action=stock.action_warehouse_form`;
 //     } else if (tab === "trip_sheet") {
-//       baseSrc = `/web#menu_id=fleet.menu_fleet_root&action=fleet.fleet_vehicle_action`;
+//       baseSrc = `/web#menu_id=fleet.menu_fleet_root&action=lms.action_trip_sheet`;
 //     } else if (tab === "route_dispatch") {
-//       baseSrc = `/web#menu_id=fleet.menu_fleet_root&action=fleet.fleet_vehicle_log_services_act`;
+//       baseSrc = `/web#menu_id=fleet.menu_fleet_reporting&action=lms.action_route_dispatch`;
 //     } else if (tab === "lr") {
-//       baseSrc = `/web#menu_id=stock.menu_stock_warehouse_mgmt&action=stock.action_picking_tree_all`;
+//       baseSrc = `/web#menu_id=fleet.menu_fleet_root&action=lms.action_lorry_receipt`;
 //     } else if (tab === "pod") {
-//       baseSrc = `/web#menu_id=fleet.menu_fleet_root&action=fleet.fleet_vehicle_log_contracts_act`;
+//       baseSrc = `/web#menu_id=fleet.menu_fleet_root&action=lms.action_proof_delivery`;
 //     } else if (tab === "ewaybill") {
-//       baseSrc = `/web#menu_id=account.menu_finance&action=account.action_account_moves_all`;
+//       baseSrc = `/web#menu_id=account.menu_finance&action=lms.action_eway_bill`;
 //     } else if (tab === "dispatch_reports") {
 //       baseSrc = `/web#menu_id=fleet.menu_fleet_reporting&action=fleet.action_fleet_report_all`;
 //     }
@@ -263,20 +415,16 @@ registry.category("actions").add("lms_dashboard_client_action", Dashboard);
 //       baseSrc = `/web#menu_id=account.menu_account_root&action=account.action_account_journal_form`;
 //     } else if (tab === "accounting_journals_entries") {
 //       baseSrc = `/web#menu_id=account.menu_account_root&action=account.action_move_journal_line`;
-//     } else if (tab === "vendor_payments") {
-//       baseSrc = `/web#menu_id=account.menu_account_root&action=account.action_account_payments_payable`;
 //     } else if (tab === "sales") {
 //       baseSrc = `/web#action=sale.report_all_channels_sales_action&menu_id=crm.menu_crm_root&view_type=graph`;
 //     } else if (tab === "sales_persons") {
 //       baseSrc = `/web#action=sale.action_order_report_salesperson&menu_id=crm.menu_crm_root&view_type=graph`;
 //     } else if (tab === "sales_products") {
 //       baseSrc = `/web#action=sale.action_order_report_products&menu_id=crm.menu_crm_root&view_type=graph`;
-//     }
-//      else if (tab === "overview") {
-//       baseSrc =`/web#menu_id=stock.menu_stock_root&action=stock.stock_picking_type_action`;
-//     }
-//          else if (tab === "warehouse_analysis") {
-//       baseSrc =`/web#menu_id=stock.menu_stock_root&action=stock_enterprise.stock_report_action_performance&view_type=graph`;
+//     } else if (tab === "overview") {
+//       baseSrc = `/web#menu_id=stock.menu_stock_root&action=stock.stock_picking_type_action`;
+//     } else if (tab === "warehouse_analysis") {
+//       baseSrc = `/web#menu_id=stock.menu_stock_root&action=stock_enterprise.stock_report_action_performance&view_type=graph`;
 //     }
 
 //     // Default
@@ -353,6 +501,5 @@ registry.category("actions").add("lms_dashboard_client_action", Dashboard);
 // }
 
 // Dashboard.template = "lms.Dashboard";
-// registry
-//   .category("actions")
-//   .add("lms_dashboard_client_action", Dashboard);
+// registry.category("actions").add("lms_dashboard_client_action", Dashboard);
+
