@@ -134,11 +134,11 @@ export class Dashboard extends Component {
       // Load Dispatch Stats (if lms module exists)
       try {
         const [activeTrips, pendingLR, pendingPOD] = await Promise.all([
-          this.orm.searchCount("lms.trip.sheet", [
+          this.orm.searchCount("trip.sheet", [
             ["status", "=", "in_progress"],
           ]),
-          this.orm.searchCount("lms.lorry.receipt", [["status", "=", "draft"]]),
-          this.orm.searchCount("lms.proof.delivery", [["status", "=", "draft"]]),
+          this.orm.searchCount("lorry.receipt", [["status", "=", "draft"]]),
+          this.orm.searchCount("proof.delivery", [["status", "=", "draft"]]),
         ]);
 
         this.state.stats.dispatch = {
