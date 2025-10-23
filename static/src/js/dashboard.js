@@ -54,6 +54,7 @@ export class Dashboard extends Component {
 
     this.setActiveSection = this.setActiveSection.bind(this);
     this.toggleSubMenu = this.toggleSubMenu.bind(this);
+    this.navigateTo = this.navigateTo.bind(this)
 
     onWillStart(async () => {
       await this.loadDashboardStats();
@@ -67,8 +68,8 @@ export class Dashboard extends Component {
       // Load CRM Stats
       const [totalLeads, wonLeads, lostLeads] = await Promise.all([
         this.orm.searchCount("crm.lead", []),
-        this.orm.searchCount("crm.lead", [["stage_id.is_won", "=", true]]),
-        this.orm.searchCount("crm.lead", [["active", "=", false]]),
+        this.orm.searchCount("crm.lead", [["stage_id.name", "=", "Won"]]),
+        this.orm.searchCount("crm.lead", [["stage_id.name", "=", "Failed"]]),
       ]);
 
       this.state.stats.leads = {
