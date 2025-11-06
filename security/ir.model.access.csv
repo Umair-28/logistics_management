@@ -1,14 +1,19 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_lms_module_user,lms.module user,model_lms_module,base.group_user,1,1,1,1
-access_lms_dashboard_user,lms.dashboard user,model_lms_dashboard,base.group_user,1,1,1,1
-access_trip_sheet_user,access_trip_sheet,model_trip_sheet,base.group_user,1,1,1,1
-access_route_dispatch_user,access_route_dispatch,model_route_dispatch,base.group_user,1,1,1,1
-access_proof_delivery_user,access_proof_delivery,model_proof_delivery,base.group_user,1,1,1,1
-access_lorry_receipt_user,access_lorry_receipt,model_lorry_receipt,base.group_user,1,1,1,1
-access_eway_bill_user,access_eway_bill,model_eway_bill,base.group_user,1,1,1,1
-access_logistics_contract_user,access_logistics_contract,model_logistics_contract,base.group_user,1,1,1,1
-
-
-
-
-
+access_lms_module_manager,lms.module manager,model_lms_module,group_lms_manager,1,1,1,1
+access_lms_module_driver,lms.module driver,model_lms_module,group_lms_driver,1,0,0,0
+access_lms_module_warehouse,lms.module warehouse,model_lms_module,group_lms_warehouse_manager,1,1,1,0
+access_lms_dashboard_manager,lms.dashboard manager,model_lms_dashboard,group_lms_manager,1,1,1,1
+access_lms_dashboard_driver,lms.dashboard driver,model_lms_dashboard,group_lms_driver,1,0,0,0
+access_lms_dashboard_warehouse,lms.dashboard warehouse,model_lms_dashboard,group_lms_warehouse_manager,1,0,0,0
+access_trip_sheet_manager,access_trip_sheet_manager,model_trip_sheet,group_lms_manager,1,1,1,1
+access_trip_sheet_driver,access_trip_sheet_driver,model_trip_sheet,group_lms_driver,1,1,1,0
+access_route_dispatch_manager,access_route_dispatch_manager,model_route_dispatch,group_lms_manager,1,1,1,1
+access_route_dispatch_driver,access_route_dispatch_driver,model_route_dispatch,group_lms_driver,1,0,0,0
+access_proof_delivery_manager,access_proof_delivery_manager,model_proof_delivery,group_lms_manager,1,1,1,1
+access_proof_delivery_driver,access_proof_delivery_driver,model_proof_delivery,group_lms_driver,1,1,1,0
+access_lorry_receipt_manager,access_lorry_receipt_manager,model_lorry_receipt,group_lms_manager,1,1,1,1
+access_lorry_receipt_driver,access_lorry_receipt_driver,model_lorry_receipt,group_lms_driver,1,1,1,0
+access_eway_bill_manager,access_eway_bill_manager,model_eway_bill,group_lms_manager,1,1,1,1
+access_eway_bill_driver,access_eway_bill_driver,model_eway_bill,group_lms_driver,1,0,0,0
+access_logistics_contract_manager,access_logistics_contract_manager,model_logistics_contract,group_lms_manager,1,1,1,1
+access_logistics_contract_warehouse,access_logistics_contract_warehouse,model_logistics_contract,group_lms_warehouse_manager,1,1,1,0

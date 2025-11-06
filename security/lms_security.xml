@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Categories -->
+        <record id="module_category_lms" model="ir.module.category">
+            <field name="name">Logistics Management</field>
+            <field name="description">Manage logistics operations, fleet, and warehouse</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <!-- Driver Group -->
+        <record id="group_lms_driver" model="res.groups">
+            <field name="name">Driver</field>
+            <field name="category_id" ref="module_category_lms"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">Driver can view and manage trips, deliveries, and fleet information</field>
+        </record>
+
+        <!-- Warehouse Manager Group -->
+        <record id="group_lms_warehouse_manager" model="res.groups">
+            <field name="name">Warehouse Manager</field>
+            <field name="category_id" ref="module_category_lms"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user')), (4, ref('stock.group_stock_manager'))]"/>
+            <field name="comment">Warehouse Manager can manage inventory, warehouse operations, and finances</field>
+        </record>
+
+        <!-- Logistics Manager Group (Full Access) -->
+        <record id="group_lms_manager" model="res.groups">
+            <field name="name">Logistics Manager</field>
+            <field name="category_id" ref="module_category_lms"/>
+            <field name="implied_ids" eval="[(4, ref('group_lms_driver')), (4, ref('group_lms_warehouse_manager')), (4, ref('fleet.fleet_group_manager'))]"/>
+            <field name="comment">Logistics Manager has full access to all LMS features</field>
+        </record>
+    </data>
+</odoo>

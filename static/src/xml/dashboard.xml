@@ -3,27 +3,133 @@
     <t t-name="lms.Dashboard" owl="1">
         <div class="lms-dashboard-container">
 
-            <!-- Sidebar -->
             <aside class="lms-sidebar">
                 <div class="lms-logo">🚚 Logistics Management</div>
 
                 <ul class="lms-menu">
-                    <!-- Dashboard Overview -->
+                    <!-- Dashboard Overview - Visible to all roles -->
+                    <li t-on-click="() => setActiveSection('dashboard')" t-att-class="{'active': state.tab === 'dashboard'}">
+            Dashboard Overview
+                    </li>
+
+                    <!-- Lead Management - Only for Managers -->
+                    <li t-if="hasAccess('lead')" t-on-click="() => setActiveSection('lead')" t-att-class="{'active': state.tab === 'lead'}">
+            Lead Management
+                    </li>
+
+                    <!-- Warehouse Management - Only for Warehouse Managers and Logistics Managers -->
+                    <li t-if="hasAccess('warehouse')" t-on-click="() => setActiveSection('warehouse')" t-att-class="{'active': state.tab === 'warehouse'}">
+            Warehouse Management
+                    </li>
+
+                    <!-- Dispatch Management - Only for Drivers and Logistics Managers -->
+                    <li t-if="hasMenuAccess('dispatch')">
+                        <div t-on-click="() => toggleSubMenu('dispatch')" class="menu-header">
+                            <span>Dispatch Management</span>
+                            <span class="arrow" t-esc="state.expanded.dispatch ? '▾' : '▸'"/>
+                        </div>
+                        <ul t-if="state.expanded.dispatch" class="submenu">
+                            <li t-if="hasAccess('trip_sheet')" t-on-click="() => setActiveSection('trip_sheet')">Trip Sheet</li>
+                            <li t-if="hasAccess('route_dispatch')" t-on-click="() => setActiveSection('route_dispatch')">Route Dispatch</li>
+                            <li t-if="hasAccess('lr')" t-on-click="() => setActiveSection('lr')">Lorry Receipt (LR)</li>
+                            <li t-if="hasAccess('pod')" t-on-click="() => setActiveSection('pod')">Proof of Delivery (POD)</li>
+                            <li t-if="hasAccess('ewaybill')" t-on-click="() => setActiveSection('ewaybill')">E-Way Bill</li>
+                        </ul>
+                    </li>
+
+                    <!-- Logistics Operations - Only for Drivers and Logistics Managers -->
+                    <li t-if="hasMenuAccess('operations')">
+                        <div t-on-click="() => toggleSubMenu('operations')" class="menu-header">
+                            <span>Logistics Operations</span>
+                            <span class="arrow" t-esc="state.expanded.operations ? '▾' : '▸'"/>
+                        </div>
+                        <ul t-if="state.expanded.operations" class="submenu">
+                            <li t-if="hasAccess('fleet_overview')" t-on-click="() => setActiveSection('fleet_overview')">Fleet Overview</li>
+                            <li t-if="hasAccess('vehicle_costs')" t-on-click="() => setActiveSection('vehicle_costs')">Vehicle Costs</li>
+                            <li t-if="hasAccess('odoometer')" t-on-click="() => setActiveSection('odoometer')">Odometer</li>
+                            <li t-if="hasAccess('route_optimization')" t-on-click="() => setActiveSection('route_optimization')">Route Optimization</li>
+                        </ul>
+                    </li>
+
+                    <!-- Finance and Accounting - Only for Warehouse Managers and Logistics Managers -->
+                    <li t-if="hasMenuAccess('finance')">
+                        <div t-on-click="() => toggleSubMenu('finance')" class="menu-header">
+                            <span>Finance &amp; Accounting</span>
+                            <span class="arrow" t-esc="state.expanded.finance ? '▾' : '▸'"/>
+                        </div>
+                        <ul t-if="state.expanded.finance" class="submenu">
+                            <li t-if="hasAccess('finance_overview')" t-on-click="() => setActiveSection('finance_overview')">Overview</li>
+                            <li t-if="hasAccess('customer_invoices')" t-on-click="() => setActiveSection('customer_invoices')">Customer Invoices</li>
+                            <li t-if="hasAccess('customer_credit_notes')" t-on-click="() => setActiveSection('customer_credit_notes')">Customer Credit Notes</li>
+                            <li t-if="hasAccess('customer_payments')" t-on-click="() => setActiveSection('customer_payments')">Customer Payments</li>
+                            <li t-if="hasAccess('accounting_journals')" t-on-click="() => setActiveSection('accounting_journals')">Accounting Journals</li>
+                            <li t-if="hasAccess('accounting_journals_entries')" t-on-click="() => setActiveSection('accounting_journals_entries')">Journal Entries</li>
+                            <li t-if="hasAccess('vendor_payments')" t-on-click="() => setActiveSection('vendor_payments')">Bills</li>
+                        </ul>
+                    </li>
+
+                    <!-- RFQ - Only for Warehouse Managers and Logistics Managers -->
+                    <li t-if="hasAccess('rfq')" t-on-click="() => setActiveSection('rfq')" t-att-class="{'active': state.tab === 'rfq'}">
+            RFP/RFQ
+                    </li>
+
+                    <!-- Reporting - Only for Warehouse Managers and Logistics Managers -->
+                    <li t-if="hasMenuAccess('reporting')">
+                        <div t-on-click="() => toggleSubMenu('reporting')" class="menu-header">
+                            <span>Reporting</span>
+                            <span class="arrow" t-esc="state.expanded.reporting ? '▾' : '▸'"/>
+                        </div>
+                        <ul t-if="state.expanded.reporting" class="submenu">
+                            <!-- Sales Reporting - Only for Managers -->
+                            <li t-if="state.userRole === 'manager'">
+                                <div t-on-click="() => toggleSubMenu('sales_reporting')" class="menu-header submenu-header">
+                                    <span>Sales</span>
+                                    <span class="arrow" t-esc="state.expanded.sales_reporting ? '▾' : '▸'"/>
+                                </div>
+                                <ul t-if="state.expanded.sales_reporting" class="submenu nested">
+                                    <li t-on-click="() => setActiveSection('sales')">Lead Sales</li>
+                                    <li t-on-click="() => setActiveSection('sales_persons')">Sales Persons</li>
+                                    <li t-on-click="() => setActiveSection('sales_products')">Products</li>
+                                </ul>
+                            </li>
+
+                            <!-- Inventory/Warehouse Reporting - For Warehouse Managers and Logistics Managers -->
+                            <li>
+                                <div t-on-click="() => toggleSubMenu('inventory_warehouse_reporting')" class="menu-header submenu-header">
+                                    <span>Inventory &amp; Warehouse</span>
+                                    <span class="arrow" t-esc="state.expanded.inventory_warehouse_reporting ? '▾' : '▸'"/>
+                                </div>
+                                <ul t-if="state.expanded.inventory_warehouse_reporting" class="submenu nested">
+                                    <li t-if="hasAccess('overview')" t-on-click="() => setActiveSection('overview')">Overview</li>
+                                    <li t-if="hasAccess('warehouse_analysis')" t-on-click="() => setActiveSection('warehouse_analysis')">Warehouse Analysis</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!-- Contract Management - Only for Warehouse Managers and Logistics Managers -->
+                    <li t-if="hasAccess('contract')" t-on-click="() => setActiveSection('contract')" t-att-class="{'active': state.tab === 'contract'}">
+            Contract Management
+                    </li>
+                </ul>
+            </aside>
+
+            <!-- <aside class="lms-sidebar">
+                <div class="lms-logo">🚚 Logistics Management</div>
+
+                <ul class="lms-menu">
                     <li t-on-click="() => setActiveSection('dashboard')" t-att-class="{'active': state.tab === 'dashboard'}">
                         Dashboard Overview
                     </li>
 
-                    <!-- Lead -->
                     <li t-on-click="() => setActiveSection('lead')" t-att-class="{'active': state.tab === 'lead'}">
                         Lead Management
                     </li>
 
-                    <!-- Warehouse -->
                     <li t-on-click="() => setActiveSection('warehouse')" t-att-class="{'active': state.tab === 'warehouse'}">
                         Warehouse Management
                     </li>
 
-                    <!-- Dispatch Management -->
                     <li>
                         <div t-on-click="() => toggleSubMenu('dispatch')" class="menu-header">
                             <span>Dispatch Management</span>
@@ -38,7 +144,6 @@
                         </ul>
                     </li>
 
-                    <!-- Logistics Operations -->
                     <li>
                         <div t-on-click="() => toggleSubMenu('operations')" class="menu-header">
                             <span>Logistics Operations</span>
@@ -52,7 +157,6 @@
                         </ul>
                     </li>
 
-                    <!-- Finance and Accounting -->
                     <li>
                         <div t-on-click="() => toggleSubMenu('finance')" class="menu-header">
                             <span>Finance &amp; Accounting</span>
@@ -69,19 +173,16 @@
                         </ul>
                     </li>
 
-                    <!-- RFQ -->
                     <li t-on-click="() => setActiveSection('rfq')" t-att-class="{'active': state.tab === 'rfq'}">
                         RFP/RFQ
                     </li>
 
-                    <!-- Reporting -->
                     <li>
                         <div t-on-click="() => toggleSubMenu('reporting')" class="menu-header">
                             <span>Reporting</span>
                             <span class="arrow" t-esc="state.expanded.reporting ? '▾' : '▸'"/>
                         </div>
                         <ul t-if="state.expanded.reporting" class="submenu">
-                            <!-- Sales Reporting -->
                             <li>
                                 <div t-on-click="() => toggleSubMenu('sales_reporting')" class="menu-header submenu-header">
                                     <span>Sales</span>
@@ -94,7 +195,6 @@
                                 </ul>
                             </li>
 
-                            <!-- Inventory/Warehouse Reporting -->
                             <li>
                                 <div t-on-click="() => toggleSubMenu('inventory_warehouse_reporting')" class="menu-header submenu-header">
                                     <span>Inventory &amp; Warehouse</span>
@@ -108,13 +208,12 @@
                         </ul>
                     </li>
 
-                    <!-- Contract Management -->
 
                     <li t-on-click="() => setActiveSection('contract')" t-att-class="{'active': state.tab === 'contract'}">
                         Contract Management
                     </li>
                 </ul>
-            </aside>
+            </aside> -->
 
             <!-- Main Content -->
             <main class="lms-main">
@@ -324,127 +423,4 @@
         </div>
     </t>
 </templates>
-<!-- <?xml version="1.0" encoding="UTF-8"?>
-<templates xml:space="preserve">
-    <t t-name="lms.Dashboard" owl="1">
-        <div class="lms-dashboard-container">
 
-            <aside class="lms-sidebar">
-                <div class="lms-logo">🚚 Logistics Management</div>
-
-                <ul class="lms-menu">
-                    <li t-on-click="() => setActiveSection('lead')" t-att-class="{'active': state.tab === 'lead'}">
-                        Lead Management
-                    </li>
-
-                    <li t-on-click="() => setActiveSection('warehouse')" t-att-class="{'active': state.tab === 'warehouse'}">
-                        Warehouse Management
-                    </li>
-
-                    <li>
-                        <div t-on-click="() => toggleSubMenu('dispatch')" class="menu-header">
-                            <span>Dispatch Management</span>
-                            <span class="arrow" t-esc="state.expanded.dispatch ? '▾' : '▸'"/>
-                        </div>
-                        <ul t-if="state.expanded.dispatch" class="submenu">
-                            <li t-on-click="() => setActiveSection('trip_sheet')">Trip Sheet</li>
-                            <li t-on-click="() => setActiveSection('route_dispatch')">Route Dispatch</li>
-                            <li t-on-click="() => setActiveSection('lr')">Lorry Receipt (LR)</li>
-                            <li t-on-click="() => setActiveSection('pod')">Proof of Delivery (POD)</li>
-                            <li t-on-click="() => setActiveSection('ewaybill')">E-Way Bill</li>
-                            <li t-on-click="() => setActiveSection('dispatch_reports')">Dispatch Reports</li>
-                        </ul>
-                    </li>
-
-                    <li>
-                        <div t-on-click="() => toggleSubMenu('operations')" class="menu-header">
-                            <span>Logistics Operations</span>
-                            <span class="arrow" t-esc="state.expanded.operations ? '▾' : '▸'"/>
-                        </div>
-                        <ul t-if="state.expanded.operations" class="submenu">
-                            <li t-on-click="() => setActiveSection('fleet_overview')">Fleet Overview</li>
-                            <li t-on-click="() => setActiveSection('vehicle_costs')">Vehicle Costs</li>
-                            <li t-on-click="() => setActiveSection('odoometer')">Odometer</li>
-                            <li t-on-click="() => setActiveSection('route_optimization')">Route Optimization</li>
-                            <li t-on-click="() => setActiveSection('fleet_reports')">Fleet Reports</li> 
-                        </ul>
-                    </li>
-
-                    <li>
-                        <div t-on-click="() => toggleSubMenu('finance')" class="menu-header">
-                            <span>Finance &amp; Accounting</span>
-                            <span class="arrow" t-esc="state.expanded.finance ? '▾' : '▸'"/>
-                        </div>
-                        <ul t-if="state.expanded.finance" class="submenu">
-                            <li t-on-click="() => setActiveSection('finance_overview')">Overview</li>
-                            <li t-on-click="() => setActiveSection('customer_invoices')">Customer Invoices</li>
-                            <li t-on-click="() => setActiveSection('customer_credit_notes')">Customer Credit Notes</li>
-                            <li t-on-click="() => setActiveSection('customer_payments')">Customer Payments</li>
-                            <li t-on-click="() => setActiveSection('accounting_journals')">Accounting Journals</li>
-                            <li t-on-click="() => setActiveSection('accounting_journals_entries')">Journal Entries</li>
-                            <li t-on-click="() => setActiveSection('vendor_payments')">Bills</li>
-                        </ul>
-                    </li>
-
-                    <li t-on-click="() => setActiveSection('rfq')" t-att-class="{'active': state.tab === 'rfq'}">
-                        RFP/RFQ
-                    </li>
-
-                    <li>
-                        <div t-on-click="() => toggleSubMenu('reporting')" class="menu-header">
-                            <span>Reporting</span>
-                            <span class="arrow" t-esc="state.expanded.reporting ? '▾' : '▸'"/>
-                        </div>
-                        <ul t-if="state.expanded.reporting" class="submenu">
-                            <li>
-                                <div t-on-click="() => toggleSubMenu('sales_reporting')" class="menu-header submenu-header">
-                                    <span>Sales</span>
-                                    <span class="arrow" t-esc="state.expanded.sales_reporting ? '▾' : '▸'"/>
-                                </div>
-                                <ul t-if="state.expanded.sales_reporting" class="submenu nested">
-                                    <li t-on-click="() => setActiveSection('sales')">Lead Sales</li>
-                                    <li t-on-click="() => setActiveSection('sales_persons')">Sales Persons</li>
-                                    <li t-on-click="() => setActiveSection('sales_products')">Products</li>
-                                </ul>
-                            </li>
-
-                            <li>
-                                <div t-on-click="() => toggleSubMenu('inventory_warehouse_reporting')" class="menu-header submenu-header">
-                                    <span>Inventory &amp; Warehouse</span>
-                                    <span class="arrow" t-esc="state.expanded.inventory_warehouse_reporting ? '▾' : '▸'"/>
-                                </div>
-                                <ul t-if="state.expanded.inventory_warehouse_reporting" class="submenu nested">
-                                    <li t-on-click="() => setActiveSection('overview')">Overview</li>
-                                    <li t-on-click="() => setActiveSection('warehouse_analysis')">Warehouse Analysis</li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </aside>
-
-            <main class="lms-main">
-                <t t-if="state.tab === 'dashboard'">
-                    <div class="dashboard-content">
-                        <div class="dashboard-header">
-                            <h1>Logistics Management Dashboard</h1>
-                            <p class="dashboard-subtitle">Real-time overview of your logistics operations</p>
-                        </div>
-                    </div>
-                </t>
-
-                <t t-if="state.tab !== 'dashboard' and state.iframeSrc">
-                    <div class="iframe-container">
-                        <iframe t-key="state.iframeKey" t-att-src="state.iframeSrc" frameborder="0"/>
-                    </div>
-                </t>
-
-                <t t-if="state.tab !== 'dashboard' and !state.iframeSrc">
-                    <div class="welcome-container">
-                        <p>👋 Welcome — Select a module from the sidebar to begin.</p>
-                    </div>
-                </t>
-            </main>
-        </div>
-    </t>
-</templates> -->
