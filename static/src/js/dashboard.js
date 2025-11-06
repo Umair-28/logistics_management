@@ -3,11 +3,13 @@
 import { Component, useState, onWillStart } from "@odoo/owl";
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
+import { session } from "@web/session";
 
 export class Dashboard extends Component {
   setup() {
     this.orm = useService("orm");
     this.action = useService("action");
+    this.user = session;
 
     this.state = useState({
       tab: "dashboard",
@@ -46,65 +48,75 @@ export class Dashboard extends Component {
 
   async detectUserRole() {
     try {
-      console.warn(this.orm.user);
-      // Get current user's groups using session info
-      const currentUser = await this.orm.call("res.users", "search_read", [
-        [["id", "=", this.orm.user.userId]],
-        ["groups_id"],
-      ]);
+      const partners = session.storeData["res.partner"];
+      const selfPartnerId = session.storeData.Store.self.id;
+      const currentPartner = partners.find((p) => p.id === selfPartnerId);
+      const userId = currentPartner?.userId;
 
-      if (!currentUser || currentUser.length === 0) {
-        console.warn("Could not fetch user data");
-        // this.state.userRole = "manager";
+      console.log("Detected User:", currentPartner?.name, "| ID:", userId);
+
+      // Default role (Admin/System User)
+      this.state.userRole = "manager";
+
+      if (!userId) {
+        console.warn(
+          "Could not detect user ID from session — defaulting to manager"
+        );
         return;
       }
 
-      const groupIds = currentUser[0].groups_id;
+      // Fetch user groups
+      const users = await this.orm.call("res.users", "search_read", [
+        [["id", "=", userId]],
+        ["groups_id"],
+      ]);
 
-      // Get group names
+      if (!users.length) {
+        console.warn(
+          "No user found with ID",
+          userId,
+          "— defaulting to manager"
+        );
+        return;
+      }
+
+      const user = users[0];
+
+      // Fetch group names
       const groups = await this.orm.searchRead(
         "res.groups",
-        [["id", "in", groupIds]],
-        ["id", "name"]
+        [["id", "in", user.groups_id]],
+        ["name"]
       );
 
       const groupNames = groups.map((g) => g.name.toLowerCase());
+      console.log("User belongs to groups:", groupNames);
 
-      console.log("User groups:", groupNames);
-
-      // Determine role priority: manager > warehouse > driver
-      if (groupNames.some((name) => name.includes("warehouse manager"))) {
+      // Detect role
+      if (groupNames.some((n) => n.includes("warehouse manager"))) {
         this.state.userRole = "warehouse";
-      } else if (groupNames.some((name) => name.includes("driver"))) {
+      } else if (groupNames.some((n) => n.includes("driver"))) {
         this.state.userRole = "driver";
-      } else {
-        // Check if user has administration access
-        if (
-          groupNames.some(
-            (name) =>
-              name.includes("settings") || name.includes("administration")
-          )
-        ) {
-          this.state.userRole = "manager";
-        } else {
-          this.state.userRole = "manager"; // Default fallback
-        }
+      } else if (
+        groupNames.some(
+          (n) => n.includes("lms manager") || n.includes("administrator")
+        )
+      ) {
+        this.state.userRole = "manager";
       }
 
-      console.log("User role detected:", this.state.userRole);
+      console.log("✅ Role detected:", this.state.userRole);
     } catch (error) {
-      console.error("Error detecting user role:", error);
-      this.state.userRole = "manager"; // Default on error
+      console.error("Error detecting role:", error);
+      this.state.userRole = "manager"; // Always safe fallback
     }
   }
 
   hasAccess(section) {
     const role = this.state.userRole;
 
-    // Manager has access to everything
-    // if (role === "manager") return true;
+    if (role === "manager") return true; // full access
 
-    // Driver access
     if (role === "driver") {
       const driverSections = [
         "dashboard",
@@ -121,7 +133,6 @@ export class Dashboard extends Component {
       return driverSections.includes(section);
     }
 
-    // Warehouse Manager access
     if (role === "warehouse") {
       const warehouseSections = [
         "dashboard",
@@ -147,7 +158,7 @@ export class Dashboard extends Component {
   hasMenuAccess(menu) {
     const role = this.state.userRole;
 
-    // if (role === "manager") return true;
+    if (role === "manager") return true;
 
     if (role === "driver") {
       return ["dispatch", "operations"].includes(menu);

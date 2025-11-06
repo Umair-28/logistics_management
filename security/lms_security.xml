@@ -25,11 +25,11 @@
         </record>
 
         <!-- Logistics Manager Group (Full Access) -->
-        <!-- <record id="group_lms_manager" model="res.groups">
+        <record id="group_lms_manager" model="res.groups">
             <field name="name">Logistics Manager</field>
             <field name="category_id" ref="module_category_lms"/>
             <field name="implied_ids" eval="[(4, ref('group_lms_driver')), (4, ref('group_lms_warehouse_manager')), (4, ref('fleet.fleet_group_manager'))]"/>
             <field name="comment">Logistics Manager has full access to all LMS features</field>
-        </record> -->
+        </record>
     </data>
 </odoo>
