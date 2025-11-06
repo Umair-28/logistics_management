@@ -14,6 +14,7 @@
         "fleet"
     ],
     "data": [
+        "security/lms_security.xml",  # Add this FIRST
         "views/lms_dashboard_action.xml",  
         "views/menu_views.xml",            
         "security/ir.model.access.csv",
