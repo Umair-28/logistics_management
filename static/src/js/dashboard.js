@@ -8,7 +8,6 @@ export class Dashboard extends Component {
   setup() {
     this.orm = useService("orm");
     this.action = useService("action");
-    this.user = useService("user");
 
     this.state = useState({
       tab: "dashboard",
@@ -36,6 +35,8 @@ export class Dashboard extends Component {
     this.setActiveSection = this.setActiveSection.bind(this);
     this.toggleSubMenu = this.toggleSubMenu.bind(this);
     this.navigateTo = this.navigateTo.bind(this);
+    this.hasAccess = this.hasAccess.bind(this);
+    this.hasMenuAccess = this.hasMenuAccess.bind(this);
 
     onWillStart(async () => {
       await this.detectUserRole();
@@ -45,16 +46,25 @@ export class Dashboard extends Component {
 
   async detectUserRole() {
     try {
-      const userId = this.user.userId;
-      const userGroups = await this.orm.call(
+      // Get current user's groups using session info
+      const currentUser = await this.orm.call(
         "res.users",
-        "read",
-        [userId, ["groups_id"]]
+        "search_read",
+        [
+          [["id", "=", this.orm.user.userId]],
+          ["groups_id"]
+        ]
       );
 
-      const groupIds = userGroups[0].groups_id;
+      if (!currentUser || currentUser.length === 0) {
+        console.warn("Could not fetch user data");
+        this.state.userRole = "manager";
+        return;
+      }
 
-      // Get group XML IDs
+      const groupIds = currentUser[0].groups_id;
+
+      // Get group names
       const groups = await this.orm.searchRead(
         "res.groups",
         [["id", "in", groupIds]],
@@ -62,6 +72,8 @@ export class Dashboard extends Component {
       );
 
       const groupNames = groups.map(g => g.name.toLowerCase());
+
+      console.log("User groups:", groupNames);
 
       // Determine role priority: manager > warehouse > driver
       if (groupNames.some(name => name.includes("logistics manager"))) {
@@ -71,7 +83,12 @@ export class Dashboard extends Component {
       } else if (groupNames.some(name => name.includes("driver"))) {
         this.state.userRole = "driver";
       } else {
-        this.state.userRole = "manager"; // Default fallback
+        // Check if user has administration access
+        if (groupNames.some(name => name.includes("settings") || name.includes("administration"))) {
+          this.state.userRole = "manager";
+        } else {
+          this.state.userRole = "manager"; // Default fallback
+        }
       }
 
       console.log("User role detected:", this.state.userRole);
@@ -175,50 +192,58 @@ export class Dashboard extends Component {
   }
 
   async loadLeadStats() {
-    const stages = await this.orm.searchRead("crm.stage", [], ["id", "name"]);
-    const normalizeName = (nameField) => {
-      if (typeof nameField === "string") return nameField;
-      if (nameField && typeof nameField === "object") {
-        return nameField.en_US || Object.values(nameField)[0];
-      }
-      return "";
-    };
+    try {
+      const stages = await this.orm.searchRead("crm.stage", [], ["id", "name"]);
+      const normalizeName = (nameField) => {
+        if (typeof nameField === "string") return nameField;
+        if (nameField && typeof nameField === "object") {
+          return nameField.en_US || Object.values(nameField)[0];
+        }
+        return "";
+      };
 
-    const wonStage = stages.find((s) => normalizeName(s.name) === "Won");
-    const lostStage = stages.find((s) => normalizeName(s.name) === "Lost");
+      const wonStage = stages.find((s) => normalizeName(s.name) === "Won");
+      const lostStage = stages.find((s) => normalizeName(s.name) === "Lost");
 
-    const [totalLeads, wonLeads, lostLeads] = await Promise.all([
-      this.orm.searchCount("crm.lead", []),
-      wonStage ? this.orm.searchCount("crm.lead", [["stage_id", "=", wonStage.id]]) : 0,
-      lostStage ? this.orm.searchCount("crm.lead", [["stage_id", "=", lostStage.id]]) : 0,
-    ]);
+      const [totalLeads, wonLeads, lostLeads] = await Promise.all([
+        this.orm.searchCount("crm.lead", []),
+        wonStage ? this.orm.searchCount("crm.lead", [["stage_id", "=", wonStage.id]]) : 0,
+        lostStage ? this.orm.searchCount("crm.lead", [["stage_id", "=", lostStage.id]]) : 0,
+      ]);
 
-    this.state.stats.leads = {
-      total: totalLeads,
-      won: wonLeads,
-      lost: lostLeads,
-      in_progress: totalLeads - wonLeads - lostLeads,
-    };
+      this.state.stats.leads = {
+        total: totalLeads,
+        won: wonLeads,
+        lost: lostLeads,
+        in_progress: totalLeads - wonLeads - lostLeads,
+      };
+    } catch (error) {
+      console.error("Error loading lead stats:", error);
+    }
   }
 
   async loadWarehouseStats() {
-    const [totalProducts, pendingTransfers] = await Promise.all([
-      this.orm.searchCount("product.product", []),
-      this.orm.searchCount("stock.picking", [["state", "in", ["assigned", "confirmed", "waiting"]]]),
-    ]);
+    try {
+      const [totalProducts, pendingTransfers] = await Promise.all([
+        this.orm.searchCount("product.product", []),
+        this.orm.searchCount("stock.picking", [["state", "in", ["assigned", "confirmed", "waiting"]]]),
+      ]);
 
-    const stockQuants = await this.orm.readGroup(
-      "stock.quant",
-      [["quantity", ">", 0]],
-      ["quantity:sum", "value:sum"],
-      []
-    );
+      const stockQuants = await this.orm.readGroup(
+        "stock.quant",
+        [["quantity", ">", 0]],
+        ["quantity:sum", "value:sum"],
+        []
+      );
 
-    this.state.stats.warehouse = {
-      total_products: totalProducts,
-      stock_value: stockQuants.length > 0 ? stockQuants[0].value : 0,
-      pending_transfers: pendingTransfers,
-    };
+      this.state.stats.warehouse = {
+        total_products: totalProducts,
+        stock_value: stockQuants.length > 0 ? stockQuants[0].value : 0,
+        pending_transfers: pendingTransfers,
+      };
+    } catch (error) {
+      console.error("Error loading warehouse stats:", error);
+    }
   }
 
   async loadDispatchStats() {
@@ -235,47 +260,55 @@ export class Dashboard extends Component {
         pending_pod: pendingPOD,
       };
     } catch (e) {
-      console.log("LMS module not available");
+      console.log("LMS module not available or no dispatch data");
     }
   }
 
   async loadFleetStats() {
-    const [totalVehicles, activeVehicles] = await Promise.all([
-      this.orm.searchCount("fleet.vehicle", []),
-      this.orm.searchCount("fleet.vehicle", [["active", "=", true]]),
-    ]);
+    try {
+      const [totalVehicles, activeVehicles] = await Promise.all([
+        this.orm.searchCount("fleet.vehicle", []),
+        this.orm.searchCount("fleet.vehicle", [["active", "=", true]]),
+      ]);
 
-    this.state.stats.fleet = {
-      total_vehicles: totalVehicles,
-      active_vehicles: activeVehicles,
-      maintenance_due: totalVehicles - activeVehicles,
-    };
+      this.state.stats.fleet = {
+        total_vehicles: totalVehicles,
+        active_vehicles: activeVehicles,
+        maintenance_due: totalVehicles - activeVehicles,
+      };
+    } catch (error) {
+      console.error("Error loading fleet stats:", error);
+    }
   }
 
   async loadFinanceStats() {
-    const unpaidInvoices = await this.orm.searchRead(
-      "account.move",
-      [
-        ["move_type", "=", "out_invoice"],
+    try {
+      const unpaidInvoices = await this.orm.searchRead(
+        "account.move",
+        [
+          ["move_type", "=", "out_invoice"],
+          ["state", "=", "posted"],
+          ["payment_state", "in", ["not_paid", "partial"]],
+        ],
+        ["amount_residual"]
+      );
+
+      const unpaidBills = await this.orm.searchCount("account.move", [
+        ["move_type", "=", "in_invoice"],
         ["state", "=", "posted"],
         ["payment_state", "in", ["not_paid", "partial"]],
-      ],
-      ["amount_residual"]
-    );
+      ]);
 
-    const unpaidBills = await this.orm.searchCount("account.move", [
-      ["move_type", "=", "in_invoice"],
-      ["state", "=", "posted"],
-      ["payment_state", "in", ["not_paid", "partial"]],
-    ]);
+      const totalUnpaid = unpaidInvoices.reduce((sum, inv) => sum + inv.amount_residual, 0);
 
-    const totalUnpaid = unpaidInvoices.reduce((sum, inv) => sum + inv.amount_residual, 0);
-
-    this.state.stats.finance = {
-      unpaid_invoices: unpaidInvoices.length,
-      unpaid_amount: totalUnpaid,
-      pending_bills: unpaidBills,
-    };
+      this.state.stats.finance = {
+        unpaid_invoices: unpaidInvoices.length,
+        unpaid_amount: totalUnpaid,
+        pending_bills: unpaidBills,
+      };
+    } catch (error) {
+      console.error("Error loading finance stats:", error);
+    }
   }
 
   navigateTo(tab) {
@@ -312,7 +345,7 @@ export class Dashboard extends Component {
 
     let baseSrc = "";
 
-    // Map sections to URLs (same as before)
+    // Map sections to URLs
     if (tab === "lead") {
       baseSrc = `/web#action=crm.crm_lead_action_pipeline&menu_id=crm.menu_crm_root`;
     } else if (tab === "warehouse") {
@@ -375,7 +408,7 @@ export class Dashboard extends Component {
       this.state.iframeSrc = "";
     }
 
-    // Iframe cleanup (same as before)
+    // Iframe cleanup
     setTimeout(() => {
       const iframe = document.querySelector(".iframe-container iframe");
       if (!iframe) return;
