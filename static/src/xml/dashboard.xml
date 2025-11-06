@@ -3,26 +3,22 @@
     <t t-name="lms.Dashboard" owl="1">
         <div class="lms-dashboard-container">
 
-            <aside class="lms-sidebar">
+            <!-- <aside class="lms-sidebar">
                 <div class="lms-logo">🚚 Logistics Management</div>
 
                 <ul class="lms-menu">
-                    <!-- Dashboard Overview - Visible to all roles -->
                     <li t-on-click="() => setActiveSection('dashboard')" t-att-class="{'active': state.tab === 'dashboard'}">
             Dashboard Overview
                     </li>
 
-                    <!-- Lead Management - Only for Managers -->
                     <li t-if="hasAccess('lead')" t-on-click="() => setActiveSection('lead')" t-att-class="{'active': state.tab === 'lead'}">
             Lead Management
                     </li>
 
-                    <!-- Warehouse Management - Only for Warehouse Managers and Logistics Managers -->
                     <li t-if="hasAccess('warehouse')" t-on-click="() => setActiveSection('warehouse')" t-att-class="{'active': state.tab === 'warehouse'}">
             Warehouse Management
                     </li>
 
-                    <!-- Dispatch Management - Only for Drivers and Logistics Managers -->
                     <li t-if="hasMenuAccess('dispatch')">
                         <div t-on-click="() => toggleSubMenu('dispatch')" class="menu-header">
                             <span>Dispatch Management</span>
@@ -37,7 +33,6 @@
                         </ul>
                     </li>
 
-                    <!-- Logistics Operations - Only for Drivers and Logistics Managers -->
                     <li t-if="hasMenuAccess('operations')">
                         <div t-on-click="() => toggleSubMenu('operations')" class="menu-header">
                             <span>Logistics Operations</span>
@@ -51,7 +46,6 @@
                         </ul>
                     </li>
 
-                    <!-- Finance and Accounting - Only for Warehouse Managers and Logistics Managers -->
                     <li t-if="hasMenuAccess('finance')">
                         <div t-on-click="() => toggleSubMenu('finance')" class="menu-header">
                             <span>Finance &amp; Accounting</span>
@@ -68,19 +62,16 @@
                         </ul>
                     </li>
 
-                    <!-- RFQ - Only for Warehouse Managers and Logistics Managers -->
                     <li t-if="hasAccess('rfq')" t-on-click="() => setActiveSection('rfq')" t-att-class="{'active': state.tab === 'rfq'}">
             RFP/RFQ
                     </li>
 
-                    <!-- Reporting - Only for Warehouse Managers and Logistics Managers -->
                     <li t-if="hasMenuAccess('reporting')">
                         <div t-on-click="() => toggleSubMenu('reporting')" class="menu-header">
                             <span>Reporting</span>
                             <span class="arrow" t-esc="state.expanded.reporting ? '▾' : '▸'"/>
                         </div>
                         <ul t-if="state.expanded.reporting" class="submenu">
-                            <!-- Sales Reporting - Only for Managers -->
                             <li t-if="state.userRole === 'manager'">
                                 <div t-on-click="() => toggleSubMenu('sales_reporting')" class="menu-header submenu-header">
                                     <span>Sales</span>
@@ -93,7 +84,6 @@
                                 </ul>
                             </li>
 
-                            <!-- Inventory/Warehouse Reporting - For Warehouse Managers and Logistics Managers -->
                             <li>
                                 <div t-on-click="() => toggleSubMenu('inventory_warehouse_reporting')" class="menu-header submenu-header">
                                     <span>Inventory &amp; Warehouse</span>
@@ -107,14 +97,13 @@
                         </ul>
                     </li>
 
-                    <!-- Contract Management - Only for Warehouse Managers and Logistics Managers -->
                     <li t-if="hasAccess('contract')" t-on-click="() => setActiveSection('contract')" t-att-class="{'active': state.tab === 'contract'}">
             Contract Management
                     </li>
                 </ul>
-            </aside>
+            </aside> -->
 
-            <!-- <aside class="lms-sidebar">
+            <aside class="lms-sidebar">
                 <div class="lms-logo">🚚 Logistics Management</div>
 
                 <ul class="lms-menu">
@@ -213,7 +202,7 @@
                         Contract Management
                     </li>
                 </ul>
-            </aside> -->
+            </aside>
 
             <!-- Main Content -->
             <main class="lms-main">
