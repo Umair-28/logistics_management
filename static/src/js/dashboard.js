@@ -46,16 +46,12 @@ export class Dashboard extends Component {
 
   async detectUserRole() {
     try {
-      console.warn(this.orm.user)
+      console.warn(this.orm.user);
       // Get current user's groups using session info
-      const currentUser = await this.orm.call(
-        "res.users",
-        "search_read",
-        [
-          [["id", "=", this.orm.user.userId]],
-          ["groups_id"]
-        ]
-      );
+      const currentUser = await this.orm.call("res.users", "search_read", [
+        [["id", "=", this.orm.user.userId]],
+        ["groups_id"],
+      ]);
 
       if (!currentUser || currentUser.length === 0) {
         console.warn("Could not fetch user data");
@@ -72,20 +68,23 @@ export class Dashboard extends Component {
         ["id", "name"]
       );
 
-      const groupNames = groups.map(g => g.name.toLowerCase());
+      const groupNames = groups.map((g) => g.name.toLowerCase());
 
       console.log("User groups:", groupNames);
 
       // Determine role priority: manager > warehouse > driver
-      if (groupNames.some(name => name.includes("logistics manager"))) {
-        this.state.userRole = "manager";
-      } else if (groupNames.some(name => name.includes("warehouse manager"))) {
+      if (groupNames.some((name) => name.includes("warehouse manager"))) {
         this.state.userRole = "warehouse";
-      } else if (groupNames.some(name => name.includes("driver"))) {
+      } else if (groupNames.some((name) => name.includes("driver"))) {
         this.state.userRole = "driver";
       } else {
         // Check if user has administration access
-        if (groupNames.some(name => name.includes("settings") || name.includes("administration"))) {
+        if (
+          groupNames.some(
+            (name) =>
+              name.includes("settings") || name.includes("administration")
+          )
+        ) {
           this.state.userRole = "manager";
         } else {
           this.state.userRole = "manager"; // Default fallback
@@ -103,7 +102,7 @@ export class Dashboard extends Component {
     const role = this.state.userRole;
 
     // Manager has access to everything
-    if (role === "manager") return true;
+    // if (role === "manager") return true;
 
     // Driver access
     if (role === "driver") {
@@ -148,7 +147,7 @@ export class Dashboard extends Component {
   hasMenuAccess(menu) {
     const role = this.state.userRole;
 
-    if (role === "manager") return true;
+    // if (role === "manager") return true;
 
     if (role === "driver") {
       return ["dispatch", "operations"].includes(menu);
@@ -169,19 +168,19 @@ export class Dashboard extends Component {
       if (this.hasAccess("lead")) {
         await this.loadLeadStats();
       }
-      
+
       if (this.hasAccess("warehouse")) {
         await this.loadWarehouseStats();
       }
-      
+
       if (this.hasAccess("trip_sheet")) {
         await this.loadDispatchStats();
       }
-      
+
       if (this.hasAccess("fleet_overview")) {
         await this.loadFleetStats();
       }
-      
+
       if (this.hasAccess("finance_overview")) {
         await this.loadFinanceStats();
       }
@@ -208,8 +207,12 @@ export class Dashboard extends Component {
 
       const [totalLeads, wonLeads, lostLeads] = await Promise.all([
         this.orm.searchCount("crm.lead", []),
-        wonStage ? this.orm.searchCount("crm.lead", [["stage_id", "=", wonStage.id]]) : 0,
-        lostStage ? this.orm.searchCount("crm.lead", [["stage_id", "=", lostStage.id]]) : 0,
+        wonStage
+          ? this.orm.searchCount("crm.lead", [["stage_id", "=", wonStage.id]])
+          : 0,
+        lostStage
+          ? this.orm.searchCount("crm.lead", [["stage_id", "=", lostStage.id]])
+          : 0,
       ]);
 
       this.state.stats.leads = {
@@ -227,7 +230,9 @@ export class Dashboard extends Component {
     try {
       const [totalProducts, pendingTransfers] = await Promise.all([
         this.orm.searchCount("product.product", []),
-        this.orm.searchCount("stock.picking", [["state", "in", ["assigned", "confirmed", "waiting"]]]),
+        this.orm.searchCount("stock.picking", [
+          ["state", "in", ["assigned", "confirmed", "waiting"]],
+        ]),
       ]);
 
       const stockQuants = await this.orm.readGroup(
@@ -300,7 +305,10 @@ export class Dashboard extends Component {
         ["payment_state", "in", ["not_paid", "partial"]],
       ]);
 
-      const totalUnpaid = unpaidInvoices.reduce((sum, inv) => sum + inv.amount_residual, 0);
+      const totalUnpaid = unpaidInvoices.reduce(
+        (sum, inv) => sum + inv.amount_residual,
+        0
+      );
 
       this.state.stats.finance = {
         unpaid_invoices: unpaidInvoices.length,
@@ -416,7 +424,8 @@ export class Dashboard extends Component {
 
       iframe.addEventListener("load", () => {
         try {
-          const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+          const iframeDoc =
+            iframe.contentDocument || iframe.contentWindow.document;
           const applyCleanup = () => {
             if (!iframeDoc.head) return;
             if (!iframeDoc.getElementById("hide-odoo-ui-style")) {
@@ -825,4 +834,3 @@ registry.category("actions").add("lms_dashboard_client_action", Dashboard);
 
 // Dashboard.template = "lms.Dashboard";
 // registry.category("actions").add("lms_dashboard_client_action", Dashboard);
-
