@@ -3,6 +3,7 @@
 import { Component, useState, onWillStart } from "@odoo/owl";
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
+import { session } from "@web/session";
 
 export class Dashboard extends Component {
   setup() {
@@ -46,23 +47,32 @@ export class Dashboard extends Component {
 
   async detectUserRole() {
     try {
-      // Get current user's groups using session info
-      const currentUser = await this.orm.call(
-        "res.users",
-        "search_read",
-        [
-          [["id", "=", this.orm.user.userId]],
-          ["groups_id"]
-        ]
-      );
-
-      if (!currentUser || currentUser.length === 0) {
-        console.warn("Could not fetch user data");
+      // Get current user ID from session
+      const userId = session.uid;
+      
+      if (!userId) {
+        console.warn("Could not get user ID from session");
         this.state.userRole = "manager";
         return;
       }
 
-      const groupIds = currentUser[0].groups_id;
+      console.log("Current user ID:", userId);
+
+      // Get user's groups
+      const userGroups = await this.orm.searchRead(
+        "res.users",
+        [["id", "=", userId]],
+        ["groups_id"]
+      );
+
+      if (!userGroups || userGroups.length === 0) {
+        console.warn("Could not fetch user groups");
+        this.state.userRole = "manager";
+        return;
+      }
+
+      const groupIds = userGroups[0].groups_id;
+      console.log("User group IDs:", groupIds);
 
       // Get group names
       const groups = await this.orm.searchRead(
@@ -72,7 +82,6 @@ export class Dashboard extends Component {
       );
 
       const groupNames = groups.map(g => g.name.toLowerCase());
-
       console.log("User groups:", groupNames);
 
       // Determine role priority: manager > warehouse > driver
@@ -83,11 +92,16 @@ export class Dashboard extends Component {
       } else if (groupNames.some(name => name.includes("driver"))) {
         this.state.userRole = "driver";
       } else {
-        // Check if user has administration access
-        if (groupNames.some(name => name.includes("settings") || name.includes("administration"))) {
+        // Check if user has administration access (Settings group)
+        if (groupNames.some(name => 
+          name.includes("settings") || 
+          name.includes("administration") ||
+          name.includes("access rights")
+        )) {
           this.state.userRole = "manager";
         } else {
-          this.state.userRole = "manager"; // Default fallback
+          // Default to manager for users without specific groups
+          this.state.userRole = "manager";
         }
       }
 
