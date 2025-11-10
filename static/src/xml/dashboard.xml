@@ -33,6 +33,20 @@
                         </ul>
                     </li>
 
+
+                    <li t-if="hasMenuAccess('packaging')">
+                        <div t-on-click="() => toggleSubMenu('packaging')" class="menu-header">
+                            <span>Packaging Management</span>
+                            <span class="arrow" t-esc="state.expanded.packaging ? '▾' : '▸'"/>
+                        </div>
+                        <ul t-if="state.expanded.packaging" class="submenu">
+                            <li t-if="hasAccess('packages')" t-on-click="() => setActiveSection('packages')">Packages</li>
+                            <li t-if="hasAccess('package_types')" t-on-click="() => setActiveSection('package_types')">Package Types</li>
+                            <li t-if="hasAccess('packaging')" t-on-click="() => setActiveSection('packaging')">Product Packaging</li>
+
+                        </ul>
+                    </li>
+
                     <li t-if="hasMenuAccess('operations')">
                         <div t-on-click="() => toggleSubMenu('operations')" class="menu-header">
                             <span>Logistics Operations</span>

@@ -22,6 +22,7 @@ export class Dashboard extends Component {
         reporting: false,
         sales_reporting: false,
         inventory_warehouse_reporting: false,
+        packaging: false,
       },
       stats: {
         leads: { total: 0, won: 0, lost: 0, in_progress: 0 },
@@ -137,6 +138,9 @@ export class Dashboard extends Component {
       const warehouseSections = [
         "dashboard",
         "warehouse",
+        "packages",
+        "package_types",
+        "packaging",
         "finance_overview",
         "customer_invoices",
         "customer_credit_notes",
@@ -165,7 +169,7 @@ export class Dashboard extends Component {
     }
 
     if (role === "warehouse") {
-      return ["finance", "reporting"].includes(menu);
+      return ["packaging", "finance", "reporting"].includes(menu);
     }
 
     return false;
@@ -416,7 +420,14 @@ export class Dashboard extends Component {
       baseSrc = `/web#menu_id=stock.menu_stock_root&action=stock_enterprise.stock_report_action_performance&view_type=graph`;
     } else if (tab === "contract") {
       baseSrc = `/web#action=lms.action_logistics_contract`;
-    } else if (tab === "dashboard") {
+    } else if (tab === "packages") {
+      baseSrc = "`/web#menu_id=stock.menu_stock_root&action=stock.action_package_view&view_type=kanban`";
+    }else if(tab === "package_types"){
+      baseSrc = "`/web#menu_id=stock.menu_stock_root&action=stock.action_package_type_view`";
+    } else if(tab === "packaging"){
+      baseSrc = "`/web#menu_id=stock.menu_stock_root&action=product.action_packaging_view&view_type=list`";
+    }
+    else if (tab === "dashboard") {
       baseSrc = "";
     }
 
