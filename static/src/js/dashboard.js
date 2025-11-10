@@ -421,11 +421,11 @@ export class Dashboard extends Component {
     } else if (tab === "contract") {
       baseSrc = `/web#action=lms.action_logistics_contract`;
     } else if (tab === "packages") {
-      baseSrc = "`/web#menu_id=stock.menu_stock_root&action=stock.action_package_view&view_type=kanban`";
+      baseSrc = `/web#menu_id=stock.menu_stock_root&action=stock.action_package_view&view_type=kanban`;
     }else if(tab === "package_types"){
-      baseSrc = "`/web#menu_id=stock.menu_stock_root&action=stock.action_package_type_view`";
+      baseSrc = `/web#menu_id=stock.menu_stock_root&action=stock.action_package_type_view`;
     } else if(tab === "packaging"){
-      baseSrc = "`/web#menu_id=stock.menu_stock_root&action=product.action_packaging_view&view_type=list`";
+      baseSrc = `/web#menu_id=stock.menu_stock_root&action=product.action_packaging_view&view_type=list`;
     }
     else if (tab === "dashboard") {
       baseSrc = "";
